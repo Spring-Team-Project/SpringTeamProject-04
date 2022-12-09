@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/jquery-3.6.1.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <table class="table table-hover table-striped">
+                <colgroup>
+                    <col width="10%">
+                    <col width="*">
+
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">글번호</th>
+                    <th>제목</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--                            if    리스트.사이즈(변수명) > 0 -->
+                <tr th:if="${#lists.size(testDtoList)} > 0" th:each="list : ${testDtoList}">
+                    <td th:text="${list.testIdx}"></td>
+
+                    <td th:text="${list.testContents}"></td>
+                </tr>
+                <!--                        unless = else,false와 비슷                        -->
+                <tr th:unless="${#lists.size(testDtoList)} > 0">
+                    <td th:cols="5">조회된 결과가 없습니다.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+    <div class="row">
+        <div class="col-sm d-flex justify-content-end">
+            <a href="/board/boardWrite" class="btn btn-outline-primary">글쓰기</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -8,7 +8,7 @@
 <!-- ★★★ xml 파일이기 때문에 스프링 프로젝트의 전체 구조를 모르기 때문에 전체 패키지 명을 다 입력해야 함 ★★★ -->
 <mapper namespace="com.bitc.springteamproject1209.mapper.TestMapper">
 
-    <select id="testList" resultType="com.bitc.springteamproject1209.dto.TestDto">
+    <select id="selectDBdto" resultType="com.bitc.springteamproject1209.dto.TestDto">
         <![CDATA[
         SELECT * FROM test
         ]]>

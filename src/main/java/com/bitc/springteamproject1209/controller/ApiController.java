@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/data")
+@RequestMapping("/wdb")
 public class ApiController {
 
 
     private final JsonService jsonService;
 
     @GetMapping("")
-    public ResponseEntity getJson() throws Exception{
+    public ResponseEntity<?> getJson() throws Exception{
 
         try {
             return ResponseEntity.status(HttpStatus.OK).body(jsonService.getJsonData());

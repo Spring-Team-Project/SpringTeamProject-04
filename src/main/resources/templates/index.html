@@ -17,41 +17,48 @@
 <div id="map" style="width:100%; height: 100vh;"></div>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfbiB23wXLqaqgI4XV3CPYW0bI2ciduMY&callback=initMap&region=kr"></script>
 <script>
-
+  var parmarcyInfo;
   var map;
 
+  const locations = [];
+
   function initMap() {
-    var xhr = new XMLHttpRequest(); //XMLHttpRequest 객체 생성
 
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) { //200은 에러가 없다는 뜻
-          console.log("연결 성공");
-          /*연결이 성공 되었다면 받아온 데이터 처리 */
+    var apiUrl = "http://localhost:8080/ermctInsttInfoInqireService";
+    $.ajax({
+      type: "GET",
+      url: apiUrl,
+      contentType : "application/json",
+      error: function() {
+        console.log('통신실패!!');
+      },
+      success: function(data) {
+        console.log(data)
+        var jObj = data.data[0];
 
-          console.log(xhr.response)
-        } else {
-          console.log("연결 실패");
+        for(var i =0; i < data.data.length; i++){
+          var place = data.data[i].dutyName;
+          var wgs84Lat = data.data[i].wgs84Lat;
+          var wgs84Lon = data.data[i].wgs84Lon;
+
+          locations.push({place, wgs84Lat, wgs84Lon})
+
         }
       }
-    }
-    //요청을 보낼 방식, 주소, 비동기 여부 설정
-    xhr.open("GET", "http://localhost:8080/ermctInsttInfoInqireService", true);
-    //요청 전송
-    xhr.send();
 
+    });
 
     var seoul = { lat: 37.5642135 ,lng: 127.0016985 };
     map = new google.maps.Map( document.getElementById('map'), {
       zoom: 12,
       center: seoul
     });
-
     new google.maps.Marker({
       position: seoul,
       map: map,
       label: "서울 중심 좌표"
     });
+
   }
 
 

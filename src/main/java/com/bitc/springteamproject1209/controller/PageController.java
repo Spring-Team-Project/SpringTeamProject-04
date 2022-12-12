@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,6 +31,8 @@ public class PageController {
     }
 
 
+
+
 //    회원가입 뷰
     @GetMapping("/user/signup")
     public ModelAndView userSignUp() throws Exception {
@@ -40,25 +41,41 @@ public class PageController {
 
         return mv;
     }
-//    회원가입 db 등록
-    @PostMapping("/user/signup")
-    public ResponseEntity<?> insertUser(RegistDto regist) throws Exception {
+
+
+    @ResponseBody // 값 변환을 위해 꼭 필요함
+    @GetMapping("/user/idcheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+    public int overlappedID(RegistDto registDto) throws Exception{
+
+
+        int result = wdbService.overlappedID(registDto);
+
+        return result;
+    }
+
+    @PostMapping("/user/signup/success")
+//   예외처리 성공시 회원가입 db 등록
+    public ResponseEntity<?> insertUser(RegistDto registDto) throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
 
-        headers.setLocation(URI.create("/wdb/main"));
+
 
         try {
-            wdbService.insertUser(regist);
+            wdbService.insertUser(registDto);
             System.out.println("데이터 입력 성공");
         } catch (Exception e){
             e.printStackTrace();
+            System.out.println("데이터 입력 실패");
         }
 
+        headers.setLocation(URI.create("/wdb/main"));
 
 
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
+
+
 
 
 }

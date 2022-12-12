@@ -5,5 +5,8 @@ import lombok.Data;
 @Data
 public class RegistDto {
 
-    private String contents;
+    private String userId;
+    private String userEmail;
+    private String userPass;
+    private String userAddr;
 }

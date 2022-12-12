@@ -26,7 +26,7 @@ public class JsonServiceImpl implements JsonService {
                 "page=1&perPage=10&serviceKey=U1KPxpwh5LlkYgaxQDqKj0Y%2BOMxzAdkRE2NYZ1vJ81ttyy7Bkoa6G7Aer2RA9gI2yj%2FrngeeKOPF60WxejblGg%3D%3D";
 
 
-        JSONObject data = new JSONObject();
+//        JSONObject data = new JSONObject();
         JSONObject obj = new JSONObject();
         try {
             URL url = new URL(api);

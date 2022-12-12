@@ -8,4 +8,6 @@ public interface WdbMapper {
 
 
     void insertUser(RegistDto regist) throws Exception;
+
+    int idCheck(RegistDto registDto) throws Exception;
 }

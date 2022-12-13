@@ -1,7 +1,6 @@
 package com.bitc.springteamproject1209.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,22 +11,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class JsonServiceImpl implements JsonService {
     @Override
-    public JSONObject getJsonData() throws Exception {
+    public List<Object> getJsonData() throws Exception {
 
         String api = "https://api.odcloud.kr/api/3072692/v1/uddi:9d420e87-8e70-4fb0-a54a-be1244249b2e_201909271427" +
                 "?" +
-                "page=1&perPage=10&serviceKey=U1KPxpwh5LlkYgaxQDqKj0Y%2BOMxzAdkRE2NYZ1vJ81ttyy7Bkoa6G7Aer2RA9gI2yj%2FrngeeKOPF60WxejblGg%3D%3D";
+                "page=1&perPage=3600&serviceKey=U1KPxpwh5LlkYgaxQDqKj0Y%2BOMxzAdkRE2NYZ1vJ81ttyy7Bkoa6G7Aer2RA9gI2yj%2FrngeeKOPF60WxejblGg%3D%3D";
 
+//        추후 구현 : page값 변수화 하여 알아서 최대 페이지로 적용 do_while 사용
 
-//        JSONObject data = new JSONObject();
-        JSONObject obj = new JSONObject();
+        JSONArray dataArray = new JSONArray();
+        JSONObject obj, data = null;
+        List<Object> filterList = new ArrayList<>();
+
         try {
             URL url = new URL(api);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -49,11 +49,27 @@ public class JsonServiceImpl implements JsonService {
             JSONParser parser = new JSONParser();
 
 
-
             try {
+//                obj 에 json 데이터로 파싱
                 obj = (JSONObject) parser.parse(sb.toString());
 
-//                data = (JSONObject) obj.get("data");
+                dataArray = (JSONArray) obj.get("data");
+
+//                System.out.println(dataArray.get(1));
+
+//                obj = (JSONObject) dataArray;
+
+                System.out.println(dataArray);
+
+
+                for (int i = 0; i < dataArray.size(); ++i) {
+                    JSONObject json = (JSONObject) dataArray.get(i);
+//                    System.out.println(json.get("보건기관 유형"));
+                    if ("보건소".equals(json.get("보건기관 유형"))) {
+                        filterList.add(dataArray.get(i));
+                    }
+                }
+                System.out.println(filterList.size());
 
 
             } catch (Exception e) {
@@ -66,8 +82,7 @@ public class JsonServiceImpl implements JsonService {
             e.printStackTrace();
         }
 
-//        System.out.println(data);
 
-        return obj;
+        return filterList;
     }
 }

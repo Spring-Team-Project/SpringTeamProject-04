@@ -1,9 +1,8 @@
 package com.bitc.springteamproject1209.service;
 
-import org.json.simple.JSONObject;
-
+import java.util.List;
 
 
 public interface JsonService {
-    JSONObject getJsonData() throws Exception;
+    List<Object> getJsonData() throws Exception;
 }

@@ -1,9 +1,13 @@
 package com.bitc.springteamproject1209.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@AllArgsConstructor // 는 모든 필드를 넣어주는 생성자 생성. 생성자 생성 당시에만 데이터를 넣어주게끔 유도하기위해 사용
+@NoArgsConstructor // 는 기본생성자 생성. 의존성 주입이나 이외의 메모리할상이나 참조값 전달등 다양하게 사용하기 위해 주로 사용
 public class JsonDto {
 
     @JsonProperty(value = "시도")

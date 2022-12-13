@@ -1,8 +1,9 @@
 package com.bitc.springteamproject1209.dto;
 
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class RegistDto {
 
     private String userId;

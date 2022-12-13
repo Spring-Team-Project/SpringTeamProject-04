@@ -1,5 +1,6 @@
 package com.bitc.springteamproject1209.controller;
 
+import com.bitc.springteamproject1209.dto.JsonDto;
 import com.bitc.springteamproject1209.dto.RegistDto;
 import com.bitc.springteamproject1209.service.WdbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -89,6 +92,20 @@ public class PageController {
     }
 
 
+
+
+    //  보건소 목록 페이지
+    @GetMapping("/main/hclist")
+    public ModelAndView HCList() throws Exception{
+
+        ModelAndView mv = new ModelAndView("/wdb/HCList");
+
+        List<JsonDto> HCList = wdbService.HCList();
+
+        mv.addObject("HCList",HCList);
+
+        return mv;
+    }
 
 
 

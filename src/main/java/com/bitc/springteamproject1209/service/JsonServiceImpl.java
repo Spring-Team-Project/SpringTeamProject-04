@@ -59,7 +59,7 @@ public class JsonServiceImpl implements JsonService {
 
 //                obj = (JSONObject) dataArray;
 
-                System.out.println(dataArray);
+
 
 
                 for (int i = 0; i < dataArray.size(); ++i) {
@@ -69,7 +69,8 @@ public class JsonServiceImpl implements JsonService {
                         filterList.add(dataArray.get(i));
                     }
                 }
-                System.out.println(filterList.size());
+
+                System.out.println(filterList);
 
 
             } catch (Exception e) {

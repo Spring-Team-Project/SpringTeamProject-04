@@ -1,6 +1,9 @@
 package com.bitc.springteamproject1209.service;
 
+import com.bitc.springteamproject1209.dto.JsonDto;
 import com.bitc.springteamproject1209.dto.RegistDto;
+
+import java.util.List;
 
 public interface WdbService {
 
@@ -10,4 +13,6 @@ public interface WdbService {
     void insertUser(RegistDto registDto) throws Exception;
 
     int overlappedEmail(RegistDto registDto) throws Exception;
+
+    List<JsonDto> HCList() throws Exception;
 }

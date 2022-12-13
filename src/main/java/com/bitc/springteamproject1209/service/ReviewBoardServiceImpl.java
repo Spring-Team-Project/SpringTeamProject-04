@@ -24,7 +24,7 @@ public class ReviewBoardServiceImpl implements ReviewBoardService{
 
   @Override
   public Page<ReviewDto> selectReviewList(int pageNo) throws Exception {
-    PageHelper.startPage(pageNo, 5);
+    PageHelper.startPage(pageNo, 10);
     return pageMapper.selectReviewListPage();
   }
 

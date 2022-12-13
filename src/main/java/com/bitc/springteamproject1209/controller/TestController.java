@@ -49,6 +49,12 @@ public class TestController {
     return "myInfoEditPage";
   }
 
+  @RequestMapping(value = "/storePage")
+  public String storePage() throws Exception {
+
+    return "storePage";
+  }
+
   @RequestMapping(value = "/reviewBoardPage", method = RequestMethod.GET)
   public ModelAndView openReviewList(@RequestParam(required = false, defaultValue = "1") int pageNum) throws Exception {
     // html 파일이 있는 위치(resources-templates 는 스프링에서 고정이기 때문에 그 아래의 폴더만 써주면 됨)

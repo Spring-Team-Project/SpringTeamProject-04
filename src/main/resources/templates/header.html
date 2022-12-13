@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/jquery-3.6.1.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+</head>
+<body>
+
+<header id="header" th:fragment="mainHeader">
+    <a href="main.html" class="logo">
+       <h2>우리동네 보건소</h2>
+    </a>
+    <div id="btn">
+        <button> 로그인</button>
+        <button> 회원가입</button>
+    </div>
+    <ul id="navigation">
+        <li class="selected">
+            <a href="main.html">home</a>
+        </li>
+        <li>
+            <a href="about.html">about</a>
+        </li>
+        <li>
+            <a href="gallery.html">gallery</a>
+        </li>
+        <li>
+            <a href="blog.html">blog</a>
+        </li>
+        <li>
+            <a href="contact.html">contact</a>
+        </li>
+    </ul>
+</body>
+</html>

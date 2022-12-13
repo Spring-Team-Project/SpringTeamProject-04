@@ -12,4 +12,9 @@ public class TestController {
     return "index";
   }
 
+  @RequestMapping("/test")
+  public String main() throws Exception {
+    return "main";
+  }
+
 }

@@ -219,19 +219,47 @@
     <script>
         <!--        바닐라 쿼리     -->
         window.addEventListener('DOMContentLoaded', function () {
-            const btnSubmit = document.querySelector('#btn_signup');
-
-            btnSubmit.addEventListener('click', function () {
+            const btnSignup = document.querySelector('#btn_signup');
+            btnSignup.addEventListener('click', function () {
                 let userAddr = document.querySelector('#user_address').value + " " + document.querySelector('#user_detailAddress').value;
                 document.querySelector('#user_addr').value = userAddr;
-
 
             });
         });
 
+        // Jquery
         $(document).ready(function () {
+
+            let idCheck = false;
+            let passCheck = false;
+            let emailCheck = false;
+            $('#btn_signup').attr("disabled", true)
+
+            $("#join_pass, #check_pass").on("change", function () {
+                let password = $('#join_pass').val(); /* 패스워드와 패스워드 확인 부분 가져오기 */
+                let passwordcheck = $('#check_pass').val();
+                if (password != '' && password != '') {
+                    if (password == passwordcheck) {
+                        $("#pass_check").text("비밀번호가 일치합니다");
+                        $("#pass_check").addClass("olmessaget");
+                        $("#pass_check").removeClass("olmessagef");
+                        passCheck = true;
+                        $('#btn_signup').attr("disabled", true)
+                        if (idCheck == true && passCheck == true && emailCheck == true) {
+                            $('#btn_signup').attr("disabled", false)
+                        } else {
+                            $('#btn_signup').attr("disabled", true)
+                        }
+                    } else {
+                        $("#pass_check").text("비밀번호가 불일치합니다");
+                        $("#pass_check").addClass("olmessagef");
+                        $("#pass_check").removeClass("olmessaget");
+                        passCheck = false;
+                    }
+                }
+            });
+
             $("#overlappedID").on('click', function () {
-                $("#btn_signup").attr("type", "button");
                 const id = $("#join_id").val();
                 $.ajax({
                     type: "get",
@@ -240,18 +268,57 @@
                     data: {userId: id},
                     success: function (data) {
                         if (data == 1) {
-                            $("#olmessage").text("이미 사용중인 ID 입니다.");
-                            $("#olmessage").addClass("olmessagef");
-                            $("#olmessage").removeClass("olmessaget");
+                            $("#id_check").text("이미 사용중인 ID 입니다.");
+                            $("#id_check").addClass("olmessagef");
+                            $("#id_check").removeClass("olmessaget");
+                            idCheck = false;
+                            $('#btn_signup').attr("disabled", true)
                         } else {
-                            $("#olmessage").text("사용 가능한 ID 입니다.");
-                            $("#olmessage").addClass("olmessaget");
-                            $("#olmessage").removeClass("olmessagef");
-                            $("#btn_signup").attr("type", "submit");
+                            $("#id_check").text("사용 가능한 ID 입니다.");
+                            $("#id_check").addClass("olmessaget");
+                            $("#id_check").removeClass("olmessagef");
+                            idCheck = true;
+                            if (idCheck == true && passCheck == true && emailCheck == true) {
+                                $('#btn_signup').attr("disabled", false)
+                            } else {
+                                $('#btn_signup').attr("disabled", true)
+                            }
                         }
                     }
                 })
             });
+
+
+            $("#overlappedEmail").on('click', function () {
+                const email = $("#join_email").val();
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "http://localhost:8080/wdb/user/emailcheck",
+                    data: {userEmail: email},
+                    success: function (data) {
+                        if (data == 1) {
+                            $("#email_check").text("이미 사용중인 Email 입니다.");
+                            $("#email_check").addClass("olmessagef");
+                            $("#email_check").removeClass("olmessaget");
+                            emailCheck = false;
+                            $('#btn_signup').attr("disabled", true)
+                        } else {
+                            $("#email_check").text("사용 가능한 Email 입니다.");
+                            $("#email_check").addClass("olmessaget");
+                            $("#email_check").removeClass("olmessagef");
+                            emailCheck = true;
+                            if (idCheck == true && passCheck == true && emailCheck == true) {
+                                $('#btn_signup').attr("disabled", false)
+                            } else {
+                                $('#btn_signup').attr("disabled", true)
+                            }
+                        }
+                    }
+                })
+            });
+
+
         });
     </script>
 </head>
@@ -287,18 +354,16 @@
                         <a href="#">비밀번호가 기억나지 않나요?</a>
                     </div>
                 </div>
-                <form action="signup" method="post">
+                <form action="signup/success" method="post">
                     <div class="sign-up-htm">
-                        <form action="join" method="post">
-                            <div class="group">
-                                <label for="join_id" class="label">아이디</label>
-                                <input id="join_id" type="text" name="userId" class="input" placeholder="4자이상"
-                                       minlength="4" maxlength="15" autofocus required>
-                                <button id="overlappedID" type="button">중복확인</button>
-                                <br>
-                                <span id="olmessage"></span>
-                            </div>
-                        </form>
+                        <div class="group">
+                            <label for="join_id" class="label">아이디</label>
+                            <input id="join_id" type="text" name="userId" class="input" placeholder="4자이상"
+                                   minlength="4" maxlength="15">
+                            <button id="overlappedID" type="button">중복확인</button>
+                            <br>
+                            <span id="id_check"></span>
+                        </div>
                         <div class="group">
                             <label for="join_pass" class="label">비밀번호</label>
                             <input id="join_pass" type="password" name="userPass" class="input" data-type="password">
@@ -306,10 +371,13 @@
                         <div class="group">
                             <label for="check_pass" class="label">비밀번호 확인</label>
                             <input id="check_pass" type="password" class="input" data-type="password">
+                            <span id="pass_check"></span>
                         </div>
                         <div class="group">
                             <label for="join_email" class="label">이메일 주소</label>
                             <input id="join_email" type="text" name="userEmail" class="input">
+                            <button id="overlappedEmail" type="button">중복확인</button>
+                            <span id="email_check"></span>
                         </div>
                         <div class="group">
                             <label class="label">주소</label>
@@ -322,7 +390,7 @@
                             <input type="hidden" id="user_addr" name="userAddr" value="">
                         </div>
                         <div class="group">
-                            <input type="" class="btn btn-info" id="btn_signup" value="Sign Up">
+                            <input type="submit" class="btn btn-info" id="btn_signup" value="Sign Up">
                         </div>
                         <div class="hr"></div>
                     </div>

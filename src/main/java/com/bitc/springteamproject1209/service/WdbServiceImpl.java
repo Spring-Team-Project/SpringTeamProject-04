@@ -18,17 +18,22 @@ public class WdbServiceImpl implements WdbService{
     public int overlappedID(RegistDto registDto) throws Exception {
 
 
-        int result = wdbMapper.idCheck(registDto);
-        return result;
+        int idCheck = wdbMapper.idCheck(registDto);
+        return idCheck;
     }
 
     @Override
-    public void insertUser(RegistDto regist) throws Exception {
+    public void insertUser(RegistDto registDto) throws Exception {
 
-        wdbMapper.insertUser(regist);
+        wdbMapper.insertUser(registDto);
 
     }
 
+    @Override
+    public int overlappedEmail(RegistDto registDto) throws Exception {
+        int emailCheck = wdbMapper.emailCheck(registDto);
+        return emailCheck;
+    }
 
 
 }

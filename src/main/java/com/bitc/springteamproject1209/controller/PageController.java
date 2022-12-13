@@ -21,7 +21,8 @@ public class PageController {
 
 
 
-//    임시 메인화면
+
+    // 임시 메인화면
     @GetMapping("/main")
     public ModelAndView mainView() throws Exception{
 
@@ -31,9 +32,7 @@ public class PageController {
     }
 
 
-
-
-//    회원가입 뷰
+    // 회원가입 뷰
     @GetMapping("/user/signup")
     public ModelAndView userSignUp() throws Exception {
 
@@ -42,19 +41,33 @@ public class PageController {
         return mv;
     }
 
-
-    @ResponseBody // 값 변환을 위해 꼭 필요함
-    @GetMapping("/user/idcheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+    //    id 중복 체크
+    @ResponseBody
+    @GetMapping("/user/idcheck")
     public int overlappedID(RegistDto registDto) throws Exception{
 
 
-        int result = wdbService.overlappedID(registDto);
+        int idCheck = wdbService.overlappedID(registDto);
 
-        return result;
+        return idCheck;
     }
 
+    //    email 중복 체크
+    @ResponseBody
+    @GetMapping("/user/emailcheck")
+    public int overlappedEmail(RegistDto registDto) throws Exception{
+
+
+        int emailCheck = wdbService.overlappedEmail(registDto);
+
+        return emailCheck;
+    }
+
+
+
+
     @PostMapping("/user/signup/success")
-//   예외처리 성공시 회원가입 db 등록
+    // 예외처리 성공시 회원가입 db 등록
     public ResponseEntity<?> insertUser(RegistDto registDto) throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
@@ -74,6 +87,7 @@ public class PageController {
 
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
+
 
 
 

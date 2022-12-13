@@ -17,4 +17,7 @@
         select count(mem_id) From tblmember where mem_id=#{userId}
     </select>
 
+    <select id="emailCheck" parameterType="com.bitc.springteamproject1209.dto.RegistDto" resultType="int">
+        select count(mem_email) From tblmember where mem_email=#{userEmail}
+    </select>
 </mapper>

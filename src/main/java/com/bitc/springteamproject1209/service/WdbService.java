@@ -7,6 +7,7 @@ public interface WdbService {
 
     int overlappedID(RegistDto registDto) throws Exception;
 
-    void insertUser(RegistDto regist) throws Exception;
+    void insertUser(RegistDto registDto) throws Exception;
 
+    int overlappedEmail(RegistDto registDto) throws Exception;
 }

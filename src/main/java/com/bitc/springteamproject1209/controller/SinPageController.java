@@ -1,8 +1,8 @@
 package com.bitc.springteamproject1209.controller;
 
-import com.bitc.springteamproject1209.dto.JsonDto;
-import com.bitc.springteamproject1209.dto.RegistDto;
-import com.bitc.springteamproject1209.service.WdbService;
+import com.bitc.springteamproject1209.dto.SinJsonDto;
+import com.bitc.springteamproject1209.dto.SinRegistDto;
+import com.bitc.springteamproject1209.service.SinWdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,10 +16,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/wdb")
-public class PageController {
+public class SinPageController {
 
     @Autowired
-    private WdbService wdbService;
+    private SinWdbService sinWdbService;
 
 
 
@@ -28,7 +28,7 @@ public class PageController {
     @GetMapping("/main")
     public ModelAndView mainView() throws Exception{
 
-        ModelAndView mv = new ModelAndView("wdb/Main(Temporary)");
+        ModelAndView mv = new ModelAndView("/main");
 
         return mv;
     }
@@ -40,7 +40,7 @@ public class PageController {
 
         ModelAndView mv = new ModelAndView("/wdb/HCList");
 
-        List<JsonDto> HCList = wdbService.HCList();
+        List<SinJsonDto> HCList = sinWdbService.HCList();
 
         mv.addObject("HCList",HCList);
 
@@ -59,10 +59,10 @@ public class PageController {
     //    id 중복 체크
     @ResponseBody
     @GetMapping("/user/idcheck")
-    public int overlappedID(RegistDto registDto) throws Exception{
+    public int overlappedID(SinRegistDto sinRegistDto) throws Exception{
 
 
-        int idCheck = wdbService.overlappedID(registDto);
+        int idCheck = sinWdbService.overlappedID(sinRegistDto);
 
         return idCheck;
     }
@@ -70,10 +70,10 @@ public class PageController {
     //    email 중복 체크
     @ResponseBody
     @GetMapping("/user/emailcheck")
-    public int overlappedEmail(RegistDto registDto) throws Exception{
+    public int overlappedEmail(SinRegistDto sinRegistDto) throws Exception{
 
 
-        int emailCheck = wdbService.overlappedEmail(registDto);
+        int emailCheck = sinWdbService.overlappedEmail(sinRegistDto);
 
         return emailCheck;
     }
@@ -83,14 +83,14 @@ public class PageController {
 
     @PostMapping("/user/signup/success")
     // 예외처리 성공시 회원가입 db 등록
-    public ResponseEntity<?> insertUser(RegistDto registDto) throws Exception {
+    public ResponseEntity<?> insertUser(SinRegistDto sinRegistDto) throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
 
 
 
         try {
-            wdbService.insertUser(registDto);
+            sinWdbService.insertUser(sinRegistDto);
             System.out.println("데이터 입력 성공");
         } catch (Exception e){
             e.printStackTrace();
@@ -127,13 +127,13 @@ public class PageController {
 
 
 //  테스팅 페이지
-    @GetMapping("/testpage")
-    public ModelAndView testView() throws Exception{
-
-        ModelAndView mv = new ModelAndView("testpage");
-
-        return mv;
-    }
+//    @GetMapping("/testpage")
+//    public ModelAndView testView() throws Exception{
+//
+//        ModelAndView mv = new ModelAndView("/main");
+//
+//        return mv;
+//    }
 
 
 }

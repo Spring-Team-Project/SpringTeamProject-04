@@ -1,8 +1,8 @@
 package com.bitc.springteamproject1209.service;
 
-import com.bitc.springteamproject1209.dto.JsonDto;
-import com.bitc.springteamproject1209.dto.RegistDto;
-import com.bitc.springteamproject1209.mapper.WdbMapper;
+import com.bitc.springteamproject1209.dto.SinJsonDto;
+import com.bitc.springteamproject1209.dto.SinRegistDto;
+import com.bitc.springteamproject1209.mapper.SinWdbMapper;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,40 +11,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class WdbServiceImpl implements WdbService {
+public class SinWdbServiceImpl implements SinWdbService {
 
     @Autowired
-    private WdbMapper wdbMapper;
+    private SinWdbMapper sinWdbMapper;
     @Autowired
-    private JsonService jsonService;
+    private SinJsonService sinJsonService;
 
 
     @Override
-    public int overlappedID(RegistDto registDto) throws Exception {
+    public int overlappedID(SinRegistDto sinRegistDto) throws Exception {
 
 
-        int idCheck = wdbMapper.idCheck(registDto);
+        int idCheck = sinWdbMapper.idCheck(sinRegistDto);
         return idCheck;
     }
 
     @Override
-    public void insertUser(RegistDto registDto) throws Exception {
+    public void insertUser(SinRegistDto sinRegistDto) throws Exception {
 
-        wdbMapper.insertUser(registDto);
+        sinWdbMapper.insertUser(sinRegistDto);
 
     }
 
     @Override
-    public int overlappedEmail(RegistDto registDto) throws Exception {
-        int emailCheck = wdbMapper.emailCheck(registDto);
+    public int overlappedEmail(SinRegistDto sinRegistDto) throws Exception {
+        int emailCheck = sinWdbMapper.emailCheck(sinRegistDto);
         return emailCheck;
     }
 
     @Override
-    public List<JsonDto> HCList() throws Exception {
+    public List<SinJsonDto> HCList() throws Exception {
 
-        List<JsonDto> sendJsonDto = new ArrayList<>();
-        List<Object> receiveJson = jsonService.getJsonData();
+        List<SinJsonDto> sendSinJsonDto = new ArrayList<>();
+        List<Object> receiveJson = sinJsonService.getJsonData();
 
 
 //        System.out.println(receiveJson.get(0));
@@ -67,12 +67,12 @@ public class WdbServiceImpl implements WdbService {
 
 //            System.out.println(sido);
 
-            JsonDto jsonDto = new JsonDto(sido,sigungu,medicalType,medicalName,postCode,medicalAddr,eupmyeondong,doseo,tel);
+            SinJsonDto sinJsonDto = new SinJsonDto(sido,sigungu,medicalType,medicalName,postCode,medicalAddr,eupmyeondong,doseo,tel);
 
-            sendJsonDto.add(jsonDto);
+            sendSinJsonDto.add(sinJsonDto);
         }
 
-        return sendJsonDto;
+        return sendSinJsonDto;
     }
 
 

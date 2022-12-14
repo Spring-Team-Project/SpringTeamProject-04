@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!-- sql-board.xml : 마이바티스 실행을 위해 필요한 파일 -->
+    <!-- sql-gjy.xml : 마이바티스 실행을 위해 필요한 파일 -->
 
     <!-- mybatis SQL 매핑 파일을 뜻하는 지시문 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">

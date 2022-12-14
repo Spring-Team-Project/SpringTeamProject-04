@@ -4,10 +4,8 @@ package com.bitc.springteamproject1209.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.XML;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @Controller
-public class LysRestController {
+public class LeeRestController {
 
     @GetMapping("/ermctInsttInfoInqireService")
     public Map<String, Object> getErmctInsttInfoInqireService(@RequestParam Map<String, Object> paramMap) throws Exception {

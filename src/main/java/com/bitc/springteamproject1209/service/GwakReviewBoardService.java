@@ -5,9 +5,9 @@ import com.github.pagehelper.Page;
 
 import java.util.List;
 
-public interface ReviewBoardService {
+public interface GwakReviewBoardService {
 
-  List<ReviewDto> selectReviewList() throws Exception;
+//  List<ReviewDto> selectReviewList() throws Exception;
 
   Page<ReviewDto> selectReviewList(int pageNo) throws Exception;
 

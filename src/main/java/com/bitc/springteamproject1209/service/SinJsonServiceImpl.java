@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class JsonServiceImpl implements JsonService {
+public class SinJsonServiceImpl implements SinJsonService {
     @Override
     public List<Object> getJsonData() throws Exception {
 

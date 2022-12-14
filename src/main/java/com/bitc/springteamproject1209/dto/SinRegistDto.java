@@ -3,7 +3,7 @@ package com.bitc.springteamproject1209.dto;
 import lombok.*;
 
 @Getter @Setter
-public class RegistDto {
+public class SinRegistDto {
 
     private String joinId;
     private String joinEmail;

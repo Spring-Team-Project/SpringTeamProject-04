@@ -5,15 +5,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class LoginController {
+public class GwakLoginController {
 
   @RequestMapping("/login")
   public String login() throws Exception{
-    return "login";
+    return "GwakLogin";
   }
 
   @RequestMapping(value = "loginProcess", method = RequestMethod.POST)
   public <MemberDto> String loginProcess(MemberDto member) throws Exception {
+
+    return null;
 
   }
 }

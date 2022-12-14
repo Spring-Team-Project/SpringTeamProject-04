@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/wdb")
@@ -18,7 +15,7 @@ public class ApiController {
     @Autowired
     private  JsonService jsonService;
 
-    @PostMapping("")
+    @GetMapping("")
     public ResponseEntity<?> getJson() throws Exception{
 
         try {

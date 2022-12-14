@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,16 +34,20 @@ public class PageController {
     }
 
 
+    //  보건소 목록 뷰
+    @GetMapping("/hclist")
+    public ModelAndView HCList() throws Exception{
 
-    @GetMapping("/testpage")
-    public ModelAndView testView() throws Exception{
+        ModelAndView mv = new ModelAndView("/wdb/HCList");
 
-        ModelAndView mv = new ModelAndView("wdb/signup2");
+        List<JsonDto> HCList = wdbService.HCList();
+
+        mv.addObject("HCList",HCList);
 
         return mv;
     }
 
-    // 회원가입 뷰
+    //  회원가입 뷰
     @GetMapping("/user/signup")
     public ModelAndView userSignUp() throws Exception {
 
@@ -103,19 +106,34 @@ public class PageController {
 
 
 
-    //  보건소 목록 페이지
-    @GetMapping("/main/hclist")
-    public ModelAndView HCList() throws Exception{
 
-        ModelAndView mv = new ModelAndView("/wdb/HCList");
 
-        List<JsonDto> HCList = wdbService.HCList();
 
-        mv.addObject("HCList",HCList);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  테스팅 페이지
+    @GetMapping("/testpage")
+    public ModelAndView testView() throws Exception{
+
+        ModelAndView mv = new ModelAndView("testpage");
 
         return mv;
     }
-
 
 
 }

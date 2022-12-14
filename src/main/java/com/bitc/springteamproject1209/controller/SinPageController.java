@@ -2,6 +2,7 @@ package com.bitc.springteamproject1209.controller;
 
 import com.bitc.springteamproject1209.dto.SinJsonDto;
 import com.bitc.springteamproject1209.dto.SinRegistDto;
+import com.bitc.springteamproject1209.dto.SinSidoCode;
 import com.bitc.springteamproject1209.service.SinWdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,18 +40,23 @@ public class SinPageController {
     @GetMapping("/hclist")
     public ModelAndView HCList(@RequestParam("userSearchWord")String userSearchWord) throws Exception{
 
-        ModelAndView mv = new ModelAndView("/wdb/HCList");
+            ModelAndView mv = new ModelAndView("/wdb/HCList");
 
-        List<SinJsonDto> HCList = sinWdbService.HCList();
+        if (userSearchWord == null){
 
-        mv.addObject("HCList",HCList);
+            List<SinJsonDto> HCList = sinWdbService.HCList();
 
-//        검색 기능 구현
-        if (userSearchWord != null){
+            mv.addObject("HCList",HCList);
 
-            List<SinJsonDto> filterHcList = sinWdbService.filterHcList(userSearchWord);
+            return mv;
         }
 
+
+////        검색 기능 구현
+//        if (userSearchWord != null){
+//
+//            List<SinJsonDto> filterHcList = sinWdbService.filterHcList(userSearchWord);
+//        }
 
 
         return mv;
@@ -117,9 +124,31 @@ public class SinPageController {
 
 
 
+    //  select thymeleaf 방식
+    @ModelAttribute("SinSidoCode")
+    public List<SinSidoCode> sinSidoCodes(){
 
+        List<SinSidoCode> sinSidoCodes = new ArrayList<>();
+        sinSidoCodes.add(new SinSidoCode("02","서울"));
+        sinSidoCodes.add(new SinSidoCode("032","인천"));
+        sinSidoCodes.add(new SinSidoCode("042","대전"));
+        sinSidoCodes.add(new SinSidoCode("051","부산"));
+        sinSidoCodes.add(new SinSidoCode("052","울산"));
+        sinSidoCodes.add(new SinSidoCode("053","대구"));
+        sinSidoCodes.add(new SinSidoCode("062","광주"));
+        sinSidoCodes.add(new SinSidoCode("064","제주"));
+        sinSidoCodes.add(new SinSidoCode("031","경기"));
+        sinSidoCodes.add(new SinSidoCode("033","강원"));
+        sinSidoCodes.add(new SinSidoCode("041","충남"));
+        sinSidoCodes.add(new SinSidoCode("043","충북"));
+        sinSidoCodes.add(new SinSidoCode("054","경북"));
+        sinSidoCodes.add(new SinSidoCode("055","경남"));
+        sinSidoCodes.add(new SinSidoCode("061","전남"));
+        sinSidoCodes.add(new SinSidoCode("063","전북"));
 
+        return sinSidoCodes;
 
+    }
 
 
 

@@ -12,25 +12,38 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
     <script>
         $(document).ready(function (){
+        //
+        //     $('#btn_search').on('click',function (){
+        //         const searchWord = $('#search_bar').val();
+        //
+        //         $.ajax({
+        //             type:"post",
+        //             async: false,
+        //             url: "http://localhost:8080/wdb/hclist",
+        //             data: {userSearchWord : searchWord},
+        //             success: function (){
+        //                 alert("검색 성공")
+        //             },
+        //             error: function (){
+        //                 alert("검색 실패")
+        //             }
+        //         });
+        //     });
+        //
 
-            $('#btn_search').on('click',function (){
-                const searchWord = $('#search_bar').val();
+            $('#sido_code').on('change',function (){
+
+                let sidoCode = $('#sido_code option:selected').val();
 
                 $.ajax({
-                    type:"post",
-                    async: false,
-                    url: "http://localhost:8080/wdb/hclist",
-                    data: {userSearchWord : searchWord},
-                    success: function (){
-                        alert("검색 성공")
-                    },
-                    error: function (){
-                        alert("검색 실패")
-                    }
-                })
-            })
+
+                });
+
+            });
 
         });
+
+
 
     </script>
 </head>
@@ -44,7 +57,13 @@
         <div class="row">
             <div class="Search">
                 <form action="#" class="d-flex justify-content-end" method="post">
-                    <input type="text" class="mx-4" id="search_bar" name="searchBar">
+                    <div>
+                        <select th:field="*{SinSidoCode}" class="form-select" id="sido_code">
+                            <option value="">지역 선택</option>
+                            <option th:each="sidoCode : ${SinSidoCode}" th:value="${sidoCode.sidoCode}" th:text="${sidoCode.sidoName}">서울</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-floating mx-4" id="search_bar" name="searchBar" placeholder="검색">
                     <button type="button" class="btn btn-primary" id="btn_search" >검색버튼</button>
                 </form>
             </div>

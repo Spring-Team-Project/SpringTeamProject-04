@@ -47,6 +47,7 @@ public class SinWdbServiceImpl implements SinWdbService {
         List<Object> receiveJson = sinJsonService.getJsonData();
 
 
+
 //        System.out.println(receiveJson.get(0));
 
 

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/jquery-3.6.1.js"></script>
+    <script src="/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+
+<header th:replace="wdb/layout/Header :: mainHeader"></header>
+
+<main class="container my-4">
+    <div class="mainContainer container">
+        <div class="row">
+            <div class="Search">
+                <form class="d-flex justify-content-end">
+                    <input type="text">
+                    <button>검색버튼</button>
+                </form>
+            </div>
+            <div>
+                <div style="height: 50px">
+                    <span>공지사항 자리</span>
+                </div>
+
+            </div>
+            <div>
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>보건소이름</th>
+                        <th>보건소 주소</th>
+                        <th>별점</th>
+                        <th></th>
+                        <th>조회수</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${#lists.size(HCList)} > 0" th:each="item : ${HCList}">
+                        <td th:text="${item.medicalName}">글번호</td>
+                        <td th:text="${item.medicalAddr}">글쓴이</td>
+                        <td th:text="${item.medicalName}">등록날짜</td>
+                        <td th:text="${item.medicalType}">조회수</td>
+                    </tr>
+                    <tr th:unless="${#lists.size(HCList)} > 0">
+                        <td th:cols="5">조회된 내용이 없습니다</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!--    <section>-->
+    <!--        <div class="row">-->
+    <!--            <div class="col-sm">-->
+    <!--                <table class="table table-hover table-striped">-->
+    <!--                    <thead>-->
+    <!--                    <tr>-->
+    <!--                        <th>글번호</th>-->
+    <!--                        <th>제목</th>-->
+    <!--                        <th>글쓴이</th>-->
+    <!--                        <th>등록날짜</th>-->
+    <!--                        <th>조회수</th>-->
+    <!--                    </tr>-->
+    <!--                    </thead>-->
+    <!--                    <tbody>-->
+    <!--                    <tr th:if="${#lists.size(HCList)} > 0" th:each="item : ${HCList}">-->
+    <!--                        <td th:text="${item.doseo}">글번호</td>-->
+    <!--                        <td th:text="${item.medicalAddr}">글쓴이</td>-->
+    <!--                        <td th:text="${item.medicalName}">등록날짜</td>-->
+    <!--                        <td th:text="${item.medicalType}">조회수</td>-->
+    <!--                    </tr>-->
+    <!--                    <tr th:unless="${#lists.size(HCList)} > 0">-->
+    <!--                        <td th:cols="5">조회된 내용이 없습니다</td>-->
+    <!--                    </tr>-->
+    <!--                    </tbody>-->
+    <!--                </table>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="row">-->
+    <!--            <div class="col-sm d-flex justify-content-end">-->
+    <!--                <a href="/board/write" class="btn btn-outline-primary">글쓰기</a>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </section>-->
+
+
+</main>
+
+<footer th:replace="wdb/layout/Footer :: mainFooter"></footer>
+
+</body>
+</html>

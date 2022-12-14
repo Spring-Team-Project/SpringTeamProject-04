@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class TestController {
+public class GwakController {
 
   @Autowired
   private ReviewBoardService reviewBoardService; //이걸 넣으니 문제 해결됨
@@ -55,6 +55,13 @@ public class TestController {
     return "storePage";
   }
 
+//로그인 페이지
+  @RequestMapping(value = "/login")
+  public String login() throws Exception {
+
+    return "login";
+  }
+
   @RequestMapping(value = "/reviewBoardPage", method = RequestMethod.GET)
   public ModelAndView openReviewList(@RequestParam(required = false, defaultValue = "1") int pageNum) throws Exception {
     // html 파일이 있는 위치(resources-templates 는 스프링에서 고정이기 때문에 그 아래의 폴더만 써주면 됨)
@@ -84,4 +91,8 @@ public class TestController {
 
     return mv;
   }
+
+
+  
+
 }

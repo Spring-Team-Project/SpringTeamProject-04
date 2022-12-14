@@ -44,7 +44,7 @@ public class DatabaseConfiguration {
 //        주의! Location이 아니라 Locations 임, getResources 도 마찬가지로 getResource 아님
     // 스프링에서 별 두개(**)는 모든 파일/모든 폴더 등, 모든! 을 뜻함.
     // sql-*.xml는  sql-아무 파일명.xml 형식에 맞는 파일을 들고옴
-    sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/sql-*.xml"));
+    sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/*.xml"));
     sqlSessionFactoryBean.setConfiguration(mybatisConfig());
 
     return sqlSessionFactoryBean.getObject();

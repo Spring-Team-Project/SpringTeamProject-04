@@ -100,17 +100,17 @@
             <!--                        타임리프에서 주소를 입력할 경우 @{} 형식을 사용
                                         /page 라는 주소를 입력하여 컨트롤러에 GET 방식으로 요청
                                         -> ()를 사용하여 매개변수를 추가, pageNum 라는 이름으로 매개변수 전달                   -->
-            <a class="page-link" th:href="@{/reviewBoardPage(pageNum=${reviewBoardList.getPrePage()})}">&laquo;</a>
+            <a class="page-link" th:href="@{/GwakReviewBoardPage(pageNum=${reviewBoardList.getPrePage()})}">&laquo;</a>
           </li>
 
           <!--                    중앙에 있는 각 페이지 번호 -->
           <li class="page-item" th:each="page : ${#numbers.sequence(reviewBoardList.getNavigateFirstPage(), reviewBoardList.getNavigateLastPage())}" th:classappend="${page == reviewBoardList.getPageNum()} ? 'active'">
-            <a class="page-link" th:text="${page}" th:href="@{/reviewBoardPage(pageNum=${page})}"></a>
+            <a class="page-link" th:text="${page}" th:href="@{/GwakReviewBoardPage(pageNum=${page})}"></a>
           </li>
 
           <!--                    다음 페이지 버튼 -->
           <li class="page-item" th:classappend="${reviewBoardList.getNextPage() == 0} ? 'disabled'">
-            <a class="page-link" th:href="@{/reviewBoardPage(pageNum=${reviewBoardList.getNextPage()})}">&raquo;</a>
+            <a class="page-link" th:href="@{/GwakReviewBoardPage(pageNum=${reviewBoardList.getNextPage()})}">&raquo;</a>
           </li>
         </ul>
       </nav>

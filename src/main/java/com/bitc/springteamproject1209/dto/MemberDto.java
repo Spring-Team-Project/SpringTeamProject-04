@@ -12,4 +12,5 @@ public class MemberDto {
   private String memAddr;
   private String memDeletedYn;
   private String memCreateDate;
+
 }

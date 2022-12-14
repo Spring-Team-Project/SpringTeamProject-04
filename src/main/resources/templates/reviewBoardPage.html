@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>리뷰 모음 & 공지사항 게시판</title>
+
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>-->
+  <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+  <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <div class="row">
+    <h2 class="text-center mb-5">리뷰 모음 & 공지사항 게시판</h2>
+
+    <div class="col-sm">
+<!--      아코디언 시작 -->
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              (공지)&nbsp;&nbsp;<strong>보건소 영업시간 안내</strong>
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+            <div class="accordion-body">
+              <b>보건소 영업시간</b>은 공통적으로&nbsp;&nbsp;<code>09:00 ~ 18:00</code>&nbsp;&nbsp;입니다.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              (안내)&nbsp;&nbsp;<strong>사이트 점검</strong>&nbsp;&nbsp;<code>12/17 00:00 ~ 02:00</code>
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapsing" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="">
+            <div class="accordion-body">
+              <b>우리동네 보건소</b> 사이트의 서버 점검 작업이 아래와 같이 진행될 예정입니다.<br>
+              해당 시간 동안에는 일부 서비스의 이용이 제한될 수 있사오니,<br>
+              이점 서비스 이용에 참고하시길 바랍니다.<br>
+              보다 안정적인 서비스를 위해 준비 과정이오니 많은 양해 바랍니다.<br>
+              <code>* 작업시간 : 2022년 12월 17일(화) 새벽 00:00 ~ 02:00</code>
+            </div>
+          </div>
+        </div>
+      </div>
+<!--      아코디언 끝 -->
+
+
+      <!--            dataList 값 확인 가능 -->
+      <!--            <p th:text="${dataList}"></p>-->
+      <table class="table table-hover table-striped">
+        <colgroup>
+          <col width="10%">
+          <col width="40%">
+          <col width="15%">
+          <col width="10%">
+        </colgroup>
+        <thead>
+        <tr>
+          <th scope="col">글번호</th>
+          <th>한 줄 리뷰</th>
+          <th>등록일</th>
+          <th>수정/삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--                dataList : 변수명(Controller 에서 ModelAndView 객체에 저장한 변수병과 데이터)        -->
+        <!--                each : ${dataList}에서 데이터를 끄집어내서 list 에 넣는작업 반복실행 (for:in) 문.    -->
+        <tr th:if="${#lists.size(reviewBoardList.getList())} > 0" th:each="list : ${reviewBoardList.getList()}">
+          <td th:text="${list.reIdx}"></td>
+          <!--          <td>-->
+          <!--            a 태그 속성에서 빼옴 : href="/openBoardDetail?reIdx=" th:attrappend="href=${list.reIdx}" -->
+          <!--            <a style="color: black" class="text-decoration-none" th:text="${list.reId}"></a>-->
+          <!--          </td>-->
+          <td th:text="${list.reContents}"></td>
+          <td th:text="${list.reCreateDate}"></td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-outline-warning btn-sm">EDIT</button>
+              <button type="button" class="btn btn-outline-danger btn-sm">DELETE</button>
+            </div>
+          </td>
+        </tr>
+        <!--                unless: if의 반대(else를 의미). if의 조건과 동일하게 써줘야 함 : false일 때 실행되는 부분 -->
+        <tr th:unless="${#lists.size(reviewBoardList.getList())} > 0">
+          <td th:cols="5">조회된 결과가 없습니다.</td>
+        </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul class="pagination justify-content-center">
+          <!--                    이전 페이지 버튼 -->
+          <li class="page-item" th:classappend="${reviewBoardList.getPrePage() == 0} ? 'disabled'">
+            <!--                        타임리프에서 주소를 입력할 경우 @{} 형식을 사용
+                                        /page 라는 주소를 입력하여 컨트롤러에 GET 방식으로 요청
+                                        -> ()를 사용하여 매개변수를 추가, pageNum 라는 이름으로 매개변수 전달                   -->
+            <a class="page-link" th:href="@{/reviewBoardPage(pageNum=${reviewBoardList.getPrePage()})}">&laquo;</a>
+          </li>
+
+          <!--                    중앙에 있는 각 페이지 번호 -->
+          <li class="page-item" th:each="page : ${#numbers.sequence(reviewBoardList.getNavigateFirstPage(), reviewBoardList.getNavigateLastPage())}" th:classappend="${page == reviewBoardList.getPageNum()} ? 'active'">
+            <a class="page-link" th:text="${page}" th:href="@{/reviewBoardPage(pageNum=${page})}"></a>
+          </li>
+
+          <!--                    다음 페이지 버튼 -->
+          <li class="page-item" th:classappend="${reviewBoardList.getNextPage() == 0} ? 'disabled'">
+            <a class="page-link" th:href="@{/reviewBoardPage(pageNum=${reviewBoardList.getNextPage()})}">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm d-flex justify-content-end">
+      <a href="/myPage" class="btn btn-outline-primary">돌아가기</a>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+</body>
+</html>

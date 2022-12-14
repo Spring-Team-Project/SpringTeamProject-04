@@ -6,9 +6,12 @@
 
 <!-- namespace 속성에 지정한 패키지명을 가지고 있는 파일과 아래의 xml 구문을 연동한다는 의미 -->
 <!-- ★★★ xml 파일이기 때문에 스프링 프로젝트의 전체 구조를 모르기 때문에 전체 패키지 명을 다 입력해야 함 ★★★ -->
-<mapper namespace="com.bitc.springteamproject1209.mapper.UpdateInfoMapper">
 
-    <select id="testList" resultType="com.bitc.springteamproject1209.dto.TestDto">
+<mapper namespace="com.bitc.springteamproject1209.mapper.PageMapper">
+
+
+<!--    리뷰 모음 게시판 데이터 -->
+    <select id="selectReviewList" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         <![CDATA[
         SELECT *
         FROM test

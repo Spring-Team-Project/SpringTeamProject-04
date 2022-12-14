@@ -16,12 +16,6 @@ public class GwakReviewPageController {
   @Autowired
   private GwakReviewBoardService gwakReviewBoardService; //이걸 넣으니 문제 해결됨
 
-  @RequestMapping(value = "/")
-  public String index() throws Exception {
-
-    return "index";
-
-  }
 
   @RequestMapping(value = "/myPage")
   public String myPage() throws Exception {
@@ -33,7 +27,7 @@ public class GwakReviewPageController {
   @RequestMapping(value = "/myReviewPage")
   public String myReviewPage() throws Exception {
 
-    return "GwakmyReviewPage";
+    return "GwakMyReviewPage";
   }
 
 
@@ -52,7 +46,7 @@ public class GwakReviewPageController {
 
 
 
-  @RequestMapping(value = "/reviewBoardPage", method = RequestMethod.GET)
+  @RequestMapping(value = "/GwakReviewBoardPage", method = RequestMethod.GET)
   public ModelAndView openReviewList(@RequestParam(required = false, defaultValue = "1") int pageNum) throws Exception {
     // html 파일이 있는 위치(resources-templates 는 스프링에서 고정이기 때문에 그 아래의 폴더만 써주면 됨)
     ModelAndView mv = new ModelAndView("GwakReviewBoardPage");
@@ -64,8 +58,8 @@ public class GwakReviewPageController {
     // mv.addObject("dataList", dataList);
 
 //    List<ReviewDto> reviewBoardList = ReviewBoardService.selectReviewList();
-    PageInfo<ReviewDto> reviewBoardList = new PageInfo<>(gwakReviewBoardService.selectReviewList(pageNum), 3);
-    mv.addObject("reviewBoardList", reviewBoardList);
+    PageInfo<ReviewDto> reviewBoardList  = new PageInfo<>(gwakReviewBoardService.selectReviewList(pageNum), 3);
+    mv.addObject("reviewBoardList ", reviewBoardList );
 
     return mv; // html 파일의 데이터가 들어가면서 그것을 클라이언트에 보낸다 -> 웹 브라우저로 다시 뿌림
   }

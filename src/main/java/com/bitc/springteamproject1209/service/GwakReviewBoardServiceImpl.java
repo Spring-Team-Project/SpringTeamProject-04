@@ -15,14 +15,14 @@ public class GwakReviewBoardServiceImpl implements GwakReviewBoardService {
   @Autowired
   private GwakPageMapper gwakPageMapper;
 
-//  @Override
-//  public List<ReviewDto> selectReviewList() throws Exception {
-//    return gwakPageMapper.selectReviewList();
-//  }
+  @Override
+  public List<ReviewDto> selectReviewList() throws Exception {
+    return gwakPageMapper.selectReviewList();
+  }
 
   @Override
   public Page<ReviewDto> selectReviewList(int pageNo) throws Exception {
-    PageHelper.startPage(pageNo, 10);
+    PageHelper.startPage(pageNo, 5);
     return gwakPageMapper.selectReviewListPage();
   }
 

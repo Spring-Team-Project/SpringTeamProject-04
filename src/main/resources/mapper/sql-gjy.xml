@@ -8,39 +8,17 @@
 <!-- ★★★ xml 파일이기 때문에 스프링 프로젝트의 전체 구조를 모르기 때문에 전체 패키지 명을 다 입력해야 함 ★★★ -->
 
 <mapper namespace="com.bitc.springteamproject1209.mapper.GwakPageMapper">
-
-
-<!--    리뷰 모음 게시판 데이터 -->
+    <!--    리뷰 모음 게시판 데이터 -->
     <select id="selectReviewList" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         <![CDATA[
-        SELECT *
-        FROM test
+        SELECT * FROM review
         ]]>
     </select>
 
-    <select id="selectMemInfo" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
-    <![CDATA[
-        SELECT mem_email, mem_id
-        FROM tblmember
-        WHERE deleted_yn = 'N'
-        ORDER BY mem_idx DESC
-        ]]>
-  </select>
 
-    <update id="updateInfo" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
-         <![CDATA[
-        UPDATE tblmember
-        SET mem_pwd = #{memPwd}, mem_addr = #{memAddr}
-        WHERE mem_idx = #{memIdx}
+    <select id="selectReviewListPage" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        <![CDATA[
+        SELECT * FROM review
         ]]>
-    </update>
-
-    <update id="deleteInfo" parameterType="int">
-    <![CDATA[
-        UPDATE tblmember
-        SET mem_deleted_yn = 'Y'
-        WHERE mem_idx = #{mem_idx}
-        ]]>
-  </update>
-
+    </select>
 </mapper>

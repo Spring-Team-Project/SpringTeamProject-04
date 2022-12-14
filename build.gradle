@@ -37,6 +37,12 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.1'
 // https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter
     implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5'
+
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation 'commons-io:commons-io:2.11.0'
+
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    implementation 'commons-fileupload:commons-fileupload:1.4'
 }
 
 tasks.named('test') {

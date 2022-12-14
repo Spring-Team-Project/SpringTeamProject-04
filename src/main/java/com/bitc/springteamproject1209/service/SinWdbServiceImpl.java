@@ -20,10 +20,10 @@ public class SinWdbServiceImpl implements SinWdbService {
 
 
     @Override
-    public int overlappedID(SinRegistDto sinRegistDto) throws Exception {
+    public int overlappedID(String userId) throws Exception {
 
 
-        int idCheck = sinWdbMapper.idCheck(sinRegistDto);
+        int idCheck = sinWdbMapper.idCheck(userId);
         return idCheck;
     }
 
@@ -35,8 +35,8 @@ public class SinWdbServiceImpl implements SinWdbService {
     }
 
     @Override
-    public int overlappedEmail(SinRegistDto sinRegistDto) throws Exception {
-        int emailCheck = sinWdbMapper.emailCheck(sinRegistDto);
+    public int overlappedEmail(String userEmail) throws Exception {
+        int emailCheck = sinWdbMapper.emailCheck(userEmail);
         return emailCheck;
     }
 
@@ -73,6 +73,11 @@ public class SinWdbServiceImpl implements SinWdbService {
         }
 
         return sendSinJsonDto;
+    }
+
+    @Override
+    public List<SinJsonDto> filterHcList(String filtering) throws Exception {
+        return null;
     }
 
 

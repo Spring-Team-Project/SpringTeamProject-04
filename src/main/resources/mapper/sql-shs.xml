@@ -13,11 +13,11 @@
         VALUES (#{joinEmail},#{joinId},#{joinPw},#{joinAddr},NOW())
     </insert>
 
-    <select id="idCheck" parameterType="com.bitc.springteamproject1209.dto.SinRegistDto" resultType="int">
-        select count(mem_id) From tblmember where mem_id=#{joinId}
+    <select id="idCheck" parameterType="String" resultType="int">
+        select count(mem_id) From tblmember where mem_id=#{userId}
     </select>
 
-    <select id="emailCheck" parameterType="com.bitc.springteamproject1209.dto.SinRegistDto" resultType="int">
-        select count(mem_email) From tblmember where mem_email=#{joinEmail}
+    <select id="emailCheck" parameterType="String" resultType="int">
+        select count(mem_email) From tblmember where mem_email=#{userEmail}
     </select>
 </mapper>

@@ -3,10 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="/js/jquery-3.6.1.js"></script>
-    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+    <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+    <script>
+        $(document).ready(function (){
+
+            $('#btn_search').on('click',function (){
+                const searchWord = $('#search_bar').val();
+
+                $.ajax({
+                    type:"post",
+                    async: false,
+                    url: "http://localhost:8080/wdb/hclist",
+                    data: {userSearchWord : searchWord},
+                    success: function (){
+                        alert("검색 성공")
+                    },
+                    error: function (){
+                        alert("검색 실패")
+                    }
+                })
+            })
+
+        });
+
+    </script>
 </head>
+
 <body>
 
 <header th:replace="wdb/layout/Header :: mainHeader"></header>
@@ -15,9 +43,9 @@
     <div class="mainContainer container">
         <div class="row">
             <div class="Search">
-                <form class="d-flex justify-content-end">
-                    <input type="text">
-                    <button>검색버튼</button>
+                <form action="#" class="d-flex justify-content-end" method="post">
+                    <input type="text" class="mx-4" id="search_bar" name="searchBar">
+                    <button type="button" class="btn btn-primary" id="btn_search" >검색버튼</button>
                 </form>
             </div>
             <div>
@@ -27,22 +55,19 @@
 
             </div>
             <div>
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-bordered table-light">
                     <thead>
-                    <tr>
-                        <th>보건소이름</th>
-                        <th>보건소 주소</th>
-                        <th>별점</th>
-                        <th></th>
-                        <th>조회수</th>
+                    <tr class="text-primary fw-bold ">
+                        <th class="fs-5">보건소 이름</th>
+                        <th class="fs-5">보건소 주소</th>
+                        <th class="fs-5">별점</th>
+
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:if="${#lists.size(HCList)} > 0" th:each="item : ${HCList}">
-                        <td th:text="${item.medicalName}">글번호</td>
-                        <td th:text="${item.medicalAddr}">글쓴이</td>
-                        <td th:text="${item.medicalName}">등록날짜</td>
-                        <td th:text="${item.medicalType}">조회수</td>
+                        <td th:text="${item.medicalName}" class="fw-lighter">보건소 이름</td>
+                        <td th:text="${item.medicalAddr}" class="fw-light">보건소 주소</td>
                     </tr>
                     <tr th:unless="${#lists.size(HCList)} > 0">
                         <td th:cols="5">조회된 내용이 없습니다</td>

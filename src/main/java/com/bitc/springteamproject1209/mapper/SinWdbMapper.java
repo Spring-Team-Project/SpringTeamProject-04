@@ -9,7 +9,7 @@ public interface SinWdbMapper {
 
     void insertUser(SinRegistDto regist) throws Exception;
 
-    int idCheck(SinRegistDto sinRegistDto) throws Exception;
+    int idCheck(String userId) throws Exception;
 
-    int emailCheck(SinRegistDto sinRegistDto) throws Exception;
+    int emailCheck(String userEmail) throws Exception;
 }

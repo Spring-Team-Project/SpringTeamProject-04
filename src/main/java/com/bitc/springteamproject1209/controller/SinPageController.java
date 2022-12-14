@@ -36,7 +36,7 @@ public class SinPageController {
 
     //  보건소 목록 뷰
     @GetMapping("/hclist")
-    public ModelAndView HCList() throws Exception{
+    public ModelAndView HCList(@RequestParam("userSearchWord")String userSearchWord) throws Exception{
 
         ModelAndView mv = new ModelAndView("/wdb/HCList");
 
@@ -44,8 +44,19 @@ public class SinPageController {
 
         mv.addObject("HCList",HCList);
 
+//        검색 기능 구현
+        if (userSearchWord != null){
+
+            List<SinJsonDto> filterHcList = sinWdbService.filterHcList(userSearchWord);
+        }
+
+
+
         return mv;
     }
+
+
+
 
     //  회원가입 뷰
     @GetMapping("/user/signup")
@@ -59,10 +70,10 @@ public class SinPageController {
     //    id 중복 체크
     @ResponseBody
     @GetMapping("/user/idcheck")
-    public int overlappedID(SinRegistDto sinRegistDto) throws Exception{
+    public int overlappedID(@RequestParam("checkId") String userId ) throws Exception{
 
 
-        int idCheck = sinWdbService.overlappedID(sinRegistDto);
+        int idCheck = sinWdbService.overlappedID(userId);
 
         return idCheck;
     }
@@ -70,10 +81,10 @@ public class SinPageController {
     //    email 중복 체크
     @ResponseBody
     @GetMapping("/user/emailcheck")
-    public int overlappedEmail(SinRegistDto sinRegistDto) throws Exception{
+    public int overlappedEmail(@RequestParam("checkEmail")String userEmail ) throws Exception{
 
 
-        int emailCheck = sinWdbService.overlappedEmail(sinRegistDto);
+        int emailCheck = sinWdbService.overlappedEmail(userEmail);
 
         return emailCheck;
     }

@@ -15,10 +15,6 @@ public class GwakReviewBoardServiceImpl implements GwakReviewBoardService {
   @Autowired
   private GwakPageMapper gwakPageMapper;
 
-//  @Override
-//  public List<ReviewDto> selectReviewList() throws Exception {
-//    return gwakPageMapper.selectReviewList();
-//  }
 
   @Override
   public Page<ReviewDto> selectReviewList(int pageNo) throws Exception {

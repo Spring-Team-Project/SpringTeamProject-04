@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class SinApiController {
 
 
-//    json 데이터 가져오는 컨트롤러
+//   보건소 json 데이터 가져오는 컨트롤러
     @Autowired
     private SinJsonService sinJsonService;
 

@@ -8,8 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface GwakPageMapper {
-  List<ReviewDto> selectReviewList() throws Exception;
-
   Page<ReviewDto> selectReviewListPage() throws Exception;
 
 //  로그인

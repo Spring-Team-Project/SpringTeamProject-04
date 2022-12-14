@@ -27,7 +27,7 @@
     <update id="updateInfo" parameterType="com.bitc.springteamproject1209.dto.UpdateInfoDto">
          <![CDATA[
         UPDATE tblmember
-        SET mem_pwd = #{memPwd} mem_addr = #{memAddr}
+        SET mem_pwd = #{memPwd}, mem_addr = #{memAddr}
         WHERE mem_idx = #{memIdx}
         ]]>
     </update>

@@ -4,6 +4,7 @@ package com.bitc.springteamproject1209.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.XML;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,18 +32,18 @@ public class LysRestController {
         try {
 
             StringBuilder urlBuilder = new StringBuilder(ermctInsttInfoUrl);
-            urlBuilder.append("?"+URLEncoder.encode("ServiceKey", "UTF-8")+"="+ serviceKey);
-            urlBuilder.append("&"+URLEncoder.encode("pageNo", "UTF-8")+"=1");
-            urlBuilder.append("&"+URLEncoder.encode("numOfRows", "UTF-8")+"=100");
+            urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + serviceKey);
+            urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=1");
+            urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=100");
 
             URL url = new URL(urlBuilder.toString());
 
-            System.out.println("###url=>"+url);
+            System.out.println("###url=>" + url);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Content-Type", "application/json");
-            System.out.println("Response Code:"+conn.getResponseCode());
+            System.out.println("Response Code:" + conn.getResponseCode());
 
 
             BufferedReader rd;
@@ -54,7 +55,7 @@ public class LysRestController {
 
             StringBuilder sb = new StringBuilder();
             String line;
-            while ((line=rd.readLine()) != null) {
+            while ((line = rd.readLine()) != null) {
                 sb.append(line);
             }
             rd.close();
@@ -62,11 +63,12 @@ public class LysRestController {
 
             org.json.JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());
             String xmlJSONObjString = xmlJSONObj.toString();
-            System.out.println("### xmlJSONObjString=>"+xmlJSONObjString);
+            System.out.println("### xmlJSONObjString=>" + xmlJSONObjString);
 
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> map = new HashMap<>();
-            map = objectMapper.readValue(xmlJSONObjString, new TypeReference<Map<String, Object>>(){});
+            map = objectMapper.readValue(xmlJSONObjString, new TypeReference<Map<String, Object>>() {
+            });
             Map<String, Object> dataResponse = (Map<String, Object>) map.get("response");
             Map<String, Object> body = (Map<String, Object>) dataResponse.get("body");
             Map<String, Object> items = null;
@@ -75,11 +77,11 @@ public class LysRestController {
             items = (Map<String, Object>) body.get("items");
             itemList = (List<Map<String, Object>>) items.get("item");
 
-            System.out.println("### map="+map);
-            System.out.println("### dataResponse="+dataResponse);
-            System.out.println("### body="+body);
-            System.out.println("### items="+items);
-            System.out.println("### itemList="+itemList);
+            System.out.println("### map=" + map);
+            System.out.println("### dataResponse=" + dataResponse);
+            System.out.println("### body=" + body);
+            System.out.println("### items=" + items);
+            System.out.println("### itemList=" + itemList);
 
             resultMap.put("Result", "0000");
             resultMap.put("numOfRows", body.get("numOfRows"));
@@ -96,12 +98,5 @@ public class LysRestController {
         return resultMap;
     }
 
-    @RequestMapping(value = "UpdateInfo", method = RequestMethod.GET )
-    public ModelAndView getFullData() throws Exception{
-        ModelAndView mv = new ModelAndView("UpdateInfo");
-
-        List
-    }
-
-
 }
+

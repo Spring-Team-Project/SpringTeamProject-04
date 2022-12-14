@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class GwakController {
+public class ReviewPageController {
 
   @Autowired
   private ReviewBoardService reviewBoardService; //이걸 넣으니 문제 해결됨
@@ -55,12 +55,7 @@ public class GwakController {
     return "storePage";
   }
 
-//로그인 페이지
-  @RequestMapping(value = "/login")
-  public String login() throws Exception {
 
-    return "login";
-  }
 
   @RequestMapping(value = "/reviewBoardPage", method = RequestMethod.GET)
   public ModelAndView openReviewList(@RequestParam(required = false, defaultValue = "1") int pageNum) throws Exception {
@@ -93,6 +88,6 @@ public class GwakController {
   }
 
 
-  
+
 
 }

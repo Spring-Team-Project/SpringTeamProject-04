@@ -11,4 +11,8 @@ public interface PageMapper {
   List<ReviewDto> selectReviewList() throws Exception;
 
   Page<ReviewDto> selectReviewListPage() throws Exception;
+
+//  로그인
+
+
 }

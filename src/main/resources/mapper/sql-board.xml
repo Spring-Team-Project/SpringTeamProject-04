@@ -21,4 +21,13 @@
         ]]>
     </select>
 
+<!--    <select id="selectMemberInfo" resultType="com.bitc.springteamproject1209.dto.MemberDto">-->
+<!--        <![CDATA[-->
+<!--        SELECT * FROM tblmember-->
+<!--        ]]>-->
+<!--    </select>-->
+
+
+
+
 </mapper>

@@ -47,7 +47,7 @@ public class WdbServiceImpl implements WdbService {
         List<Object> receiveJson = jsonService.getJsonData();
 
 
-        System.out.println(receiveJson.get(0));
+//        System.out.println(receiveJson.get(0));
 
 
         for (int i = 0; i < receiveJson.size(); i++) {

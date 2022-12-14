@@ -10,14 +10,14 @@
 
     <insert id="insertUser" parameterType="com.bitc.springteamproject1209.dto.RegistDto">
         INSERT INTO tblmember (mem_email, mem_id, mem_pwd, mem_addr, mem_create_date)
-        VALUES (#{userEmail},#{userId},#{userPass},#{userAddr},NOW())
+        VALUES (#{joinEmail},#{joinId},#{joinPw},#{joinAddr},NOW())
     </insert>
 
     <select id="idCheck" parameterType="com.bitc.springteamproject1209.dto.RegistDto" resultType="int">
-        select count(mem_id) From tblmember where mem_id=#{userId}
+        select count(mem_id) From tblmember where mem_id=#{joinId}
     </select>
 
     <select id="emailCheck" parameterType="com.bitc.springteamproject1209.dto.RegistDto" resultType="int">
-        select count(mem_email) From tblmember where mem_email=#{userEmail}
+        select count(mem_email) From tblmember where mem_email=#{joinEmail}
     </select>
 </mapper>

@@ -26,7 +26,7 @@
                 type: "get",
                 async: false,
                 url: "http://localhost:8080/wdb/user/emailcheck",
-                data: {userEmail: email},
+                data: {joinEmail: email},
                 success: function (data) {
 
                     if (!regexp.test(email)) {
@@ -69,7 +69,7 @@
                 type: "get",
                 async: false,
                 url: "http://localhost:8080/wdb/user/idcheck",
-                data: {userId: id},
+                data: {joinId: id},
                 success: function (data) {
                     if (!regexp.test(id)) {
                         idCheck = false
@@ -109,7 +109,7 @@
             const btnSignup = document.querySelector('#btn_signup');
             btnSignup.addEventListener('click', function () {
                 let userAddr = document.querySelector('#user_address').value + " " + document.querySelector('#user_detailAddress').value;
-                document.querySelector('#user_addr').value = userAddr;
+                document.querySelector('#join_addr').value = userAddr;
 
             });
         });
@@ -155,7 +155,7 @@
             });
 
             $('#btn-back').on('click',function (){
-                history.back();
+               history.back();
             });
 
         });
@@ -172,7 +172,7 @@
 <main class="container mt-5">
     <div class="row">
         <h2 class="text-center mt-5">회원 가입</h2>
-        <form action="signup/success" method="post" id="frm">
+        <form action="user/signup/success" method="post" id="frm">
             <div class="col-sm-6 mx-auto">
                 <div class="form-floating my-3">
                     <input type="email" class="form-control" id="join_email" name="joinEmail" onchange="checkEmail()"
@@ -212,7 +212,7 @@
                         <label for="user_detailAddress">상세 주소</label>
                         <input class="form-control my-2" type="text" id="user_detailAddress" placeholder="상세주소">
                         <input class="form-control" type="hidden" id="user_extraAddress" placeholder="참고항목" readonly>
-                        <input type="hidden" id="user_addr" name="userAddr" value="">
+                        <input type="hidden" id="join_addr" name="joinAddr" value="">
                     </div>
                 </div>
                 <div class="d-grid">

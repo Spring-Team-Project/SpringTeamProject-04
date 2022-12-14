@@ -1,13 +1,12 @@
 package com.bitc.springteamproject1209.dto;
 
-import lombok.Data;
-import lombok.Getter;
+import lombok.*;
 
-@Getter
+@Getter @Setter
 public class RegistDto {
 
-    private String userId;
-    private String userEmail;
-    private String userPass;
-    private String userAddr;
+    private String joinId;
+    private String joinEmail;
+    private String joinPw;
+    private String joinAddr;
 }

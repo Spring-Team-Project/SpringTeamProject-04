@@ -62,6 +62,7 @@ public class JsonServiceImpl implements JsonService {
 
 
 
+
                 for (int i = 0; i < dataArray.size(); ++i) {
                     JSONObject json = (JSONObject) dataArray.get(i);
 //                    System.out.println(json.get("보건기관 유형"));
@@ -69,6 +70,8 @@ public class JsonServiceImpl implements JsonService {
                         filterList.add(dataArray.get(i));
                     }
                 }
+
+
 
                 System.out.println(filterList);
 

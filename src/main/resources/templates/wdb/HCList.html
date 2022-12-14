@@ -27,7 +27,6 @@
                     <tbody>
                     <tr th:if="${#lists.size(HCList)} > 0" th:each="item : ${HCList}">
                         <td th:text="${item.doseo}">글번호</td>
-
                         <td th:text="${item.medicalAddr}">글쓴이</td>
                         <td th:text="${item.medicalName}">등록날짜</td>
                         <td th:text="${item.medicalType}">조회수</td>

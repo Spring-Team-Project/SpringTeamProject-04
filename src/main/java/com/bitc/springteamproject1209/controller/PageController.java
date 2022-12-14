@@ -35,6 +35,15 @@ public class PageController {
     }
 
 
+
+    @GetMapping("/testpage")
+    public ModelAndView testView() throws Exception{
+
+        ModelAndView mv = new ModelAndView("wdb/signup2");
+
+        return mv;
+    }
+
     // 회원가입 뷰
     @GetMapping("/user/signup")
     public ModelAndView userSignUp() throws Exception {

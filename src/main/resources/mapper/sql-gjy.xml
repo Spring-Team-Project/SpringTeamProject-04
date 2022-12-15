@@ -11,14 +11,22 @@
     <!--    리뷰 모음 게시판 데이터 -->
     <select id="selectReviewList" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         <![CDATA[
-        SELECT * FROM review
+        SELECT *
+        FROM review
         ]]>
     </select>
-
 
     <select id="selectReviewListPage" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         <![CDATA[
-        SELECT * FROM review
+        SELECT *
+        FROM review
         ]]>
     </select>
+
+    <select id="idCheckSQL" parameterType="String" resultType="com.bitc.springteamproject1209.dto.MemberDto">
+        select *
+        From tblmember
+        where mem_id = #{memId} And mem_pwd = #{memPwd}
+    </select>
+
 </mapper>

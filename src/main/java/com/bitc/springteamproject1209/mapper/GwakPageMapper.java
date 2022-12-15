@@ -1,6 +1,9 @@
 package com.bitc.springteamproject1209.mapper;
 
+import com.bitc.springteamproject1209.dto.GwakRegistDto;
+import com.bitc.springteamproject1209.dto.MemberDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
+import com.bitc.springteamproject1209.dto.SinRegistDto;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,7 +15,7 @@ public interface GwakPageMapper {
 
   Page<ReviewDto> selectReviewListPage() throws Exception;
 
-//  로그인
+  MemberDto idCheckSQL(String memId, String memPwd);
 
 
 }

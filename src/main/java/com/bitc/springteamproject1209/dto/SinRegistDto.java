@@ -4,7 +4,6 @@ import lombok.*;
 
 @Getter @Setter
 public class SinRegistDto {
-
     private String joinId;
     private String joinEmail;
     private String joinPw;

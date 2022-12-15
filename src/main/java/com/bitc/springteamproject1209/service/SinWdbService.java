@@ -14,7 +14,8 @@ public interface SinWdbService {
 
     int overlappedEmail(String userEmail) throws Exception;
 
-    List<SinJsonDto> HCList() throws Exception;
 
-    List<SinJsonDto> filterHcList(String filtering) throws Exception;
+    List<SinJsonDto> HCList(String userSearchWord, String telCode) throws Exception;
+
+    List<SinJsonDto> HCMainList() throws Exception;
 }

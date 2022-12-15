@@ -28,4 +28,5 @@ public class SinJsonDto {
     private String doseo;
     @JsonProperty(value = "대표전화번호")
     private String tel;
+
 }

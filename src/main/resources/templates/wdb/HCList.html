@@ -11,38 +11,64 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
     <script>
-        $(document).ready(function (){
-        //
-        //     $('#btn_search').on('click',function (){
-        //         const searchWord = $('#search_bar').val();
-        //
-        //         $.ajax({
-        //             type:"post",
-        //             async: false,
-        //             url: "http://localhost:8080/wdb/hclist",
-        //             data: {userSearchWord : searchWord},
-        //             success: function (){
-        //                 alert("검색 성공")
-        //             },
-        //             error: function (){
-        //                 alert("검색 실패")
-        //             }
-        //         });
-        //     });
-        //
+        $(document).ready(function () {
+            //
+            //     $('#btn_search').on('click',function (){
+            //         const searchWord = $('#search_bar').val();
+            //
+            //         $.ajax({
+            //             type:"post",
+            //             async: false,
+            //             url: "http://localhost:8080/wdb/hclist",
+            //             data: {userSearchWord : searchWord},
+            //             success: function (){
+            //                 alert("검색 성공")
+            //             },
+            //             error: function (){
+            //                 alert("검색 실패")
+            //             }
+            //         });
+            //     });
 
-            $('#sido_code').on('change',function (){
+            //
 
-                let sidoCode = $('#sido_code option:selected').val();
+            $('#tel_code').on('change', function () {
+
+
+                let htmlTelCode = $('#tel_code option:selected').val();
+
 
                 $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "http://localhost:8080/wdb/hclist/filter",
+                    data: {telCode: htmlTelCode},
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#HCTable > tbody').empty();
+                            for (let i = 0; i < data.length; i++) {
+                                let result = "<tr>";
 
+
+                                result += "<td>" + data[i]["보건기관명"] + "</td>";
+                                result += "<td>" + data[i]["주소"] + "</td>";
+
+                                result += "</tr>";
+
+                                $("#HCTable").append(result);
+                            }
+                        }
+
+                    },
+                    error: function (request, status, error) {
+                        alert("검색 실패")
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+                    }
                 });
-
             });
 
-        });
 
+        });
 
 
     </script>
@@ -58,13 +84,15 @@
             <div class="Search">
                 <form action="#" class="d-flex justify-content-end" method="post">
                     <div>
-                        <select th:field="*{SinSidoCode}" class="form-select" id="sido_code">
+                        <select th:field="*{SinTelCode}" class="form-select" id="tel_code">
                             <option value="">지역 선택</option>
-                            <option th:each="sidoCode : ${SinSidoCode}" th:value="${sidoCode.sidoCode}" th:text="${sidoCode.sidoName}">서울</option>
+                            <option th:each="telCode : ${SinTelCode}" th:value="${telCode.telCode}"
+                                    th:text="${telCode.sidoName}">서울
+                            </option>
                         </select>
                     </div>
                     <input type="text" class="form-floating mx-4" id="search_bar" name="searchBar" placeholder="검색">
-                    <button type="button" class="btn btn-primary" id="btn_search" >검색버튼</button>
+                    <button type="button" class="btn btn-primary" id="btn_search">검색버튼</button>
                 </form>
             </div>
             <div>
@@ -74,13 +102,12 @@
 
             </div>
             <div>
-                <table class="table table-hover table-bordered table-light">
+                <table class="table table-hover table-bordered table-light" id="HCTable">
                     <thead>
                     <tr class="text-primary fw-bold ">
                         <th class="fs-5">보건소 이름</th>
                         <th class="fs-5">보건소 주소</th>
                         <th class="fs-5">별점</th>
-
                     </tr>
                     </thead>
                     <tbody>
@@ -96,42 +123,6 @@
             </div>
         </div>
     </div>
-
-
-    <!--    <section>-->
-    <!--        <div class="row">-->
-    <!--            <div class="col-sm">-->
-    <!--                <table class="table table-hover table-striped">-->
-    <!--                    <thead>-->
-    <!--                    <tr>-->
-    <!--                        <th>글번호</th>-->
-    <!--                        <th>제목</th>-->
-    <!--                        <th>글쓴이</th>-->
-    <!--                        <th>등록날짜</th>-->
-    <!--                        <th>조회수</th>-->
-    <!--                    </tr>-->
-    <!--                    </thead>-->
-    <!--                    <tbody>-->
-    <!--                    <tr th:if="${#lists.size(HCList)} > 0" th:each="item : ${HCList}">-->
-    <!--                        <td th:text="${item.doseo}">글번호</td>-->
-    <!--                        <td th:text="${item.medicalAddr}">글쓴이</td>-->
-    <!--                        <td th:text="${item.medicalName}">등록날짜</td>-->
-    <!--                        <td th:text="${item.medicalType}">조회수</td>-->
-    <!--                    </tr>-->
-    <!--                    <tr th:unless="${#lists.size(HCList)} > 0">-->
-    <!--                        <td th:cols="5">조회된 내용이 없습니다</td>-->
-    <!--                    </tr>-->
-    <!--                    </tbody>-->
-    <!--                </table>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--        <div class="row">-->
-    <!--            <div class="col-sm d-flex justify-content-end">-->
-    <!--                <a href="/board/write" class="btn btn-outline-primary">글쓰기</a>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </section>-->
-
 
 </main>
 

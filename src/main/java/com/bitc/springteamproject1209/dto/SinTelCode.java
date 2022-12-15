@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter @AllArgsConstructor
-public class SinSidoCode {
+public class SinTelCode {
 
-    private String sidoCode;
+    private String telCode;
     private String sidoName;
 }

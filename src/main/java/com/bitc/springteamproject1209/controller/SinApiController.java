@@ -39,7 +39,7 @@ public class SinApiController {
 
     }
 
-    @GetMapping("/medi")
+    @GetMapping("/medi/insert")
     public ResponseEntity<?> XmlToJson() throws Exception {
 
         try {

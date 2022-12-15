@@ -10,14 +10,25 @@
 
     <insert id="insertUser" parameterType="com.bitc.springteamproject1209.dto.SinRegistDto">
         INSERT INTO tblmember (mem_email, mem_id, mem_pwd, mem_addr, mem_create_date)
-        VALUES (#{joinEmail},#{joinId},#{joinPw},#{joinAddr},NOW())
+        VALUES (#{joinEmail}, #{joinId}, #{joinPw}, #{joinAddr}, NOW())
     </insert>
 
     <select id="idCheck" parameterType="String" resultType="int">
-        select count(mem_id) From tblmember where mem_id=#{userId}
+        select count(mem_id)
+        From tblmember
+        where mem_id = #{userId}
     </select>
 
     <select id="emailCheck" parameterType="String" resultType="int">
-        select count(mem_email) From tblmember where mem_email=#{userEmail}
+        select count(mem_email)
+        From tblmember
+        where mem_email = #{userEmail}
     </select>
+
+    <insert id="PharmacyToDB" parameterType="com.bitc.springteamproject1209.dto.SinPharmarcyDto">
+        INSERT INTO tblpharmacy (duty_name, duty_addr, duty_tel1, hp_id, duty_time_s, duty_time_c, wgs84_lat, wgs84_lon,
+                                 r_num)
+        VALUES (#{dutyName}, #{dutyAddr}, #{dutyTel1}, #{hpid},#{dutyTime1s},#{dutyTime1c},#{wgs84Lat},#{wgs84Lon},#{rnum})
+    </insert>
+
 </mapper>

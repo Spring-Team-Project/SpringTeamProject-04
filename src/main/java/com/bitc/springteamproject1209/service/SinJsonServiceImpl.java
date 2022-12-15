@@ -1,6 +1,9 @@
 package com.bitc.springteamproject1209.service;
 
 
+import com.bitc.springteamproject1209.dto.SinJsonDto;
+import com.bitc.springteamproject1209.dto.SinPharmarcyDto;
+import com.bitc.springteamproject1209.mapper.SinWdbMapper;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,20 +11,25 @@ import org.json.XML;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SinJsonServiceImpl implements SinJsonService {
+
+
+    @Autowired
+    SinWdbMapper sinWdbMapper;
+
 
     //    실질적인 제이슨 처리
     @Override
@@ -33,8 +41,8 @@ public class SinJsonServiceImpl implements SinJsonService {
 
 //        추후 구현 : page값 변수화 하여 알아서 최대 페이지로 적용 do_while 사용
 
-        JSONArray dataArray ;
-        JSONObject obj ;
+        JSONArray dataArray;
+        JSONObject obj;
         List<Object> filterList = new ArrayList<>();
 
         try {
@@ -100,11 +108,10 @@ public class SinJsonServiceImpl implements SinJsonService {
 
     //    실질적인 XMLtoJSON 처리
     @Override
-    public Map<String, Object> XmlToJson() throws Exception {
+    public List<SinPharmarcyDto> XmlToJson() throws Exception {
 //        public Map<String, Object> getXmlToJson(@RequestParam Map<String, Object> paramMap) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-        JSONObject pharmacyJson;
-        JSONArray pharmacyArr = new JSONArray();
+        List<SinPharmarcyDto> sendPharmacyDB = new ArrayList<>();
 
 
         String serviceKey = "79Z0nFPSpEV7l%2BHQq%2BtyPXRh2REhCZRobIFdETr8Aj2xMN63iUWl17quZvKKf7R4vQfZZZhDVikeYZHPD6X2Hg%3D%3D";
@@ -144,7 +151,7 @@ public class SinJsonServiceImpl implements SinJsonService {
 
             org.json.JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());
             String xmlJSONObjString = xmlJSONObj.toString();
-            System.out.println("### xmlJSONObjString=>" + xmlJSONObjString);
+//            System.out.println("### xmlJSONObjString=>" + xmlJSONObjString);
 
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> map = new HashMap<>();
@@ -158,11 +165,6 @@ public class SinJsonServiceImpl implements SinJsonService {
             items = (Map<String, Object>) body.get("items");
             itemList = (List<Map<String, Object>>) items.get("item");
 
-//            System.out.println("### map=" + map);
-//            System.out.println("### dataResponse=" + dataResponse);
-//            System.out.println("### body=" + body);
-//            System.out.println("### items=" + items);
-//            System.out.println("### itemList=" + itemList);
 
             resultMap.put("Result", "0000");
             resultMap.put("numOfRows", body.get("numOfRows"));
@@ -170,23 +172,75 @@ public class SinJsonServiceImpl implements SinJsonService {
             resultMap.put("totalCount", body.get("totalCount"));
             resultMap.put("data", itemList);
 
-//            JSONParser parser = new JSONParser();
+
+            StringBuffer stringBuffer = new StringBuffer();
+
+            String jsonString1,jsonString2,jsonString3,jsonString4;
+
+            JSONParser parser = new JSONParser();
+            jsonString1 = itemList.get(1).toString().replaceAll("=",":");
+            jsonString2 = jsonString1.replaceAll(":","\":\"");
+            jsonString3 = jsonString2.replaceAll(",","\",\"");
+            jsonString4 = jsonString3.trim();
+            stringBuffer.append(jsonString);
+            stringBuffer.insert(1,"\"");
+            String jsonString = stringBuffer.append();
 
 
-            JSONObject jsonObject = new JSONObject(resultMap);
+//            jsonString4 = jsonString3.replaceAll();
+
+//            JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+
+            System.out.println(jsonString);
+
+//            for (int i = 0; i < itemList.size(); i++) {
+//
+//
+//
+//
+//
+//            }
 
 
 
 
-            for (int i = 0; i < jsonObject.size(); i++) {
-                pharmacyArr.add(jsonObject.get("data"));
-                System.out.println(pharmacyArr.get(i));
 
-            }
+//            JSONObject jsonObject = (JSONObject) parser.parse(itemList.get(1).get("data").toString());
 
 
 
 
+
+//            System.out.println(jsonObject);
+
+            System.out.println("야호");
+
+
+//            for (int i = 0; i < itemList.size(); i++) {
+//
+//
+//
+//                System.out.println("야호");
+//                String dutyAddr = mapJson.get("dutyAddr").toString();
+//                String dutyName = mapJson.get("dutyName").toString();
+//                String dutyTel1 = mapJson.get("dutyTel1").toString();
+//                String dutyTime1c = mapJson.get("dutyTime1c").toString();
+//                String dutyTime1s = mapJson.get("dutyTime1s").toString();
+//                String hpid = mapJson.get("hpid").toString();
+//                String rnum = mapJson.get("rnum").toString();
+//                String wgs84Lat = mapJson.get("wgs84Lat").toString();
+//                String wgs84Lon = mapJson.get("wgs84Lon").toString();
+//
+//                SinPharmarcyDto sinPharmarcyDto = new SinPharmarcyDto(dutyAddr, dutyName, dutyTel1, dutyTime1c, dutyTime1s, hpid, rnum, wgs84Lat, wgs84Lon);
+//
+//                sinWdbMapper.PharmacyToDB(sinPharmarcyDto);
+//
+//                sendPharmacyDB.add(sinPharmarcyDto);
+//            }
+
+
+
+//            System.out.println(pharmarcyDto);
 
 
         } catch (Exception e) {
@@ -194,10 +248,7 @@ public class SinJsonServiceImpl implements SinJsonService {
             resultMap.clear();
             resultMap.put("Result", "0001");
         }
-
-
-
-        return resultMap;
+        return sendPharmacyDB;
     }
 }
 

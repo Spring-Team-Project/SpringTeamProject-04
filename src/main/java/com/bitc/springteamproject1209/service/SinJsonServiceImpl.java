@@ -1,6 +1,10 @@
 package com.bitc.springteamproject1209.service;
 
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.XML;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,11 +14,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SinJsonServiceImpl implements SinJsonService {
+
+    //    실질적인 제이슨 처리
     @Override
     public List<Object> getJsonData() throws Exception {
 
@@ -24,8 +33,8 @@ public class SinJsonServiceImpl implements SinJsonService {
 
 //        추후 구현 : page값 변수화 하여 알아서 최대 페이지로 적용 do_while 사용
 
-        JSONArray dataArray = new JSONArray();
-        JSONObject obj, data = null;
+        JSONArray dataArray ;
+        JSONObject obj ;
         List<Object> filterList = new ArrayList<>();
 
         try {
@@ -60,9 +69,6 @@ public class SinJsonServiceImpl implements SinJsonService {
 //                obj = (JSONObject) dataArray;
 
 
-
-
-
                 for (int i = 0; i < dataArray.size(); ++i) {
                     JSONObject json = (JSONObject) dataArray.get(i);
 //                    System.out.println(json.get("시도"));
@@ -73,7 +79,6 @@ public class SinJsonServiceImpl implements SinJsonService {
 //                        filterList.add(dataArray.get(i));
 //                    }
                 }
-
 
 
                 System.out.println(filterList.size());
@@ -92,4 +97,107 @@ public class SinJsonServiceImpl implements SinJsonService {
 
         return filterList;
     }
+
+    //    실질적인 XMLtoJSON 처리
+    @Override
+    public Map<String, Object> XmlToJson() throws Exception {
+//        public Map<String, Object> getXmlToJson(@RequestParam Map<String, Object> paramMap) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        JSONObject pharmacyJson;
+        JSONArray pharmacyArr = new JSONArray();
+
+
+        String serviceKey = "79Z0nFPSpEV7l%2BHQq%2BtyPXRh2REhCZRobIFdETr8Aj2xMN63iUWl17quZvKKf7R4vQfZZZhDVikeYZHPD6X2Hg%3D%3D";
+        String ermctInsttInfoUrl = "http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire";//?_wadl&type=xml
+
+        try {
+
+            StringBuilder urlBuilder = new StringBuilder(ermctInsttInfoUrl);
+            urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + serviceKey);
+            urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=1");
+            urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=3");
+
+            URL url = new URL(urlBuilder.toString());
+
+            System.out.println("###url=>" + url);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json");
+            System.out.println("Response Code:" + conn.getResponseCode());
+
+
+            BufferedReader rd;
+            if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else {
+                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            conn.disconnect();
+
+            org.json.JSONObject xmlJSONObj = XML.toJSONObject(sb.toString());
+            String xmlJSONObjString = xmlJSONObj.toString();
+            System.out.println("### xmlJSONObjString=>" + xmlJSONObjString);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Object> map = new HashMap<>();
+            map = objectMapper.readValue(xmlJSONObjString, new TypeReference<Map<String, Object>>() {
+            });
+            Map<String, Object> dataResponse = (Map<String, Object>) map.get("response");
+            Map<String, Object> body = (Map<String, Object>) dataResponse.get("body");
+            Map<String, Object> items = null;
+            List<Map<String, Object>> itemList = null;
+
+            items = (Map<String, Object>) body.get("items");
+            itemList = (List<Map<String, Object>>) items.get("item");
+
+//            System.out.println("### map=" + map);
+//            System.out.println("### dataResponse=" + dataResponse);
+//            System.out.println("### body=" + body);
+//            System.out.println("### items=" + items);
+//            System.out.println("### itemList=" + itemList);
+
+            resultMap.put("Result", "0000");
+            resultMap.put("numOfRows", body.get("numOfRows"));
+            resultMap.put("pageNo", body.get("pageNo"));
+            resultMap.put("totalCount", body.get("totalCount"));
+            resultMap.put("data", itemList);
+
+//            JSONParser parser = new JSONParser();
+
+
+            JSONObject jsonObject = new JSONObject(resultMap);
+
+
+
+
+            for (int i = 0; i < jsonObject.size(); i++) {
+                pharmacyArr.add(jsonObject.get("data"));
+                System.out.println(pharmacyArr.get(i));
+
+            }
+
+
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultMap.clear();
+            resultMap.put("Result", "0001");
+        }
+
+
+
+        return resultMap;
+    }
 }
+

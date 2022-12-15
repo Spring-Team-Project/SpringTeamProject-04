@@ -47,8 +47,7 @@ public class SinWdbServiceImpl implements SinWdbService {
     }
 
 
-
-//    초기 뷰
+    //    초기 뷰
     @Override
     public List<SinJsonDto> HCMainList() throws Exception {
 
@@ -100,7 +99,112 @@ public class SinWdbServiceImpl implements SinWdbService {
 //            하나하나 꺼내기
                 JSONObject mapJson = (JSONObject) receiveJson.get(i);
 
-                if (UWord == null && telCode == null) {
+//               지역번호를 가지고 검색을 했을때
+                if (UWord != null && telCode != null) {
+                    String allTel = mapJson.get("대표전화번호").toString();
+                    String allAddr = mapJson.get("주소").toString();
+                    String compare = allTel.substring(0, 3);
+                    String compare2 = allTel.substring(0, 2);
+
+                    if (compare2.equals(telCode) && allAddr.contains(UWord)) {
+                        String sido = mapJson.get("시도").toString();
+                        String sigungu = mapJson.get("시군구").toString();
+                        String medicalType = mapJson.get("보건기관 유형").toString();
+                        String medicalName = mapJson.get("보건기관명").toString();
+                        String postCode = mapJson.get("우편번호").toString();
+                        String medicalAddr = mapJson.get("주소").toString();
+                        String eupmyeondong = mapJson.get("읍면동명").toString();
+                        String doseo = mapJson.get("도서지역여부").toString();
+                        String tel = mapJson.get("대표전화번호").toString();
+
+                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
+
+                        sendSinJsonDto.add(sinJsonDto);
+
+
+                    } else if (compare.equals(telCode) && allAddr.contains(UWord)) {
+                        String sido = mapJson.get("시도").toString();
+                        String sigungu = mapJson.get("시군구").toString();
+                        String medicalType = mapJson.get("보건기관 유형").toString();
+                        String medicalName = mapJson.get("보건기관명").toString();
+                        String postCode = mapJson.get("우편번호").toString();
+                        String medicalAddr = mapJson.get("주소").toString();
+                        String eupmyeondong = mapJson.get("읍면동명").toString();
+                        String doseo = mapJson.get("도서지역여부").toString();
+                        String tel = mapJson.get("대표전화번호").toString();
+
+                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
+
+                        sendSinJsonDto.add(sinJsonDto);
+                    }
+
+                }
+
+//                검색만 했을때
+                if (UWord != null && (telCode == null || telCode =="")) {
+                    String allAddr = mapJson.get("주소").toString();
+
+                    if (allAddr.contains(UWord)) {
+                        String sido = mapJson.get("시도").toString();
+                        String sigungu = mapJson.get("시군구").toString();
+                        String medicalType = mapJson.get("보건기관 유형").toString();
+                        String medicalName = mapJson.get("보건기관명").toString();
+                        String postCode = mapJson.get("우편번호").toString();
+                        String medicalAddr = mapJson.get("주소").toString();
+                        String eupmyeondong = mapJson.get("읍면동명").toString();
+                        String doseo = mapJson.get("도서지역여부").toString();
+                        String tel = mapJson.get("대표전화번호").toString();
+
+
+                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
+
+                        sendSinJsonDto.add(sinJsonDto);
+                    } else {
+                        continue;
+                    }
+                }
+
+//                지역번호만 있을때
+                if (UWord == null && telCode != null) {
+                    String allTel = mapJson.get("대표전화번호").toString();
+                    String compare = allTel.substring(0, 3);
+                    String compare2 = allTel.substring(0, 2);
+
+                    if (compare2.equals(telCode)) {
+                        String sido = mapJson.get("시도").toString();
+                        String sigungu = mapJson.get("시군구").toString();
+                        String medicalType = mapJson.get("보건기관 유형").toString();
+                        String medicalName = mapJson.get("보건기관명").toString();
+                        String postCode = mapJson.get("우편번호").toString();
+                        String medicalAddr = mapJson.get("주소").toString();
+                        String eupmyeondong = mapJson.get("읍면동명").toString();
+                        String doseo = mapJson.get("도서지역여부").toString();
+                        String tel = mapJson.get("대표전화번호").toString();
+
+                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
+
+                        sendSinJsonDto.add(sinJsonDto);
+
+                    } else if (compare.equals(telCode)) {
+                        String sido = mapJson.get("시도").toString();
+                        String sigungu = mapJson.get("시군구").toString();
+                        String medicalType = mapJson.get("보건기관 유형").toString();
+                        String medicalName = mapJson.get("보건기관명").toString();
+                        String postCode = mapJson.get("우편번호").toString();
+                        String medicalAddr = mapJson.get("주소").toString();
+                        String eupmyeondong = mapJson.get("읍면동명").toString();
+                        String doseo = mapJson.get("도서지역여부").toString();
+                        String tel = mapJson.get("대표전화번호").toString();
+
+                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
+
+                        sendSinJsonDto.add(sinJsonDto);
+                    }
+
+
+                }
+//                둘다 null 일 때
+                if (UWord == "" && telCode == "") {
 
                     String sido = mapJson.get("시도").toString();
                     String sigungu = mapJson.get("시군구").toString();
@@ -112,50 +216,11 @@ public class SinWdbServiceImpl implements SinWdbService {
                     String doseo = mapJson.get("도서지역여부").toString();
                     String tel = mapJson.get("대표전화번호").toString();
 
-
                     SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
 
                     sendSinJsonDto.add(sinJsonDto);
-
-                } else if (telCode != null) {
-
-                    String allTel = mapJson.get("대표전화번호").toString();
-                    String compare = allTel.substring(0,3);
-                    String compare2 = allTel.substring(0,2);
-
-                    if (compare2.equals(telCode)){
-                        String sido = mapJson.get("시도").toString();
-                        String sigungu = mapJson.get("시군구").toString();
-                        String medicalType = mapJson.get("보건기관 유형").toString();
-                        String medicalName = mapJson.get("보건기관명").toString();
-                        String postCode = mapJson.get("우편번호").toString();
-                        String medicalAddr = mapJson.get("주소").toString();
-                        String eupmyeondong = mapJson.get("읍면동명").toString();
-                        String doseo = mapJson.get("도서지역여부").toString();
-                        String tel = mapJson.get("대표전화번호").toString();
-
-                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
-
-                        sendSinJsonDto.add(sinJsonDto);
-
-                    }else if (compare.equals(telCode)) {
-                        String sido = mapJson.get("시도").toString();
-                        String sigungu = mapJson.get("시군구").toString();
-                        String medicalType = mapJson.get("보건기관 유형").toString();
-                        String medicalName = mapJson.get("보건기관명").toString();
-                        String postCode = mapJson.get("우편번호").toString();
-                        String medicalAddr = mapJson.get("주소").toString();
-                        String eupmyeondong = mapJson.get("읍면동명").toString();
-                        String doseo = mapJson.get("도서지역여부").toString();
-                        String tel = mapJson.get("대표전화번호").toString();
-
-                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
-
-                        sendSinJsonDto.add(sinJsonDto);
-
-
-                    }
                 }
+
             }
 
         } catch (Exception e) {
@@ -164,7 +229,6 @@ public class SinWdbServiceImpl implements SinWdbService {
 
         return sendSinJsonDto;
     }
-
 
 
 }

@@ -12,31 +12,51 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
     <script>
         $(document).ready(function () {
-            //
-            //     $('#btn_search').on('click',function (){
-            //         const searchWord = $('#search_bar').val();
-            //
-            //         $.ajax({
-            //             type:"post",
-            //             async: false,
-            //             url: "http://localhost:8080/wdb/hclist",
-            //             data: {userSearchWord : searchWord},
-            //             success: function (){
-            //                 alert("검색 성공")
-            //             },
-            //             error: function (){
-            //                 alert("검색 실패")
-            //             }
-            //         });
-            //     });
 
-            //
+
+                $('#btn_search').on('click',function (){
+                    const searchWord = $('#search_bar').val();
+                    let htmlTelCode = $('#tel_code option:selected').val();
+
+                    $.ajax({
+                        type:"get",
+                        async: false,
+                        url: "http://localhost:8080/wdb/hclist/filter",
+                        data: {userSearchWord : searchWord, telCode: htmlTelCode},
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $('#HCTable > tbody').empty();
+                                for (let i = 0; i < data.length; i++) {
+                                    let result = "<tr>";
+
+
+                                    result += "<td>" + data[i]["보건기관명"] + "</td>";
+                                    result += "<td>" + data[i]["주소"] + "</td>";
+
+                                    result += "</tr>";
+
+                                    $("#HCTable").append(result);
+                                }
+                            }else {
+                                $('#HCTable > tbody').empty();
+                            }
+
+                        },
+                        error: function (request, status, error) {
+                            alert("검색 실패")
+                            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+                        }
+                    });
+                });
+
+
 
             $('#tel_code').on('change', function () {
 
 
                 let htmlTelCode = $('#tel_code option:selected').val();
 
+                $('#search_bar').val(null);
 
                 $.ajax({
                     type: "get",

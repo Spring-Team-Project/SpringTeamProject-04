@@ -19,7 +19,7 @@ public class GwakReviewPageController {
   @RequestMapping(value = "/")
   public String index() throws Exception {
 
-    return "index";
+    return "main";
 
   }
 

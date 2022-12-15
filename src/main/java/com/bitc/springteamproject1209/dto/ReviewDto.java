@@ -16,5 +16,4 @@ public class ReviewDto {
     private String reCreateDate;
     private String reDeletedYn;
     private String reUpDateDate;
-
 }

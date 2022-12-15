@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>우리 동네 약국 목록</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+    <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+
+<body>
+<header th:replace="wdb/layout/Header :: mainHeader">
+</header>
+
+<main>
+    <div>
+        <h1>우리 동네 약국 목록 </h1>
+    </div>
+    <!--table-responsive : 반응형 표 영역 설정-->
+    <div class="table-responsive">
+        <!--table : 표 생성-->
+        <!--table-striped : 표에 스트라이프 행 추가-->
+        <!--table-dark : 어두운 테마의 테이블 생성-->
+        <!--table-success : 초로색 테마의 테이블 생성-->
+        <!--table-bordered : 테이블 테두리 생성-->
+        <table class="table table-bordered">
+            <tr>
+                <th>이름</th>
+                <th>효능</th>
+                <th>링크</th>
+            </tr>
+            <tr>
+                <th>블루베리</th>
+                <td>북아메리카를 비롯한 북반구 전역에 분포하는 식물 및 열매</td>
+                <td><button class="btn btn-primary"><a href="#">더 보기</a></button></td>
+            </tr>
+            <tr>
+                <th>마늘</th>
+                <td>이집트가 원산지인 여러해살이 외떡잎식물. 아스파라거스목 수선화과 부추아과 부추속에 속한다.</td>
+                <td><button class="btn btn-primary"><a href="#">더 보기</a></button></td>
+            </tr>
+            <tr>
+                <th>호두</th>
+                <td>원래 이름은 호도로, 생긴 게 복숭아 씨앗과 닮았는데 오랑캐 나라에서 들어온 복숭아</td>
+                <td><button class="btn btn-primary"><a href="#">더 보기</a></button></td>
+            </tr>
+            <tr>
+                <th>카카오</th>
+                <td>Cacao 속명 테오브로마는 그리스어 신과 음식의 합성어다.</td>
+                <td><button class="btn btn-primary"><a href="#">더 보기</a></button></td>
+            </tr>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="wdb/layout/Footer :: mainFooter">
+</footer>
+</body>
+</html>

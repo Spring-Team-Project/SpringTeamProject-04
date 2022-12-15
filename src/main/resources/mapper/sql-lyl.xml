@@ -6,4 +6,29 @@
 
 
 <mapper namespace="com.bitc.springteamproject1209.mapper.UpdateInfoMapper">
+
+    <select id="selectMemInfo" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+    <![CDATA[
+        SELECT mem_email, mem_id
+        FROM tblmember
+        WHERE deleted_yn = 'N'
+        ORDER BY mem_idx DESC
+        ]]>
+  </select>
+
+    <update id="updateInfo" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+         <![CDATA[
+        UPDATE tblmember
+        SET mem_pwd = #{memPwd}, mem_addr = #{memAddr}
+        WHERE mem_idx = #{memIdx}
+        ]]>
+    </update>
+
+    <update id="deleteInfo" parameterType="int">
+    <![CDATA[
+        UPDATE tblmember
+        SET mem_deleted_yn = 'Y'
+        WHERE mem_idx = #{mem_idx}
+        ]]>
+  </update>
 </mapper>

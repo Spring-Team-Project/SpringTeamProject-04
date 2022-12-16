@@ -33,7 +33,7 @@
 </head>
 <body>
 <main>
-  <h2 class="text-center mt-5" th:text="${name}"></h2>
+  <h2 class="text-center mt-5" th:text="${session.member.getMemId()} + '님의 마이페이지'"></h2>
   <br><br>
   <div class="container">
     <!--    enctype = ? -->
@@ -43,7 +43,7 @@
           <ul class="list-group">
             <button type="button" class="list-group-item d-flex justify-content-between align-items-center" id="btn-my-review">
               작성한 리뷰 확인
-              <h5><span class="badge rounded-pill bg-danger">15</span></h5>
+              <h5><span class="badge rounded-pill bg-danger"></span></h5>
             </button>
             <button type="button" class="list-group-item d-flex justify-content-between align-items-center justify-content-center" id="btn-edit-my-info">
               내 정보 수정

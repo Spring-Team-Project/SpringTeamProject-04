@@ -74,20 +74,6 @@ public class GwakReviewPageController {
     return "GwakLogin";
   }
 
-//  @ResponseBody
-//  @RequestMapping(value = "/loginAlert", method = RequestMethod.POST)
-//  public Object loginAlert(@RequestParam("loginId") String loginId, @RequestParam("loginPwd") String loginPwd, MemberDto memberDto) throws Exception {
-//    List<String> memberList = new ArrayList<>();
-//
-//    if (memberDto.getMemId().equals("loginId")) {
-//      memberList.add(loginId);
-//    } else {
-//      memberList.add(loginId);
-//    }
-//    return memberList;
-//  }
-
-
   @PostMapping("/loginIdCheck")
   @ResponseBody
   public Object loginIdCheck(@RequestParam("memId") String memId, @RequestParam("memPwd") String memPwd, HttpServletRequest request) {
@@ -108,6 +94,7 @@ public class GwakReviewPageController {
       return memberDto;
     }
   }
+
 
 
 }

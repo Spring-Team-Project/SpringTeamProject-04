@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>우리 동네 약국 목록</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+    <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn-ok").on("click", function () {
+                $.ajax({
+                    url: "pharmacyList",
+                    type: "post",
+                    data: {"page": $("#page").val(), "count": $("#count option:selected").val()},
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $("#openApiTable > tbody").empty();
+                            for (let i = 0; i < data.length; i++) {
+                                let result = "<tr>";
+                                result += "<td>" + data[i].dutyName + "</td>";
+                                result += "<td>" + data[i].dutyTel1 + "</td>";
+                                result += "<td>" + data[i].dutyAddr + "</td>";
+                                result += "<td>" + data[i].dutyTime1s + "</td>";
+                                result += "<td>" + data[i].dutyTime1c + "</td>";
+                                result += "</tr>";
+
+                                $("#openApiTable").append(result);
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert("통신 시 오류가 발생했습니다.");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<header th:replace="wdb/layout/Header :: mainHeader">
+</header>
+
+<main>
+    <div class="container mt-5 p-5">
+        <div>
+            <h1 class="text-start">전국 약국 정보</h1>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <table class="table table-hover table-striped" id="openApiTable">
+                    <thead>
+                    <tr>
+                        <th>상호명</th>
+                        <th>전화번호</th>
+                        <th>주소</th>
+                        <th>시작시간</th>
+                        <th>종료시간</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="5">조회된 내용이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-end form-floating">
+                    <input type="text" id="page" class="form-control" placeholder="숫자를 입력해주세요">
+                    <label for="page">페이지 번호</label>
+                    <select class="form-select" id="count">
+                        <option value="10" selected>10개</option>
+                        <option value="15">15개</option>
+                        <option value="20">20개</option>
+                        <option value="25">25개</option>
+                        <option value="30">30개</option>
+                        <option value="35">35개</option>
+                    </select>
+                    <button type="button" class="btn btn-primary " id="btn-ok">불러오기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="wdb/layout/Footer :: mainFooter">
+</footer>
+</body>
+</html>

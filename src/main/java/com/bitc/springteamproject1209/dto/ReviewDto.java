@@ -14,6 +14,10 @@ public class ReviewDto {
     private String reContents;
     private String reCreateDate;
     private String reDeletedYn;
+<<<<<<< HEAD
     private String reUpdateDate;
 
+=======
+    private String reUpDateDate;
+>>>>>>> lys2
 }

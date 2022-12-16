@@ -37,20 +37,26 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.1'
 // https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter
     implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5'
+<<<<<<< HEAD
 // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation 'commons-io:commons-io:2.11.0'
     // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
     implementation 'commons-fileupload:commons-fileupload:1.4'
+=======
+>>>>>>> lys2
 //     LeeYunSeong
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.3'
     implementation 'com.sun.xml.bind:jaxb-impl:2.3.3'
     implementation 'com.google.code.gson:gson:2.10'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
 >>>>>>> Gwak03
+=======
+>>>>>>> lys2
 }
 
 tasks.named('test') {

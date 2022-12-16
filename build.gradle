@@ -46,6 +46,11 @@ dependencies {
     implementation 'com.sun.xml.bind:jaxb-impl:2.3.3'
     implementation 'com.google.code.gson:gson:2.10'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> Gwak03
 }
 
 tasks.named('test') {

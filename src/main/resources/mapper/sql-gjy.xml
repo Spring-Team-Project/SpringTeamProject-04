@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- sql-gjy.xml : 마이바티스 실행을 위해 필요한 파일 -->
+
+<!-- mybatis SQL 매핑 파일을 뜻하는 지시문 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace 속성에 지정한 패키지명을 가지고 있는 파일과 아래의 xml 구문을 연동한다는 의미 -->
+<!-- ★★★ xml 파일이기 때문에 스프링 프로젝트의 전체 구조를 모르기 때문에 전체 패키지 명을 다 입력해야 함 ★★★ -->
+
+<mapper namespace="com.bitc.springteamproject1209.mapper.GwakPageMapper">
+    <!--    리뷰 모음 게시판 데이터 -->
+    <select id="selectReviewList" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        <![CDATA[
+        SELECT *
+        FROM review
+        ]]>
+    </select>
+
+    <select id="selectReviewListPage" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        <![CDATA[
+        SELECT *
+        FROM review
+        ]]>
+    </select>
+
+    <select id="idCheckSQL" parameterType="String" resultType="com.bitc.springteamproject1209.dto.MemberDto">
+        select *
+        From tblmember
+        where mem_id = #{memId} And mem_pwd = #{memPwd}
+    </select>
+
+    <select id="reviewQty" parameterType="int" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        select count(*) from review where re_id= #{memId};
+    </select>
+
+</mapper>

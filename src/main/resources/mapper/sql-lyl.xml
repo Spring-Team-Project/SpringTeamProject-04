@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <!-- sql-gjy.xml : 마이바티스 실행을 위해 필요한 파일 -->
+<!-- sql-gjy.xml : 마이바티스 실행을 위해 필요한 파일 -->
 
-    <!-- mybatis SQL 매핑 파일을 뜻하는 지시문 -->
+<!-- mybatis SQL 매핑 파일을 뜻하는 지시문 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.bitc.springteamproject1209.mapper.UpdateInfoMapper">
+<mapper namespace="com.bitc.springteamproject1209.mapper.LeeMemMapper">
 
-    <select id="selectMemInfo" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
-    <![CDATA[
-        SELECT mem_email, mem_id
+    <select id="selectMemInfo" resultType="com.bitc.springteamproject1209.dto.MemberDto">
+        SELECT *
         FROM tblmember
-        WHERE deleted_yn = 'N'
-        ORDER BY mem_idx DESC
-        ]]>
-  </select>
+        LIMIT 1
+    </select>
 
-    <update id="updateInfo" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+
+    <update id="updateInfo" parameterType="com.bitc.springteamproject1209.dto.MemberDto">
          <![CDATA[
         UPDATE tblmember
-        SET mem_pwd = #{memPwd}, mem_addr = #{memAddr}
-        WHERE mem_idx = #{memIdx}
+        SET mem_pwd  = #{memPwd}
+        WHERE mem_id = #{memId}
         ]]>
     </update>
 

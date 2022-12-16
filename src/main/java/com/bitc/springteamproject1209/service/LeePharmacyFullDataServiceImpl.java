@@ -23,7 +23,7 @@ public class LeePharmacyFullDataServiceImpl implements LeePharmacyFullDataServic
         LeePharmacyFullDataHeaderDto header = fullData.getHeader();
         LeePharmacyFullDataBodyDto body = fullData.getBody();
         LeePharmacyFullDataItemsDto items = body.getItems();
-//    사용자가 필요로 하는 데이터만 출력
+
         List<LeePharmacyFullDataItemDto> itemList = items.getItemList();
 
         return itemList;

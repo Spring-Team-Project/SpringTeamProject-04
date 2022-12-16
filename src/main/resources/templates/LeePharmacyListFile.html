@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container mt-5 p-5">
+  <div class="">
+    <h1 class="text-center">전국 약국 정보 xml 파일 파싱</h1>
+  </div>
+  <div class="row">
+    <div class="">
+      <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+          <th>상호명</th>
+          <th>전화번호</th>
+          <th>주소</th>
+          <th>시작시간</th>
+          <th>종료시간</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.size(pharmacyDatas)} > 0" th:each="item : ${pharmacyDatas}">
+          <td th:text="${item.dutyName}"></td>
+          <td th:text="${item.dutyTel1}"></td>
+          <td th:text="${item.dutyAddr}"></td>
+          <td th:text="${item.dutyTime1s}"></td>
+          <td th:text="${item.dutyTime1c}"></td>
+        </tr>
+        <tr th:unless="${#lists.size(pharmacyDatas)} > 0">
+          <td colspan="5">조회된 내용이 없습니다.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

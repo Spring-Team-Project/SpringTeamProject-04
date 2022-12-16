@@ -128,7 +128,7 @@ public class SinJsonServiceImpl implements SinJsonService {
 
             for (int i = 0; i <itemList.size(); i++) {
                 sinWdbMapper.PharmacyToDB(itemList.get(i));
-                
+
 
             }
 

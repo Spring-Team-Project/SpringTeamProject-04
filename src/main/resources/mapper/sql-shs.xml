@@ -26,9 +26,11 @@
     </select>
 
     <insert id="PharmacyToDB" parameterType="com.bitc.springteamproject1209.dto.SinPharmarcyDto">
-        INSERT INTO tblpharmacy (duty_name, duty_addr, duty_tel1, hp_id, duty_time_s, duty_time_c, wgs84_lat, wgs84_lon,
+        INSERT INTO tblpharmacy (duty_name, duty_addr, duty_tel1, hp_id, duty_time1s, duty_time1c,duty_time2s,duty_time2c,
+                                 duty_time3s,duty_time3c,duty_time4s,duty_time4c,duty_time5s,duty_time5c,duty_time6s,duty_time6c, wgs84_lat, wgs84_lon,
                                  r_num)
-        VALUES (#{dutyName}, #{dutyAddr}, #{dutyTel1}, #{hpid},#{dutyTime1s},#{dutyTime1c},#{wgs84Lat},#{wgs84Lon},#{rnum})
+        VALUES (#{dutyName}, #{dutyAddr}, #{dutyTel1}, #{hpid},#{dutyTime1s},#{dutyTime1c},#{dutyTime2s},#{dutyTime2c},
+                #{dutyTime3s},#{dutyTime3c},#{dutyTime4s},#{dutyTime4c},#{dutyTime5s},#{dutyTime5c},#{dutyTime6s},#{dutyTime6c},#{wgs84Lat},#{wgs84Lon},#{rnum})
     </insert>
 
 </mapper>

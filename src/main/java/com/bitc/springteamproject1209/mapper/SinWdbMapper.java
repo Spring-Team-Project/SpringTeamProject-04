@@ -1,11 +1,8 @@
 package com.bitc.springteamproject1209.mapper;
 
-import com.bitc.springteamproject1209.dto.SinPharmarcyDto;
+import com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto;
 import com.bitc.springteamproject1209.dto.SinRegistDto;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface SinWdbMapper {
@@ -17,5 +14,5 @@ public interface SinWdbMapper {
 
     int emailCheck(String userEmail) throws Exception;
 
-     void PharmacyToDB(SinPharmarcyDto sinPharmarcyDto) throws Exception;
+     void PharmacyToDB(LeePharmacyFullDataItemDto PharmarcyDto) throws Exception;
 }

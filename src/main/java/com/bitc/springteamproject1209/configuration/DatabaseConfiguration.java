@@ -11,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.sql.DataSource;
 
@@ -60,5 +61,6 @@ public class DatabaseConfiguration {
   public org.apache.ibatis.session.Configuration mybatisConfig() {
     return new org.apache.ibatis.session.Configuration();
   }
+
 
 }

@@ -2,9 +2,6 @@ package com.bitc.springteamproject1209.dto;
 
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Data
 public class ReviewDto {
@@ -14,10 +11,5 @@ public class ReviewDto {
     private String reContents;
     private String reCreateDate;
     private String reDeletedYn;
-<<<<<<< HEAD
     private String reUpdateDate;
-
-=======
-    private String reUpDateDate;
->>>>>>> lys2
 }

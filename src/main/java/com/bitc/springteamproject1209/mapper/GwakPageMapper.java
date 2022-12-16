@@ -13,7 +13,8 @@ public interface GwakPageMapper {
 
   Page<ReviewDto> selectReviewListPage() throws Exception;
 
-  MemberDto idCheckSQL(String memId, String memPwd);
+  MemberDto idCheckSQL(String memId, String memPwd) throws Exception ;
 
+  int rvQtySQL(String memId) throws Exception;
 
 }

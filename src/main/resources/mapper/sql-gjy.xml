@@ -29,7 +29,7 @@
         where mem_id = #{memId} And mem_pwd = #{memPwd}
     </select>
 
-    <select id="reviewQty" parameterType="int" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+    <select id="rvQtySQL" parameterType="String" resultType="int">
         select count(*) from review where re_id= #{memId};
     </select>
 

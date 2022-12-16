@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 
 @Controller
 public class GwakReviewPageController {
@@ -25,7 +26,7 @@ public class GwakReviewPageController {
     return "main";
   }
 
-  @RequestMapping(value = "/myPage")
+  @RequestMapping(value = "/myPage", method = RequestMethod.GET)
   public String myPage() throws Exception {
 
     return "GwakMyPage";
@@ -73,10 +74,9 @@ public class GwakReviewPageController {
 
   @PostMapping("/loginIdCheck")
   @ResponseBody
-  public Object loginIdCheck(@RequestParam("memId") String memId, @RequestParam("memPwd") String memPwd, HttpServletRequest request) {
+  public Object loginIdCheck(@RequestParam("memId") String memId, @RequestParam("memPwd") String memPwd, HttpServletRequest request) throws Exception {
     HttpSession session = request.getSession();
     MemberDto memberDto = gwakReviewBoardService.idCheckSQL(memId, memPwd);
-
 
 //    세션이 존재하면 없앰
     if (session.getAttribute("member") != null) {
@@ -92,6 +92,23 @@ public class GwakReviewPageController {
     }
   }
 
+  @PostMapping("/test")
+  @ResponseBody
+  public HashMap<String, String> test(@RequestParam("memId") String memId) throws Exception {
+    HashMap<String, String> data = new HashMap<>();
 
+    try {
+      int reviewCount = gwakReviewBoardService.rvQtySQL(memId);
+      String rvQty = String.valueOf(reviewCount);
+
+      data.put("memId", memId);
+      data.put("rvQty", rvQty);
+
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+
+    return data;
+  }
 
 }

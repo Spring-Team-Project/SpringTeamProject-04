@@ -14,7 +14,8 @@ public interface GwakReviewBoardService {
   Page<ReviewDto> selectReviewList(int pageNo) throws Exception;
 
 
-  MemberDto idCheckSQL(String memId, String memPwd);
+  MemberDto idCheckSQL(String memId, String memPwd) throws Exception ;
 
 
+  int rvQtySQL(String memId) throws Exception;
 }

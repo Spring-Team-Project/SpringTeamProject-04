@@ -32,8 +32,14 @@ public class GwakReviewBoardServiceImpl implements GwakReviewBoardService {
 
 
   @Override
-  public MemberDto idCheckSQL(String memId, String memPwd){
+  public MemberDto idCheckSQL(String memId, String memPwd) throws Exception {
     MemberDto memberDto = gwakPageMapper.idCheckSQL(memId, memPwd);
     return memberDto;
+  }
+
+  @Override
+  public int rvQtySQL(String memId) throws Exception {
+    int rvQty = gwakPageMapper.rvQtySQL(memId);
+    return rvQty;
   }
 }

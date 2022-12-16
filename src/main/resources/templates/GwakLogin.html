@@ -37,6 +37,24 @@
         })
       });
 
+      // $('#btn-login').on('click', function () {
+      //   let id = $("#loginId").val();
+      //   $.ajax({
+      //     type: "post",
+      //     url: "/test",
+      //     data: {memId: id},
+      //     success: function (data) {
+      //       location.href="/myPage";
+      //     },
+      //     error: function () {
+      //       alert("통신 실패");
+      //     }
+      //   })
+      // });
+
+
+
+
 
       $('#btn-test').on('click', function () {
         const frm = $('#frm')[0];
@@ -51,34 +69,31 @@
 <main class="container mt-5">
   <div class="row">
     <h2 class="text-center mt-5">로그인</h2>
-            <form action="/test" method="get" id="frm">
-    <div class="col-sm-6 mx-auto">
-      <div class="form-floating my-3">
-        <input type="text" class="form-control" id="loginId" name="loginId" placeholder="아이디를 입력하세요">
-        <label for="loginId">아이디</label>
-        <span id="id_check"></span>
+    <form action="/test" method="get" id="frm">
+      <div class="col-sm-6 mx-auto">
+        <div class="form-floating my-3">
+          <input type="text" class="form-control" id="loginId" name="loginId" placeholder="아이디를 입력하세요">
+          <label for="loginId">아이디</label>
+          <span id="id_check"></span>
+        </div>
+        <div class="form-floating my-3">
+          <input type="password" class="form-control" id="loginPwd" name="loginPwd" placeholder="비밀번호를 입력하세요">
+          <label for="loginPwd">비밀번호</label>
+        </div>
+        <div class="d-grid">
+          <button type="button" class="form-floating mt-3 btn btn-info" id="btn-login" th:type="button"
+                  style="font-size: medium; font-weight: normal">로그인
+          </button>
+          <!--          병합 후 수정 : href = 회원가입 페이지가 나오는 Controller 경로-->
+          <button type="button" class="form-floating my-3 btn btn-success" id="btn-join" th:href="login"
+                  style="font-size: medium; font-weight: normal">회원가입
+          </button>
+          <button type="button" class="form-floating btn btn-dark" id="btn-back"
+                  style="background-color: rgb(128,128,128); font-size: medium; font-weight: normal">돌아가기
+          </button>
+        </div>
       </div>
-      <div class="form-floating my-3">
-        <input type="password" class="form-control" id="loginPwd" name="loginPwd" placeholder="비밀번호를 입력하세요">
-        <label for="loginPwd">비밀번호</label>
-      </div>
-      <div class="d-grid">
-        <button type="button" class="form-floating mt-3 btn btn-info" id="btn-login" th:type="button"
-                style="font-size: medium; font-weight: normal">로그인
-        </button>
-        <!--          병합 후 수정 : href = 회원가입 페이지가 나오는 Controller 경로-->
-        <button type="button" class="form-floating my-3 btn btn-success" id="btn-join" th:href="login"
-                style="font-size: medium; font-weight: normal">회원가입
-        </button>
-        <button type="button" class="form-floating btn btn-dark" id="btn-back"
-                style="background-color: rgb(128,128,128); font-size: medium; font-weight: normal">돌아가기
-        </button>
-        <button type="button" class="form-floating btn btn-dark mt-5" id="btn-test"
-                style="background-color: rgb(128,128,128); font-size: medium; font-weight: normal">테스트로그인버튼
-        </button>
-      </div>
-    </div>
-        </form>
+    </form>
   </div>
 </main>
 </body>

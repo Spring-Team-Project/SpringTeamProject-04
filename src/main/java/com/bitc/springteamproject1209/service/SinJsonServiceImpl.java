@@ -67,20 +67,51 @@ public class SinJsonServiceImpl implements SinJsonService {
 
                 dataArray = (JSONArray) obj.get("data");
 
-//                System.out.println(dataArray.get(1));
 
-//                obj = (JSONObject) dataArray;
+//                의료기관 DB화 코드 시작
+                try {
+                    for (int i = 0; i < dataArray.size(); ++i) {
+//            하나하나 꺼내기
+                        JSONObject mapJson = (JSONObject) dataArray.get(i);
+
+                        String sido = mapJson.get("시도").toString();
+                        String sigungu = mapJson.get("시군구").toString();
+                        String medicalType = mapJson.get("보건기관 유형").toString();
+                        String medicalName = mapJson.get("보건기관명").toString();
+                        String postCode = mapJson.get("우편번호").toString();
+                        String medicalAddr = mapJson.get("주소").toString();
+                        String eupmyeondong = mapJson.get("읍면동명").toString();
+                        String doseo = mapJson.get("도서지역여부").toString();
+                        String tel = mapJson.get("대표전화번호").toString();
+
+                        SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
 
 
+                        sinWdbMapper.HealthCenterDB(sinJsonDto);
+                    }
+
+                    System.out.println("db 데이터 입력 성공");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("db 데이터 입력 실패");
+                }
+
+//                의료기관 DB화 코드 종료
+
+
+
+
+
+
+
+//                보건소 만 필터링 코드 시작
                 for (int i = 0; i < dataArray.size(); ++i) {
                     JSONObject json = (JSONObject) dataArray.get(i);
 //                    System.out.println(json.get("시도"));
                     if ("보건소".equals(json.get("보건기관 유형"))) {
                         filterList.add(dataArray.get(i));
                     }
-//                    if ("보건소".contains(json.get("주소"))) {
-//                        filterList.add(dataArray.get(i));
-//                    }
+//
                 }
 
 
@@ -92,6 +123,7 @@ public class SinJsonServiceImpl implements SinJsonService {
                 e.printStackTrace();
             }
 
+//            보건소 만 필터링 코드 종료
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,6 +133,9 @@ public class SinJsonServiceImpl implements SinJsonService {
         return filterList;
     }
 
+
+
+//    약국 DB화 코드
     @Override
     public void getItemListUrl(String strUrl) {
 

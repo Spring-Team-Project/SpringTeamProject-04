@@ -1,6 +1,7 @@
 package com.bitc.springteamproject1209.mapper;
 
 import com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto;
+import com.bitc.springteamproject1209.dto.SinJsonDto;
 import com.bitc.springteamproject1209.dto.SinRegistDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +16,6 @@ public interface SinWdbMapper {
     int emailCheck(String userEmail) throws Exception;
 
      void PharmacyToDB(LeePharmacyFullDataItemDto PharmarcyDto) throws Exception;
+
+    void HealthCenterDB(SinJsonDto sinJsonDto) throws Exception;
 }

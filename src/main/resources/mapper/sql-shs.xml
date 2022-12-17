@@ -33,4 +33,11 @@
                 #{dutyTime3s},#{dutyTime3c},#{dutyTime4s},#{dutyTime4c},#{dutyTime5s},#{dutyTime5c},#{dutyTime6s},#{dutyTime6c},#{wgs84Lat},#{wgs84Lon},#{rnum})
     </insert>
 
+    <insert id="HealthCenterDB" parameterType="com.bitc.springteamproject1209.dto.SinJsonDto">
+        INSERT INTO tblhealthcenter (medical_sido,medical_sigungu,medical_type,medical_name,medical_post_code,medical_addr,medical_tel,medical_eupmyeondong)
+        VALUES (#{sido},#{sigungu},#{medicalType},#{medicalName},#{postCode},#{medicalAddr},#{tel},#{eupmyeondong})
+    </insert>
+
+
+
 </mapper>

@@ -21,6 +21,11 @@
         history.back();
       });
 
+      $('#btn-all').on('click', function () {
+        // history.back();
+        location.href="/GwakReviewBoardPage";
+      });
+
       $('#btn-my-review').on('click', function () {
         const frm = $('#frm')[0]; // [0] <- form 객체의 첫번째 것을 찾는다는 뜻. 안써도 상관없음(form 태그가 여러개 사용하는 페이지에서 사용)
         frm.action = '/myReviewPage';
@@ -73,6 +78,10 @@
                     class="list-group-item d-flex justify-content-between align-items-center justify-content-center"
                     id="btn-edit-my-info">
               내 정보 수정
+            </button>
+            <button type="button" class="list-group-item d-flex justify-content-between align-items-center"
+                    id="btn-all">
+              전체 리뷰 보기
             </button>
             <button type="button" class="list-group-item d-flex justify-content-between align-items-center"
                     id="btn-back">

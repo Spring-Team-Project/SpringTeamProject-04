@@ -6,8 +6,10 @@ import com.github.pagehelper.Page;
 
 import java.util.List;
 
-public interface GwakReviewBoardService {
+public interface GwakService {
 
+
+  public void deleteBoard(int reIdx) throws Exception;
 
   List<ReviewDto> selectReviewList() throws Exception;
 

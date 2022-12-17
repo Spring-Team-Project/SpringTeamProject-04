@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface GwakPageMapper {
+public interface GwakMapper {
   List<ReviewDto> selectReviewList() throws Exception;
 
   Page<ReviewDto> selectReviewListPage() throws Exception;
@@ -17,4 +17,5 @@ public interface GwakPageMapper {
 
   int rvQtySQL(String memId) throws Exception;
 
+  void deleteBoard(int reIdx) throws Exception;
 }

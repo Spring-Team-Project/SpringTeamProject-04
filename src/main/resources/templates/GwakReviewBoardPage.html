@@ -11,12 +11,28 @@
 <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
   <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    const memberId = [[${session.member.memId}]];
+    /*]]>*/
+
+  </script>
+
+  <script>
+
+    // if(listReId.equals('aaa')) {
+    //   letsReIdYn = "Y";
+    // }
+  </script>
+
+
 </head>
 <body>
 <div class="container mt-5">
   <div class="row">
     <h2 class="text-center mb-5">리뷰 모음 & 공지사항 게시판</h2>
-
+    <h2 th:text="${session.member.getMemId()}"></h2>
+    <h2></h2>
     <div class="col-sm">
 <!--      아코디언 시작 -->
       <div class="accordion" id="accordionExample">
@@ -45,9 +61,6 @@
               이점 서비스 이용에 참고하시길 바랍니다.<br>
               보다 안정적인 서비스를 위해 준비 과정이오니 많은 양해 바랍니다.<br>
               <code>* 작업시간 : 2022년 12월 17일(화) 새벽 00:00 ~ 02:00</code>
-              <input type="text" id="input1">
-              <label for="input1">테스트</label>
-              <img src="/static/Gwakimg/Ari1.jpg" alt="..11.">
             </div>
           </div>
         </div>
@@ -61,6 +74,7 @@
         <colgroup>
           <col width="10%">
           <col width="40%">
+          <col width="10%">
           <col width="15%">
           <col width="10%">
         </colgroup>
@@ -68,27 +82,34 @@
         <tr>
           <th scope="col">글번호</th>
           <th>한 줄 리뷰</th>
+          <th>작성자</th>
           <th>등록일</th>
           <th>수정/삭제</th>
         </tr>
         </thead>
         <tbody>
+<!--        th:if="${session.member.getMemId() == ${memberId}}"-->
         <!--                dataList : 변수명(Controller 에서 ModelAndView 객체에 저장한 변수병과 데이터)        -->
         <!--                each : ${dataList}에서 데이터를 끄집어내서 list 에 넣는작업 반복실행 (for:in) 문.    -->
-        <tr th:if="${#lists.size(reviewBoardList.getList())} > 0" th:each="list : ${reviewBoardList.getList()}">
+        <tr th:if="${#lists.size(reviewBoardList.getList()) > 0}" th:each="list : ${reviewBoardList.getList()}">
           <td th:text="${list.reIdx}"></td>
           <!--          <td>-->
           <!--            a 태그 속성에서 빼옴 : href="/openBoardDetail?reIdx=" th:attrappend="href=${list.reIdx}" -->
           <!--            <a style="color: black" class="text-decoration-none" th:text="${list.reId}"></a>-->
           <!--          </td>-->
           <td th:text="${list.reContents}"></td>
+          <td th:text="${list.reId}" id="list-reId"></td>
           <td th:text="${list.reCreateDate}"></td>
           <td>
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-outline-warning btn-sm">EDIT</button>
-              <button type="button" class="btn btn-outline-danger btn-sm">DELETE</button>
-            </div>
+<!--            <a href="/review/edit/" th:attrappend="href=${list.reIdx}" th:text="수정" class="text-decoration-none"></a>-->
+            <a href="/review/delete/" th:attrappend="href=${list.reIdx}" th:text="삭제" class="text-decoration-none"></a>
           </td>
+<!--          <td>-->
+<!--            <div class="btn-group" role="group" aria-label="Basic example">-->
+<!--              <button type="button" class="btn btn-outline-warning btn-sm">EDIT</button>-->
+<!--              <button type="button" class="btn btn-outline-danger btn-sm">DELETE</button>-->
+<!--            </div>-->
+<!--          </td>-->
         </tr>
         <!--                unless: if의 반대(else를 의미). if의 조건과 동일하게 써줘야 함 : false일 때 실행되는 부분 -->
         <tr th:unless="${#lists.size(reviewBoardList.getList())} > 0">
@@ -96,6 +117,7 @@
         </tr>
         </tbody>
       </table>
+
       <nav>
         <ul class="pagination justify-content-center">
           <!--                    이전 페이지 버튼 -->

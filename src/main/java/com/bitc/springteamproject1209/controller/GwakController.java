@@ -2,7 +2,7 @@ package com.bitc.springteamproject1209.controller;
 
 import com.bitc.springteamproject1209.dto.MemberDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
-import com.bitc.springteamproject1209.service.GwakReviewBoardService;
+import com.bitc.springteamproject1209.service.GwakService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,10 +14,10 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 @Controller
-public class GwakReviewPageController {
+public class GwakController {
 
   @Autowired
-  private GwakReviewBoardService gwakReviewBoardService; //이걸 넣으니 문제 해결됨
+  private GwakService gwakService; //이걸 넣으니 문제 해결됨
 
 
   @RequestMapping(value = "/mainPage")
@@ -59,7 +59,7 @@ public class GwakReviewPageController {
     // html 파일이 있는 위치(resources-templates 는 스프링에서 고정이기 때문에 그 아래의 폴더만 써주면 됨)
     ModelAndView mv = new ModelAndView("GwakReviewBoardPage");
 
-    PageInfo<ReviewDto> reviewBoardList = new PageInfo<>(gwakReviewBoardService.selectReviewList(pageNum), 3);
+    PageInfo<ReviewDto> reviewBoardList = new PageInfo<>(gwakService.selectReviewList(pageNum), 3);
     mv.addObject("reviewBoardList", reviewBoardList);
 
     return mv; // html 파일의 데이터가 들어가면서 그것을 클라이언트에 보낸다 -> 웹 브라우저로 다시 뿌림
@@ -76,7 +76,7 @@ public class GwakReviewPageController {
   @ResponseBody
   public Object loginIdCheck(@RequestParam("memId") String memId, @RequestParam("memPwd") String memPwd, HttpServletRequest request) throws Exception {
     HttpSession session = request.getSession();
-    MemberDto memberDto = gwakReviewBoardService.idCheckSQL(memId, memPwd);
+    MemberDto memberDto = gwakService.idCheckSQL(memId, memPwd);
 
 //    세션이 존재하면 없앰
     if (session.getAttribute("member") != null) {
@@ -98,7 +98,7 @@ public class GwakReviewPageController {
     HashMap<String, String> data = new HashMap<>();
 
     try {
-      int reviewCount = gwakReviewBoardService.rvQtySQL(memId);
+      int reviewCount = gwakService.rvQtySQL(memId);
       String rvQty = String.valueOf(reviewCount);
 
       data.put("memId", memId);
@@ -111,4 +111,14 @@ public class GwakReviewPageController {
     return data;
   }
 
+//  리뷰모음 게시판 - 수정버튼 클릭시
+
+  @GetMapping(value = "review/delete/{reIdx}") // 삭제는 DELETE
+  public String deleteBoard(@PathVariable("reIdx") int reIdx) throws Exception {
+//        System.out.println("--------------------------------------");
+//        System.out.println("deleteBoard : " + idx);
+    gwakService.deleteBoard(reIdx);
+
+  return "GwakMyPage";
+}
 }

@@ -29,4 +29,5 @@
         WHERE mem_idx = #{mem_idx}
         ]]>
   </update>
+
 </mapper>

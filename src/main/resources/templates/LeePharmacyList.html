@@ -41,6 +41,15 @@
             });
         });
     </script>
+    <script>
+        function viewDetail() {
+            $.ajax({
+                url:"/pharmacyDetail",
+                type:"post",
+                data:{data[]}
+            })
+        }
+    </script>
 </head>
 <body>
 <header th:replace="layout/Header :: mainHeader">

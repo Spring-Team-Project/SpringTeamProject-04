@@ -6,12 +6,14 @@ import com.bitc.springteamproject1209.service.GwakService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class GwakController {
@@ -34,11 +36,11 @@ public class GwakController {
 
 
   //  삭제예정 ) 내가 쓴 리뷰 페이지
-  @RequestMapping(value = "/myReviewPage")
-  public String myReviewPage() throws Exception {
-
-    return "GwakMyReviewPage";
-  }
+//  @RequestMapping(value = "/myReviewPage")
+//  public String myReviewPage() throws Exception {
+//
+//    return "GwakMyReviewPage";
+//  }
 
 
   //  삭제예정 ) 내 정보 수정 페이지
@@ -71,6 +73,12 @@ public class GwakController {
 
     return "GwakLogin";
   }
+
+//  @RequestMapping(value = "/GwakMyReviewPage")
+//  public String GwakMyReviewPage() throws Exception {
+//
+//    return "GwakMyReviewPage";
+//  }
 
   @PostMapping("/loginIdCheck")
   @ResponseBody
@@ -121,4 +129,41 @@ public class GwakController {
 
   return "GwakMyPage";
 }
+
+
+//  @RequestMapping(value = "/myReviewList/{reId}", method = RequestMethod.GET)
+//  public ModelAndView getmyReviewList(@PathVariable("reId") String reId) throws Exception {
+//    ModelAndView mv = new ModelAndView("GwakMyReviewPage");
+//    List<ReviewDto> myReviewList = gwakService.selectMyReviewList(reId); // 서비스로 간
+//    mv.addObject("myReviewList",myReviewList);
+//
+//    return mv;
+//  }
+
+
+//  리뷰 가져오기
+  @PostMapping("/myReviewList")
+  @ResponseBody
+  public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
+
+    HttpSession session = request.getSession();
+
+    List<ReviewDto> reviewList = gwakService.selectMyReviewList(reId);
+
+    if (session.getAttribute("reviews") != null){
+      session.removeAttribute("reviews");
+    }
+    session.setAttribute("reviews", reviewList);
+
+    if (reviewList == null) {
+      return 0;
+    } else {
+      return reviewList;
+    }
+  }
+  @RequestMapping("/GwakMyReviewPage")
+  public String GwakMyReviewPage() {
+
+    return "GwakMyReviewPage";
+  }
 }

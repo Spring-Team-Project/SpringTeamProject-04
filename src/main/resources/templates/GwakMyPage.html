@@ -26,11 +26,12 @@
         location.href="/GwakReviewBoardPage";
       });
 
-      $('#btn-my-review').on('click', function () {
-        const frm = $('#frm')[0]; // [0] <- form 객체의 첫번째 것을 찾는다는 뜻. 안써도 상관없음(form 태그가 여러개 사용하는 페이지에서 사용)
-        frm.action = '/myReviewPage';
-        frm.submit();
-      });
+      // $('#btn-my-review').on('click', function () {
+      //   // const frm = $('#frm')[0];
+      //   // action으로 넘겨줄때 memberId도 함께 넘겨줌
+      //   location.href="/myReviewLists;
+      // });
+
 
       $('#btn-edit-my-info').on('click', function () {
         const frm = $('#frm')[0];
@@ -58,6 +59,28 @@
       });
     }
   </script>
+  <script>
+    function getId() {
+      console.log("테스트")
+      var id = $("#Id").val();
+      console.log(id);
+      var btn_review = $("#btn-my-review");
+      $.ajax({
+        url:"/myReviewList",
+        type: "post",
+        data:{reId:id},
+        success:function (data) {
+          if (data == 0) {
+            alert("작성한 리뷰가 없습니다.");
+          } else {
+            location.href="/GwakMyReviewPage";
+          }
+        }, error: function () {
+          alert("통신 실패");
+        }
+      })
+    }
+  </script>
 </head>
 <body>
 <main>
@@ -66,11 +89,12 @@
   <div class="container">
     <!--    enctype = ? -->
     <form method="post" enctype="multipart/form-data" id="frm">
+      <input hidden id="Id" th:value="${session.member.memId}">
       <div class="row-cols-2">
         <div class="col mx-auto">
           <ul class="list-group">
             <button type="button" class="list-group-item d-flex justify-content-between align-items-center"
-                    id="btn-my-review">
+                    id="btn-my-review" onclick="getId()">
               작성한 리뷰 확인
               <h5><span class="badge rounded-pill bg-danger" id="rvQty"></span></h5>
             </button>
@@ -91,6 +115,10 @@
         </div>
       </div>
     </form>
+  </div>
+  <div style="float:right;" th:with="username='aaa'">
+    <a type="button" class="btn btn-primary">취소</a>
+    <button class="btn btn-primary" th:if="${#strings.equals(session.member.getMemId(), username)}">수정</button>
   </div>
 </main>
 </body>

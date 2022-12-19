@@ -13,9 +13,13 @@ public interface GwakMapper {
 
   Page<ReviewDto> selectReviewListPage() throws Exception;
 
-  MemberDto idCheckSQL(String memId, String memPwd) throws Exception ;
+  MemberDto idCheckSQL(String memId, String memPwd) throws Exception;
 
   int rvQtySQL(String memId) throws Exception;
 
   void deleteBoard(int reIdx) throws Exception;
+
+
+  //  List<ReviewDto> selectMyReviewList(String reId) throws Exception;
+  List<ReviewDto> selectMyReviewList(String reId);
 }

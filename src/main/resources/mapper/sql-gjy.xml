@@ -28,17 +28,38 @@
     <select id="idCheckSQL" parameterType="String" resultType="com.bitc.springteamproject1209.dto.MemberDto">
         select *
         From tblmember
-        where mem_id = #{memId} And mem_pwd = #{memPwd}
+        where mem_id = #{memId}
+          And mem_pwd = #{memPwd}
     </select>
 
     <select id="rvQtySQL" parameterType="String" resultType="int">
-        select count(*) from review where re_id= #{memId};
+        select count(*)
+        from review
+        where re_id = #{memId};
     </select>
 
-<!--    리뷰모음 게시판 삭제버튼 -->
+    <!--    리뷰모음 게시판 삭제버튼 -->
     <update id="deleteBoard" parameterType="int">
         UPDATE review
         SET re_deleted_yn = 'Y'
         WHERE re_idx = #{reIdx}
     </update>
+
+
+<!--    <select id="selectMyReviewList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">-->
+<!--        <![CDATA[-->
+<!--        SELECT *-->
+<!--        FROM review-->
+<!--        WHERE re_deleted_yn = 'N'-->
+<!--          and re_Id = #{reId}-->
+<!--        ]]>-->
+<!--    </select>-->
+
+    <select id="selectMyReviewList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT *
+        FROM review
+        WHERE re_deleted_yn = 'N'
+          and re_Id = #{reId}
+    </select>
+
 </mapper>

@@ -45,4 +45,17 @@ public class GwakServiceImpl implements GwakService {
     int rvQty = gwakMapper.rvQtySQL(memId);
     return rvQty;
   }
+
+  @Override
+  public List<ReviewDto> selectMyReviewList(String reId){
+    List<ReviewDto> reviewList = gwakMapper.selectMyReviewList(reId);
+    return reviewList;
+  }
+
+//  @Override
+//  public List<ReviewDto> selectMyReviewList(String reId) throws Exception {
+//    return gwakMapper.selectMyReviewList(reId);
+//  }
+
+
 }

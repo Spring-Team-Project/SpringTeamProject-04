@@ -20,4 +20,12 @@ public interface GwakService {
 
 
   int rvQtySQL(String memId) throws Exception;
+
+//  List<ReviewDto> selectMyReviewList(String reId) throws Exception;
+
+//  ReviewDto myReviewList(String reId) throws Exception;
+
+  List<ReviewDto> selectMyReviewList(String reId);
+
+
 }

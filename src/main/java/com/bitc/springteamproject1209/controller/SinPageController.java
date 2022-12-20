@@ -1,8 +1,6 @@
 package com.bitc.springteamproject1209.controller;
 
-import com.bitc.springteamproject1209.dto.SinJsonDto;
-import com.bitc.springteamproject1209.dto.SinRegistDto;
-import com.bitc.springteamproject1209.dto.SinTelCode;
+import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.service.SinWdbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +21,8 @@ public class SinPageController {
 
     @Autowired
     private SinWdbService sinWdbService;
-
+//@@@@@@@@@@@@@ [메인 화면] @@@@@@@@@@@@@@
+//--------------------------------------------------------------------------------------------------------------
 
     // 임시 메인화면
     @GetMapping("/main")
@@ -34,10 +33,13 @@ public class SinPageController {
         return mv;
     }
 
+//--------------------------------------------------------------------------------------------------------------
 
+    //@@@@@@@@@@@@@ [폐 기] @@@@@@@@@@@@@@
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //  보건소 목록 전체 뷰
-    @GetMapping("/hclist")
-    public ModelAndView HCView()throws Exception{
+    @GetMapping("/trash/disuse")
+    public ModelAndView HCView() throws Exception {
         ModelAndView mv = new ModelAndView("wdb/HCList");
 
         List<SinJsonDto> HCList = sinWdbService.HCMainList();
@@ -48,23 +50,85 @@ public class SinPageController {
     }
 
 
-
-    //  보건소 데이터
-    @ResponseBody
-    @GetMapping("/hclist/filter")
+    //  보건소 데이터  API로 뿌리기 (현재 폐기)
+    @GetMapping("/trash/disuse/filter")
     public List<SinJsonDto> HCList(@RequestParam(value = "userSearchWord", required = false) String userSearchWord, @RequestParam(value = "telCode", required = false) String telCode) throws Exception {
 
 
-            List<SinJsonDto> HCList = sinWdbService.HCList(userSearchWord,telCode);
+        return sinWdbService.HCList(userSearchWord, telCode);
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    //@@@@@@@@@@@@@ [보 건 소] @@@@@@@@@@@@@@
+//--------------------------------------------------------------------------------------------------------------
 
-        return HCList;
+    @GetMapping("/hclist")
+    //    보건소 목록 뷰
+    public ModelAndView HCListView() throws Exception {
+        ModelAndView mv = new ModelAndView("wdb/HCDBList");
+
+        List<SinHCDto> HCDBList = sinWdbService.HCDBList();
+
+        mv.addObject("HCDBList", HCDBList);
+
+
+        return mv;
+
+    }
+
+    //    지역번호 와 검색 모두
+    @GetMapping("/hclist/filter")
+    public List<SinHCDto> HCFilterList(@RequestParam(value = "userSearchWord") String userSearchWord, @RequestParam(value = "telCode") String telCode) throws Exception {
+
+        return sinWdbService.HCFilterList(userSearchWord, telCode);
+    }
+
+    //    지역번호만
+    @GetMapping("/hclist/telfilter")
+    public List<SinHCDto> HCTelFilter(@RequestParam(value = "telCode") String telcode) throws Exception {
+
+        return sinWdbService.HCTelFilter(telcode);
+    }
+
+
+    //    상세 페이지 뷰
+
+    @GetMapping("/hclist/{idx}")
+    public ModelAndView openHCDetail(@PathVariable("idx") int idx) throws Exception {
+        ModelAndView mv = new ModelAndView("wdb/HCDetail");
+
+
+        SinHCDto sinHCDto = sinWdbService.selectHCDetail(idx);
+
+        mv.addObject("HCDetail",sinHCDto);
+
+        return mv;
+    }
+
+    //  리뷰 작성
+    @PostMapping("/reviewInsert")
+    public void reviewInsert(ReviewDto reviewDto) throws Exception{
+
+        try {
+            sinWdbService.insertUserReview(reviewDto);
+            System.out.println("리뷰 작성 성공");
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("리뷰 작성 실패");
+        }
     }
 
 
 
 
+
+
+
+
+    //@@@@@@@@@@@@@ [회 원 가 입] @@@@@@@@@@@@@@
+//--------------------------------------------------------------------------------------------------------------
 
 
     //  회원가입 뷰
@@ -98,7 +162,6 @@ public class SinPageController {
         return emailCheck;
     }
 
-
     @PostMapping("/user/signup/success")
     // 예외처리 성공시 회원가입 db 등록
     public ResponseEntity<?> insertUser(SinRegistDto sinRegistDto) throws Exception {
@@ -120,6 +183,7 @@ public class SinPageController {
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
+//--------------------------------------------------------------------------------------------------------------
 
     //  select box 채우기 thymeleaf 방식
     @ModelAttribute("SinTelCode")
@@ -146,6 +210,8 @@ public class SinPageController {
         return sinTelCodes;
 
     }
+
+//--------------------------------------------------------------------------------------------------------------
 
 
 //  테스팅 페이지

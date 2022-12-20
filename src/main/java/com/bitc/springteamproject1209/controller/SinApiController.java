@@ -41,6 +41,15 @@ public class SinApiController {
 
     }
 
+
+
+//--------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+//    약국 데이터 가져오는 컨트롤러
     @GetMapping("/medi/insert")
     public void XmlToJson() throws Exception {
 

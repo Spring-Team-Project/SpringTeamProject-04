@@ -26,7 +26,12 @@ public class SinJsonServiceImpl implements SinJsonService {
     SinWdbMapper sinWdbMapper;
 
 
-    //    실질적인 제이슨 처리
+
+    //--------------------------------------------------------------------------------------------------------------
+
+
+
+    //    실질적인 Json 서비스
     @Override
     public List<Object> getJsonData() throws Exception {
 
@@ -87,7 +92,7 @@ public class SinJsonServiceImpl implements SinJsonService {
                         SinJsonDto sinJsonDto = new SinJsonDto(sido, sigungu, medicalType, medicalName, postCode, medicalAddr, eupmyeondong, doseo, tel);
 
 
-                        sinWdbMapper.HealthCenterDB(sinJsonDto);
+                        sinWdbMapper.HealthCenterToDB(sinJsonDto);
                     }
 
                     System.out.println("db 데이터 입력 성공");
@@ -134,6 +139,10 @@ public class SinJsonServiceImpl implements SinJsonService {
     }
 
 
+//--------------------------------------------------------------------------------------------------------------
+
+
+
 
 //    약국 DB화 코드
     @Override
@@ -176,6 +185,7 @@ public class SinJsonServiceImpl implements SinJsonService {
         }finally {
             if (urlConn != null){urlConn.disconnect();}
         }
+
 
 
 

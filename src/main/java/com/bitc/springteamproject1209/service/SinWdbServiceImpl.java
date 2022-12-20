@@ -1,5 +1,7 @@
 package com.bitc.springteamproject1209.service;
 
+import com.bitc.springteamproject1209.dto.ReviewDto;
+import com.bitc.springteamproject1209.dto.SinHCDto;
 import com.bitc.springteamproject1209.dto.SinJsonDto;
 import com.bitc.springteamproject1209.dto.SinRegistDto;
 import com.bitc.springteamproject1209.mapper.SinWdbMapper;
@@ -13,14 +15,21 @@ import java.util.List;
 @Service
 public class SinWdbServiceImpl implements SinWdbService {
 
+
+    //--------------------------------------------------------------------------------------------------------------
+
+
     //    페이지의 SQL 작업 맵퍼
     @Autowired
     private SinWdbMapper sinWdbMapper;
+
+//--------------------------------------------------------------------------------------------------------------
 
     //    Json 데이터 서비스
     @Autowired
     private SinJsonService sinJsonService;
 
+//--------------------------------------------------------------------------------------------------------------
 
     //    아이디 중복 체크
     @Override
@@ -38,6 +47,8 @@ public class SinWdbServiceImpl implements SinWdbService {
         return emailCheck;
     }
 
+//--------------------------------------------------------------------------------------------------------------
+
     //    회원테이블 신규 회원 데이터 입력
     @Override
     public void insertUser(SinRegistDto sinRegistDto) throws Exception {
@@ -46,6 +57,49 @@ public class SinWdbServiceImpl implements SinWdbService {
 
     }
 
+//--------------------------------------------------------------------------------------------------------------
+
+
+    //  DB 에서 가져오는 보건소 리스트
+    @Override
+    public List<SinHCDto> HCDBList() throws Exception {
+
+        return sinWdbMapper.receiveHCDBList();
+    }
+
+    //    검색 및 필터링
+    @Override
+    public List<SinHCDto> HCFilterList(String userSearchWord, String telCode) throws Exception {
+        return sinWdbMapper.receiveHCDBDoubleList(userSearchWord, telCode);
+    }
+
+    //  지역번호로 필터링
+    @Override
+    public List<SinHCDto> HCTelFilter(String telCode) throws Exception {
+
+
+        return sinWdbMapper.receiveHCDBTelCodeList(telCode);
+    }
+
+    //  보건소 상세 페이지
+    @Override
+    public SinHCDto selectHCDetail(int idx) throws Exception {
+
+
+        return sinWdbMapper.getHCDetailDto(idx);
+    }
+
+
+    // 상세 페이지 내 리뷰 작성
+    @Override
+    public void insertUserReview(ReviewDto reviewDto) throws Exception {
+        sinWdbMapper.insertUserReview(reviewDto);
+    }
+
+
+//--------------------------------------------------------------------------------------------------------------
+
+////////////////////////////////// API 리스트 메인 뿌리기 (현재 폐기)/////////////////////////////////////////////////
 
     //    초기 뷰
     @Override
@@ -82,6 +136,11 @@ public class SinWdbServiceImpl implements SinWdbService {
         return sendSinJsonDto;
     }
 
+
+//--------------------------------------------------------------------------------------------------------------
+
+
+////////////////////////////////// API 리스트 뿌리기 (현재 폐기)/////////////////////////////////////////////////
 
     //    Api로 불러온 Json 데이터 Dto 변수 맵핑
     @Override
@@ -141,7 +200,7 @@ public class SinWdbServiceImpl implements SinWdbService {
                 }
 
 //                검색만 했을때
-                if (UWord != null && (telCode == null || telCode =="")) {
+                if (UWord != null && (telCode == null || telCode == "")) {
                     String allAddr = mapJson.get("주소").toString();
 
                     if (allAddr.contains(UWord)) {
@@ -229,6 +288,9 @@ public class SinWdbServiceImpl implements SinWdbService {
 
         return sendSinJsonDto;
     }
+
+
+////////////////////////////////// API 리스트 뿌리기 (현재 폐기)/////////////////////////////////////////////////
 
 
 }

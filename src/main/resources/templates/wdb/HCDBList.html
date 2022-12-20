@@ -39,10 +39,12 @@
                             if (data.length > 0) {
                                 $('#HCTable > tbody').empty();
                                 for (let i = 0; i < data.length; i++) {
-                                    let result = "<tr>";
 
-                                    result += "<td>" + data[i]["medicalName"] + "</td>";
-                                    result += "<td>" + data[i]["medicalAddr"] + "</td>";
+                                    let idx = data[i]["idx"];
+                                    let result = "<tr style=\"cursor: pointer\">";
+
+                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalName"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalAddr"] + "</td>";
 
 
                                     result += "</tr>";

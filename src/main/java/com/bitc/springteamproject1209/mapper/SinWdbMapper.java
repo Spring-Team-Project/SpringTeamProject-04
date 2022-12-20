@@ -30,4 +30,6 @@ public interface SinWdbMapper {
     SinHCDto getHCDetailDto(int idx) throws Exception;
 
     void insertUserReview(ReviewDto reviewDto) throws Exception;
+
+    List<ReviewDto> getHCReview(int idx) throws Exception;
 }

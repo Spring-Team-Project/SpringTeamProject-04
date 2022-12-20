@@ -96,6 +96,12 @@ public class SinWdbServiceImpl implements SinWdbService {
         sinWdbMapper.insertUserReview(reviewDto);
     }
 
+    //  상세 페이지 내 리뷰 불러오기
+    @Override
+    public List<ReviewDto> selectHCReview(int idx) throws Exception {
+        return sinWdbMapper.getHCReview(idx);
+    }
+
 
 //--------------------------------------------------------------------------------------------------------------
 

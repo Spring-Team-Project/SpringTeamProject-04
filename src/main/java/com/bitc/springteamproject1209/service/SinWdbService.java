@@ -34,4 +34,6 @@ public interface SinWdbService {
     SinHCDto selectHCDetail(int idx) throws Exception;
 
     void insertUserReview(ReviewDto reviewDto) throws Exception;
+
+    List<ReviewDto> selectHCReview(int idx) throws Exception;
 }

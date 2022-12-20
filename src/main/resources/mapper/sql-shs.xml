@@ -84,9 +84,24 @@
 
     </select>
 
-    <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.SinJsonDto">
-        INSERT INTO review (re_id, re_md_name, re_contents, re_create_date)
-        VALUES ("aaa", #{reMdName}, #{reContents}, NOW())
+
+    <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+        INSERT INTO review (re_id, re_md_addr, re_md_name, re_contents, re_create_date)
+        VALUES ("aaa", #{reMdAddr}, #{reMdName}, #{reContents}, NOW())
     </insert>
+
+
+    <select id="getHCReview" parameterType="int"
+            resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT A.*, @rownum := @rownum+1 AS reNum FROM (
+            SELECT re_id, re_contents, re_md_name, re_create_date
+            FROM review as rv
+            LEFT JOIN tblhealthcenter as hc
+            ON rv.re_md_addr = hc.medical_addr
+            JOIN (SELECT @rownum := 0) AS R
+            WHERE hc.idx = #{idx}
+            ORDER BY rv.re_create_date DESC) AS A;
+    </select>
+
 
 </mapper>

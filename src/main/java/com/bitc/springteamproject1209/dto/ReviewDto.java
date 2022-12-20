@@ -12,4 +12,6 @@ public class ReviewDto {
     private String reCreateDate;
     private String reDeletedYn;
     private String reUpdateDate;
+    private String reMdAddr;
+    private String reNum;
 }

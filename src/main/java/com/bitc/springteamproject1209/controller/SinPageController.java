@@ -101,30 +101,27 @@ public class SinPageController {
 
 
         SinHCDto sinHCDto = sinWdbService.selectHCDetail(idx);
+        List<ReviewDto> detailReview = sinWdbService.selectHCReview(idx);
 
-        mv.addObject("HCDetail",sinHCDto);
+
+        mv.addObject("HCReview", detailReview);
+        mv.addObject("HCDetail", sinHCDto);
 
         return mv;
     }
 
     //  리뷰 작성
     @PostMapping("/reviewInsert")
-    public void reviewInsert(ReviewDto reviewDto) throws Exception{
+    public void reviewInsert(ReviewDto reviewDto) throws Exception {
 
         try {
             sinWdbService.insertUserReview(reviewDto);
             System.out.println("리뷰 작성 성공");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("리뷰 작성 실패");
         }
     }
-
-
-
-
-
-
 
 
     //@@@@@@@@@@@@@ [회 원 가 입] @@@@@@@@@@@@@@

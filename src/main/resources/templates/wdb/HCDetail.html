@@ -67,10 +67,37 @@
         <form action="http://localhost:8080/wdb/reviewInsert" method="post" id="reviewForm">
             <label for="reviewSend">한줄 리뷰</label>
             <input type="hidden" th:value="${HCDetail.medicalName}" id="medi_name" name="reMdName">
+            <input type="hidden" th:value="${HCDetail.medicalAddr}" id="medi_addr" name="reMdAddr">
             <input id="reviewWrite" name="reContents">
             <button type="button" id="reviewSend">전송</button>
         </form>
     </div>
+    <div>
+        <table class="table table-hover table-bordered table-light" id="HCTable">
+            <thead>
+            <tr class="text-primary fw-bold">
+                <th class="fs-5">번호</th>
+                <th class="fs-5">작성자 아이디</th>
+                <th class="fs-5">보건소 이름</th>
+                <th class="fs-5">한줄 리뷰</th>
+                <th class="fs-5">작성 일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.size(HCReview)} > 0" th:each="item : ${HCReview}">
+                <td th:text="${item.reNum}" class="fw-lighter">번호</td>
+                <td th:text="${item.reId}" class="fw-lighter">작성자 아이디</td>
+                <td th:text="${item.reMdName}" class="fw-lighter">보건소 이름</td>
+                <td th:text="${item.reContents}" class="fw-light">한줄 리뷰</td>
+                <td th:text="${item.reCreateDate}" class="fw-light">작성 일자</td>
+            </tr>
+            <tr th:unless="${#lists.size(HCReview)} > 0">
+                <td th:cols="5">조회된 내용이 없습니다</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 </body>

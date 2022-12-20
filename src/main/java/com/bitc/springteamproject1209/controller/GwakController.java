@@ -28,6 +28,12 @@ public class GwakController {
     return "main";
   }
 
+  @RequestMapping(value = "/detail")
+  public String detail() throws Exception {
+
+    return "GwakDetailPage";
+  }
+
   @RequestMapping(value = "/myPage", method = RequestMethod.GET)
   public String myPage() throws Exception {
 

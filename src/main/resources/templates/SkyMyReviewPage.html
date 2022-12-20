@@ -28,6 +28,7 @@
 <main class="container mt-4">
     <section>
         <article class="row">
+            <h2 style="text-align: center" content="center">내가 쓴 리뷰</h2>
             <div class="col-md">
                 <table class="table table-hover table-striped">
                     <colgroup>
@@ -47,7 +48,19 @@
                     </tr>
                     </thead>
                 </table>
-
+                <tbody>
+                <tr class="text-center" th:if="${#lists.size(itemList)} > 0" th:each="item : ${}">
+                    <td th:text="${item.boardIdx}"></td>
+                    <td class="text-start">
+                        <a class="text-decoration-none" href="/jpa/board/" th:attrappend="href=${item.boardIdx}" th:text="${item.title}"></a>
+                    </td>
+                    <td th:text="${item.hitCnt}"></td>
+                    <td th:text="${item.createDate}"></td>
+                </tr>
+                <tr th:unless="${#lists.size(itemList)} > 0">
+                    <td colspan="4">데이터가 없습니다.</td>
+                </tr>
+                </tbody>
                 <div class="d-flex flex-row">
                     <a class="btn btn-primary" style="position: relative; left: 940px" id="detail" alt="수정">수정</a>
                     <a class="btn btn-primary" style="position: relative; left: 950px" alt="삭제">삭제</a>

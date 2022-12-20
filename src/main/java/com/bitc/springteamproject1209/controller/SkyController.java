@@ -38,11 +38,11 @@ public class SkyController {
     }
     @RequestMapping("/review")
     public String review(){
-        return "myReviewPage";
+        return "SkyMyReviewPage";
     }
     @RequestMapping("/detail.do")
     public String detail(){
-        return "myReviewPageDetail";
+        return "SkyMyReviewPageDetail";
     }
 //    로그인 처리
     @RequestMapping(value = "/loginCheck.do")

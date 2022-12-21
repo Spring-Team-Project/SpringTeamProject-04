@@ -62,4 +62,10 @@
           and re_Id = #{reId}
     </select>
 
+    <select id="getDataList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto">
+        SELECT duty_name, wgs84_lat, wgs84_lon
+        FROM tblpharmacy
+        where locate(#{dong},duty_addr)
+    </select>
+
 </mapper>

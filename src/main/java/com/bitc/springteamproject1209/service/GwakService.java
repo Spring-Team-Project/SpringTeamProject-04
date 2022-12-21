@@ -1,5 +1,6 @@
 package com.bitc.springteamproject1209.service;
 
+import com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto;
 import com.bitc.springteamproject1209.dto.MemberDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.github.pagehelper.Page;
@@ -28,4 +29,5 @@ public interface GwakService {
   List<ReviewDto> selectMyReviewList(String reId);
 
 
+  List<LeePharmacyFullDataItemDto> getMapData(String dong);
 }

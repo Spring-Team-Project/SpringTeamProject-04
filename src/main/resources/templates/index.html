@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>-->
+  <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+  <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+  <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+</head>
+<body>
+<div class="container row col-sm ms-1">
+  <table class="border border-2 mb-5">
+    <thead th:height="100px" class="border border-2">
+    <tr class="border border-2">
+      <th colspan="2" class="text-center" style="font-size: large">보건소 이름</th>
+    </tr>
+    </thead>
+    <tbody class="border border-2">
+    <tr th:height="100px" class="border border-2">
+      <td th:width="1000px">보건소 위치 : </td>
+      <td rowspan="3" class="border border-2">
+        <div id="map" style="width:800px;height:400px;"></div>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9d88b62f2b41600a7805dfefc28f353&libraries=services,clusterer,drawing"></script>
+        <script>
+          var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+              center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+              level: 3 // 지도의 확대 레벨
+            };
+
+          var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+          // 마커가 표시될 위치입니다 : 위도/경도값
+          var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
+
+          // 장소 검색 서비스 객체를 생성한다.
+
+
+          // 마커를 생성합니다
+          var marker = new kakao.maps.Marker({
+            position: markerPosition
+          });
+
+          // 마커가 지도 위에 표시되도록 설정합니다
+          marker.setMap(map);
+          marker.setTitle('보건소명'); // 보건소명 넣기
+        </script>
+      </td>
+    </tr>
+    <tr th:height="100px" class="border border-2">
+      <td>보건기관 유형 : </td>
+    </tr>
+    <tr th:height="100px" class="border border-2">
+      <td>영업시간 : </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="container text-centers">
+    <div style="width: 70%; height:150px; float: left;">
+      <label for="comments"></label>
+      <input type="text" id="comments" placeholder="한 줄 리뷰 쓰기 . . ." class="" style="width: 900px; height: 60px" >
+    </div>
+    <div style="width: 20%; height:150px; float: right;">
+      <button type="button" class="ms-5 btn btn-outline-warning" style="height: 60px; margin-top: 19.5px; width: 120px">리뷰 등록</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

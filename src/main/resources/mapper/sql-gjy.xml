@@ -7,12 +7,13 @@
 <!-- namespace 속성에 지정한 패키지명을 가지고 있는 파일과 아래의 xml 구문을 연동한다는 의미 -->
 <!-- ★★★ xml 파일이기 때문에 스프링 프로젝트의 전체 구조를 모르기 때문에 전체 패키지 명을 다 입력해야 함 ★★★ -->
 
-<mapper namespace="com.bitc.springteamproject1209.mapper.GwakPageMapper">
+<mapper namespace="com.bitc.springteamproject1209.mapper.GwakMapper">
     <!--    리뷰 모음 게시판 데이터 -->
     <select id="selectReviewList" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         <![CDATA[
         SELECT *
         FROM review
+        WHERE re_deleted_yn = 'N'
         ]]>
     </select>
 
@@ -20,17 +21,45 @@
         <![CDATA[
         SELECT *
         FROM review
+        WHERE re_deleted_yn = 'N'
         ]]>
     </select>
 
     <select id="idCheckSQL" parameterType="String" resultType="com.bitc.springteamproject1209.dto.MemberDto">
         select *
         From tblmember
-        where mem_id = #{memId} And mem_pwd = #{memPwd}
+        where mem_id = #{memId}
+          And mem_pwd = #{memPwd}
     </select>
 
-    <select id="reviewQty" parameterType="int" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
-        select count(*) from review where re_id= #{memId};
+    <select id="rvQtySQL" parameterType="String" resultType="int">
+        select count(*)
+        from review
+        where re_id = #{memId};
+    </select>
+
+    <!--    리뷰모음 게시판 삭제버튼 -->
+    <update id="deleteBoard" parameterType="int">
+        UPDATE review
+        SET re_deleted_yn = 'Y'
+        WHERE re_idx = #{reIdx}
+    </update>
+
+
+<!--    <select id="selectMyReviewList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">-->
+<!--        <![CDATA[-->
+<!--        SELECT *-->
+<!--        FROM review-->
+<!--        WHERE re_deleted_yn = 'N'-->
+<!--          and re_Id = #{reId}-->
+<!--        ]]>-->
+<!--    </select>-->
+
+    <select id="selectMyReviewList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT *
+        FROM review
+        WHERE re_deleted_yn = 'N'
+          and re_Id = #{reId}
     </select>
 
 </mapper>

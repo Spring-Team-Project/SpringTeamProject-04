@@ -9,14 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/wdb")
+@RequestMapping("")
 public class SinPageController {
 
     @Autowired
@@ -25,7 +24,7 @@ public class SinPageController {
 //--------------------------------------------------------------------------------------------------------------
 
     // 임시 메인화면
-    @GetMapping("/main")
+    @GetMapping("/main2")
     public ModelAndView mainView() throws Exception {
 
         ModelAndView mv = new ModelAndView("/main");
@@ -67,7 +66,7 @@ public class SinPageController {
     @GetMapping("/hclist")
     //    보건소 목록 뷰
     public ModelAndView HCListView() throws Exception {
-        ModelAndView mv = new ModelAndView("wdb/HCDBList");
+        ModelAndView mv = new ModelAndView("SinHCDBList");
 
         List<SinHCDto> HCDBList = sinWdbService.HCDBList();
 

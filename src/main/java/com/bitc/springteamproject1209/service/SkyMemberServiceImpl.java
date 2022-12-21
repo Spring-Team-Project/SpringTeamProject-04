@@ -6,7 +6,12 @@ import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.bitc.springteamproject1209.mapper.SkyWdbMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -30,4 +35,5 @@ public class SkyMemberServiceImpl implements SkyMemberService {
         List<ReviewDto> reviewList = skyWdbMapper.selectMyReviewList(reId);
         return reviewList;
     }
+
 }

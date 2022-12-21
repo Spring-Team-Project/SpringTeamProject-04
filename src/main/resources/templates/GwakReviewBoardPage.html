@@ -12,9 +12,7 @@
   <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
   <script th:inline="javascript">
-    /*<![CDATA[*/
-    const memberId = [[${session.member.memId}]];
-    /*]]>*/
+
 
   </script>
 
@@ -31,7 +29,7 @@
 <div class="container mt-5">
   <div class="row">
     <h2 class="text-center mb-5">리뷰 모음 & 공지사항 게시판</h2>
-    <h2 th:text="${session.member.getMemId()}"></h2>
+<!--    <h2 th:text="${session.member.getMemId()}"></h2>-->
     <h2></h2>
     <div class="col-sm">
 <!--      아코디언 시작 -->

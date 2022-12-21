@@ -13,62 +13,92 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
 
 
+
+
 </head>
 <body>
-<header class="bg-dark"  th:fragment="mainHeader">
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="main">우리동네 보건소</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggle-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link" href="#">보건소</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">약국</a></li>
-                <li class="nav-item"><a class="nav-link">리뷰</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">우리동네 스토어</a></li>
-            </ul>
-            <div class="d-flex">
-                <a class="btn btn-outline-dark" type="button" style="margin-right: 10px;" id="login" >로그인</a>
-                <button class="btn btn-outline-dark" type="button" id="signUp">회원가입</button>
-                <button class="btn btn-outline-dark" type="button" style="display: none" >마이페이지</button>
-                <button class="btn btn-outline-dark" type="button" style="display: none">로그아웃</button>
+<header class="bg-dark" th:fragment="mainHeader">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="main">우리동네 보건소</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggle-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="#" id="hcdb" >보건소</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" id="pharmacy">약국</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" id="review">리뷰</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" id="StorePage">우리동네 스토어</a></li>
+                </ul>
+                <div class="d-flex">
+<!--                    로그인시 세션값 받아 와서 로그아웃 버튼 활성화  -->
+                    <div th:if="${session.member != null}">
+                        <p  th:text="${session.member.getMemId()} + '님 반갑습니다.'" style="text-align: center; font-size: large"> </p>
+                        <button class="btn btn-outline-dark" type="button" id="mypage" >마이페이지</button>
+                        <button class="btn btn-outline-dark" type="button" id="logout">로그아웃</button>
+                    </div>
 
+                    <div th:unless="${session.member != null}">
+                        <a class="btn btn-outline-dark" type="button" style="margin-right: 10px; " id="login">로그인</a>
+                        <button class="btn btn-outline-dark" type="button" id="signUp">회원가입</button>
+                    </div>
+
+
+                </div>
             </div>
         </div>
-    </div>
-</nav>
-<!-- Header-->
+    </nav>
+    <!-- Header-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#login').click(function () {
+                location.href = "GwakLogin";
+            });
+
+
+            $('#signUp').click(function () {
+                location.href = "signUp.do";
+            });
+
+            $('#review').click(function () {
+
+                location.href = "GwakReviewBoardPage";
+            });
+
+            $('#mypage').click(function () {
+
+                location.href = "myPage";
+            });
+
+            $('#hcdb').click(function () {
+
+                location.href = "hclist";
+            });
+            $('#StorePage').click(function () {
+
+                location.href = "GwakStorePage";
+            });
+            $('#pharmacy').click(function () {
+
+                location.href = "pharmacyList";
+            });
+
+            $('#logout').click(function () {
+                var logout = confirm("로그아웃 하시겠습니까?");
+                if (logout == true) {
+                    location.href = "logout"; //로그아웃페이지 이동
+                }
+            });
+        });
+
+    </script>
 
 </header>
 
 
 </body>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-
-        $('#login').on('click',function() {
-
-
-
-            console.log("로그인 버튼 눌려짐")
-            location.href="/GwakLogin";
-        });
-
-
-
-        $('#signUp').click(function() {
-            location.href="signUp.do";
-        });
-
-
-
-
-        $('#review').click(function() {
-            console.log("리뷰버튼눌림")
-            location.href="review";
-        });
-    });
-</script>
 
 </html>

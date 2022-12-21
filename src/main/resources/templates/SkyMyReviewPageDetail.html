@@ -21,7 +21,7 @@
             });
 
             $("#exit").on("click", function() {
-                location.href="review";
+                location.href="SkyMyReviewPage";
             });
         });
     </script>
@@ -40,6 +40,7 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-text">번호</span>
+                                <td th:text="${list.reIdx}"></td>
                                 <input type="text" class="form-control">
                             </div>
                         </div>
@@ -54,12 +55,14 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-text">작성자</span>
+                                <td th:text="${list.reId}" id="list-reId"></td>
                                 <input type="text" class="form-control" name="createId">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-text">작성일</span>
+                                <td th:text="${list.reCreateDate}"></td>
                                 <input type="text" class="form-control" name="createDate" >
                             </div>
                         </div>
@@ -68,6 +71,7 @@
                         <div class="col-md">
                             <div>
                                 <span class="input-group-text">한줄리뷰</span>
+                                <td th:text="${list.reContents}"></td>
                                 <textarea rows="10" class="form-control" name="contents"></textarea>
                             </div>
                         </div>

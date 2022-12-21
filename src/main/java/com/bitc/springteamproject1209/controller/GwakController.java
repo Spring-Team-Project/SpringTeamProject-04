@@ -104,6 +104,8 @@ public class GwakController {
     } else {
       return memberDto;
     }
+
+
   }
 
   @PostMapping("/test")

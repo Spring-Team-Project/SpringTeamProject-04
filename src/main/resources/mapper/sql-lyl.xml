@@ -9,25 +9,36 @@
 
     <select id="selectMemInfo" resultType="com.bitc.springteamproject1209.dto.MemberDto">
         SELECT *
-        FROM tblmember
-                 LIMIT 1
+        FROM tblmember LIMIT 1
     </select>
-
 
     <update id="updateInfo" parameterType="com.bitc.springteamproject1209.dto.MemberDto">
          <![CDATA[
         UPDATE tblmember
-        SET mem_pwd  = #{memPwd}
+        SET mem_pwd = #{memPwd}
         WHERE mem_id = #{memId}
         ]]>
     </update>
 
-    <update id="deleteInfo" parameterType="int">
-    <![CDATA[
-        UPDATE tblmember
-        SET mem_deleted_yn = 'Y'
-        WHERE mem_idx = #{mem_idx}
-        ]]>
-  </update>
-
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

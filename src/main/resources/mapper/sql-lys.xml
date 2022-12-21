@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- sql-gjy.xml : 마이바티스 실행을 위해 필요한 파일 -->
+
+<!-- mybatis SQL 매핑 파일을 뜻하는 지시문 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bitc.springteamproject1209.mapper.LeePharmacyMapper">
+    <!--    DB 저장된 약국 리스트 전부 가져오기-->
+    <select id="receivePMDBList" resultType="com.bitc.springteamproject1209.dto.LeePMDto">
+        SELECT *
+        FROM tblpharmacy
+    </select>
+
+    <!--    저장된 리스트 중에서 지역코드로 필터링  -->
+    <select id="receivePMDBTelCodeList" resultType="com.bitc.springteamproject1209.dto.LeePMDto" parameterType="String">
+        SELECT * FROM tblpharmacy
+        WHERE duty_tel1 LIKE CONCAT('%', #{telCode}, '%');
+    </select>
+
+    <!--   저장된 리스트 중에서 검색어로 필터링 -->
+    <select id="receivePMDBUserSearchList" parameterType="String"
+            resultType="com.bitc.springteamproject1209.dto.LeePMDto">
+        SELECT idx, duty_name, duty_addr
+        FROM tblpharmacy
+        WHERE Locate(#{userSearchWord}, duty_addr)
+    </select>
+
+    <!--   지역코드, 검색어 동시 필터링 -->
+    <select id="receivePMDBDoubleList" parameterType="String"
+            resultType="com.bitc.springteamproject1209.dto.LeePMDto">
+        SELECT idx, duty_name, duty_addr
+        FROM tblpharmacy
+        WHERE duty_tel1 LIKE CONCAT('%', #{telCode}, '%')
+        AND Locate(#{userSearchWord}, duty_addr);
+    </select>
+
+
+    <!--    상세 페이지 -->
+    <select id="getPMDetailDto" parameterType="int"
+            resultType="com.bitc.springteamproject1209.dto.LeePMDto">
+        SELECT duty_name, duty_addr, duty_tel1
+        FROM tblpharmacy
+        WHERE idx = #{idx}
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -13,5 +13,5 @@ public class ReviewDto {
     private String reDeletedYn;
     private String reUpdateDate;
     private String reMdAddr;
-    private String reNum;
+    private int reNum;
 }

@@ -104,6 +104,7 @@ public class SinPageController {
         List<ReviewDto> detailReview = sinWdbService.selectHCReview(idx);
 
 
+        mv.addObject("reviewIdx",idx);
         mv.addObject("HCReview", detailReview);
         mv.addObject("HCDetail", sinHCDto);
 
@@ -112,8 +113,9 @@ public class SinPageController {
 
     //  리뷰 작성
     @PostMapping("/reviewInsert")
-    public void reviewInsert(ReviewDto reviewDto) throws Exception {
+    public ResponseEntity<?> reviewInsert(@RequestParam("idx")int idx, ReviewDto reviewDto) throws Exception {
 
+        HttpHeaders headers = new HttpHeaders();
         try {
             sinWdbService.insertUserReview(reviewDto);
             System.out.println("리뷰 작성 성공");
@@ -121,6 +123,12 @@ public class SinPageController {
             e.printStackTrace();
             System.out.println("리뷰 작성 실패");
         }
+
+
+        headers.setLocation(URI.create("/wdb/hclist/"+idx));
+
+
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
 

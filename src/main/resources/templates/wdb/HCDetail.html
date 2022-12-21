@@ -14,8 +14,8 @@
 <script>
     $(document).ready(function () {
 
-
         $('#reviewSend').on('click', function () {
+
 
             const frm = $('#reviewForm')[0];
 
@@ -23,34 +23,32 @@
             let userReview = $('#comments').val().trim();
             if (userReview == "") {
                 alert("한 줄 평을 입력해주세요")
+
             } else {
-
-                frm.action = 'http://localhost:8080/wdb/reviewInsert';
                 frm.submit();
-
-
-                $.ajax({
-
-                    type: "get",
-                    async: false,
-                    url: "http://localhost:8080/wdb/reviewRefresh",
-                    data: {reviewInsert: userReview},
-
-                    success: function (data) {
-
-                    },
-                    error: function (request, status, error) {
-                        alert("검색 실패")
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
-                    }
-
-                });
-
-
+                alert("작성해 주셔서 감사합니다.")
             }
 
-        });
+                // $.ajax({
+                //
+                //     type: "post",
+                //     async: false,
+                //     url: "http://localhost:8080/wdb/reviewInsert",
+                //     data: {reviewInsert: userReview},
+                //
+                //     success: function (data) {
+                //         alert("작성해 주셔서 감사합니다")
+                //         location.reload();
+                //
+                //     },
+                //     error: function (request, status, error) {
+                //         alert("검색 실패")
+                //         console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+                //     }
+                //
+                // });
 
+        });
     });
 </script>
 <body>
@@ -111,6 +109,7 @@
 
             <form action="http://localhost:8080/wdb/reviewInsert" method="post" id="reviewForm">
                 <label for="comments"></label>
+                <input type="hidden" th:value="${reviewIdx}" id="idx" name="idx">
                 <input type="hidden" th:value="${session.member.getMemId()}" id="user_id" name="reId">
                 <input type="hidden" th:value="${HCDetail.medicalName}" id="medi_name" name="reMdName">
                 <input type="hidden" th:value="${HCDetail.medicalAddr}" id="medi_addr" name="reMdAddr">

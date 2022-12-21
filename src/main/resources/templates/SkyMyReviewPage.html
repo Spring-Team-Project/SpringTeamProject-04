@@ -2,76 +2,121 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>리뷰 모음 & 공지사항 게시판</title>
+
+    <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+    <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>-->
     <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
     <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
-   <script>
-    $(document).ready(function(e){
+    <script th:inline="javascript">
+        // /*<![CDATA[*/
+        // const memberId = [[${session.member.memId}]];
+        // /*]]>*/
 
-    $('#detail').click(function() {
-    location.href="detail.do";
-    });
-    });
     </script>
+
+    <script>
+
+        // if(listReId.equals('aaa')) {
+        //   letsReIdYn = "Y";
+        // }
+    </script>
+
+
 </head>
 <body>
-<header th:replace="wdb/layout/Header :: mainHeader">
-
-</header>
-
-<main class="container mt-4">
-    <section>
-        <article class="row">
-            <h2 style="text-align: center" content="center">내가 쓴 리뷰</h2>
-            <div class="col-md">
-                <table class="table table-hover table-striped">
-                    <colgroup>
-                        <col width="5%">
-                        <col width="10%">
-                        <col width="5%">
-                        <col width="25%">
-                        <col width="10%">
-                    </colgroup>
-                    <thead>
-                    <tr class="text-center">
-                        <th>번호</th>
-                        <th>보건소 / 약국</th>
-                        <th>작성자명</th>
-                        <th>한줄리뷰</th>
-                        <th>작성일</th>
-                    </tr>
-                    </thead>
-                </table>
-                <tbody>
-                <tr class="text-center" th:if="${#lists.size(itemList)} > 0" th:each="item : ${}">
-                    <td th:text="${item.boardIdx}"></td>
-                    <td class="text-start">
-                        <a class="text-decoration-none" href="/jpa/board/" th:attrappend="href=${item.boardIdx}" th:text="${item.title}"></a>
-                    </td>
-                    <td th:text="${item.hitCnt}"></td>
-                    <td th:text="${item.createDate}"></td>
-                </tr>
-                <tr th:unless="${#lists.size(itemList)} > 0">
-                    <td colspan="4">데이터가 없습니다.</td>
-                </tr>
-                </tbody>
-                <div class="d-flex flex-row">
-                    <a class="btn btn-primary" style="position: relative; left: 940px" id="detail" alt="수정">수정</a>
-                    <a class="btn btn-primary" style="position: relative; left: 950px" alt="삭제">삭제</a>
+<div class="container mt-5">
+    <div class="row">
+        <h2 class="text-center mb-5">리뷰 모음 & 공지사항 게시판</h2>
+        <!--    <h2 th:text="${session.member.getMemId()}"></h2>-->
+        <h2></h2>
+        <div class="col-sm">
+            <!--      아코디언 시작 -->
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            (공지)&nbsp;&nbsp;<strong>보건소 영업시간 안내</strong>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                        <div class="accordion-body">
+                            <b>보건소 영업시간</b>은 공통적으로&nbsp;&nbsp;<code>09:00 ~ 18:00</code>&nbsp;&nbsp;입니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            (안내)&nbsp;&nbsp;<strong>사이트 점검</strong>&nbsp;&nbsp;<code>12/17 00:00 ~ 02:00</code>
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapsing" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="">
+                        <div class="accordion-body">
+                            <b>우리동네 보건소</b> 사이트의 서버 점검 작업이 아래와 같이 진행될 예정입니다.<br>
+                            해당 시간 동안에는 일부 서비스의 이용이 제한될 수 있사오니,<br>
+                            이점 서비스 이용에 참고하시길 바랍니다.<br>
+                            보다 안정적인 서비스를 위해 준비 과정이오니 많은 양해 바랍니다.<br>
+                            <code>* 작업시간 : 2022년 12월 17일(화) 새벽 00:00 ~ 02:00</code>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </article>
-    </section>
-</main>
-<footer th:replace="wdb/layout/Footer :: mainFooter">
+            <!--      아코디언 끝 -->
 
-</footer>
+
+            <!--            dataList 값 확인 가능 -->
+            <!--            <p th:text="${dataList}"></p>-->
+            <table class="table table-hover table-striped">
+                <colgroup>
+                    <col width="10%">
+                    <col width="40%">
+                    <col width="10%">
+                    <col width="15%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col">글번호</th>
+                    <th>한 줄 리뷰</th>
+                    <th>작성자</th>
+                    <th>등록일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!--        th:if="${session.member.getMemId() == ${memberId}}"-->
+                <!--                dataList : 변수명(Controller 에서 ModelAndView 객체에 저장한 변수병과 데이터)        -->
+                <!--                each : ${dataList}에서 데이터를 끄집어내서 list 에 넣는작업 반복실행 (for:in) 문.    -->
+                <tr th:each="list : ${session.reviews}">
+                    <td th:text="${list.reIdx}"></td>
+                    <!--          <td>-->
+                    <!--            a 태그 속성에서 빼옴 : href="/openBoardDetail?reIdx=" th:attrappend="href=${list.reIdx}" -->
+                    <!--            <a style="color: black" class="text-decoration-none" th:text="${list.reId}"></a>-->
+                    <!--          </td>-->
+                    <td th:text="${list.reContents}"></td>
+                    <td th:text="${list.reId}" id="list-reId"></td>
+                    <td th:text="${list.reCreateDate}"></td>
+                    <!--        <tr th:unless="${#lists.size(myReviewList.getList())} > 0">-->
+                    <!--          <td th:cols="5">조회된 결과가 없습니다.</td>-->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm d-flex justify-content-end">
+            <a href="/myPage" class="btn btn-outline-primary">돌아가기</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 </body>
 </html>

@@ -46,55 +46,55 @@ public class SkyController {
         return "SkyMyReviewPageDetail";
     }
 //    로그인 처리
-    @RequestMapping(value = "/loginCheck.do")
-    public ModelAndView loginCheck(@ModelAttribute MemberDto md, HttpSession session) {
-
-        boolean result = memberService.loginCheck(md, session);
-        ModelAndView mav = new ModelAndView();
-
-        mav.setViewName("login");
-
-        if (result) {
-            mav.addObject("msg", "성공");
-        } else {
-            mav.addObject("msg", "실패");
-        }
-
-        return mav;
-    }
-
-    //로그아웃 처리
-    @RequestMapping("logout.do")
-    public ModelAndView logout(HttpSession session) {
-
-        memberService.logout(session);
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("login");
-        mav.addObject("msg", "logout");
-
-        return mav;
-    }
+//    @RequestMapping(value = "/loginCheck.do")
+//    public ModelAndView loginCheck(@ModelAttribute MemberDto md, HttpSession session) {
+//
+//        boolean result = memberService.loginCheck(md, session);
+//        ModelAndView mav = new ModelAndView();
+//
+//        mav.setViewName("login");
+//
+//        if (result) {
+//            mav.addObject("msg", "성공");
+//        } else {
+//            mav.addObject("msg", "실패");
+//        }
+//
+//        return mav;
+//    }
+//
+//    //로그아웃 처리
+//    @RequestMapping("logout.do")
+//    public ModelAndView logout(HttpSession session) {
+//
+//        memberService.logout(session);
+//        ModelAndView mav = new ModelAndView();
+//        mav.setViewName("login");
+//        mav.addObject("msg", "logout");
+//
+//        return mav;
+//    }
 
     //  리뷰 가져오기
-    @PostMapping("/myReviewList")
-    @ResponseBody
-    public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
-
-        HttpSession session = request.getSession();
-
-        List<ReviewDto> reviewList = memberService.selectMyReviewList(reId);
-
-        if (session.getAttribute("reviews") != null){
-            session.removeAttribute("reviews");
-        }
-        session.setAttribute("reviews", reviewList);
-
-        if (reviewList == null) {
-            return 0;
-        } else {
-            return reviewList;
-        }
-    }
+//    @PostMapping("/myReviewList")
+//    @ResponseBody
+//    public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
+//
+//        HttpSession session = request.getSession();
+//
+//        List<ReviewDto> reviewList = memberService.selectMyReviewList(reId);
+//
+//        if (session.getAttribute("reviews") != null){
+//            session.removeAttribute("reviews");
+//        }
+//        session.setAttribute("reviews", reviewList);
+//
+//        if (reviewList == null) {
+//            return 0;
+//        } else {
+//            return reviewList;
+//        }
+//    }
 
 
 }

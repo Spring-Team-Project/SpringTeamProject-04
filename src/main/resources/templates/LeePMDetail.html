@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+  <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+  <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+  <script>
+    $(document).ready(function () {
+
+
+      $('#reviewSend').on('click', function () {
+
+        const frm = $('#reviewForm')[0];
+
+
+        let userReview = $('#reviewWrite').val().trim();
+        if (userReview == "") {
+          alert("한 줄 평을 입력해주세요")
+        } else {
+
+          frm.action = 'http://localhost:8080/wdb/reviewInsert';
+          frm.submit();
+
+
+          $.ajax({
+
+            type: "get",
+            async: false,
+            url: "http://localhost:8080/wdb/reviewRefresh",
+            data: {reviewInsert: userReview},
+
+            success: function (data) {
+
+            },
+            error: function (request, status, error) {
+              alert("검색 실패")
+              console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+            }
+
+          });
+
+
+        }
+
+      });
+
+    });
+  </script>
+</head>
+<body>
+
+
+<div>
+
+  <div>
+    <span th:text="${HCDetail.medicalName}" class="fw-lighter">보건소 이름</span>
+    <span th:text="${HCDetail.medicalType}" class="fw-light">보건기관 유형</span>
+    <span th:text="${HCDetail.medicalAddr}" class="fw-light">보건소 주소</span>
+  </div>
+  <div>
+    <form action="http://localhost:8080/wdb/reviewInsert" method="post" id="reviewForm">
+      <label for="reviewSend">한줄 리뷰</label>
+      <input type="hidden" th:value="${HCDetail.medicalName}" id="medi_name" name="reMdName">
+      <input type="hidden" th:value="${HCDetail.medicalAddr}" id="medi_addr" name="reMdAddr">
+      <input id="reviewWrite" name="reContents">
+      <button type="button" id="reviewSend">전송</button>
+    </form>
+  </div>
+  <div>
+    <table class="table table-hover table-bordered table-light" id="HCTable">
+      <thead>
+      <tr class="text-primary fw-bold">
+        <th class="fs-5">번호</th>
+        <th class="fs-5">작성자 아이디</th>
+        <th class="fs-5">보건소 이름</th>
+        <th class="fs-5">한줄 리뷰</th>
+        <th class="fs-5">작성 일자</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${#lists.size(HCReview)} > 0" th:each="item : ${HCReview}">
+        <td th:text="${item.reNum}" class="fw-lighter">번호</td>
+        <td th:text="${item.reId}" class="fw-lighter">작성자 아이디</td>
+        <td th:text="${item.reMdName}" class="fw-lighter">보건소 이름</td>
+        <td th:text="${item.reContents}" class="fw-light">한줄 리뷰</td>
+        <td th:text="${item.reCreateDate}" class="fw-light">작성 일자</td>
+      </tr>
+      <tr th:unless="${#lists.size(HCReview)} > 0">
+        <td th:cols="5">조회된 내용이 없습니다</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>

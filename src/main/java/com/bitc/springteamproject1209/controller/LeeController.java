@@ -71,12 +71,17 @@ public class LeeController {
     @RequestMapping("/updateMember")
     public String updateMember(MemberDto memberDto) throws Exception{
         leeMemService.updateInfo(memberDto);
-        return "main";
+        return "#";
     }
 
     @RequestMapping("/publicHealthDetail")
     public String LeePublicHealthDetail() throws Exception {
         return "LeePublicHealthDetail";
+    }
+
+    @RequestMapping("/pharmacyDetail")
+    public String LeePharmacyDetail() throws Exception{
+        return "LeePharmacyDetail";
     }
 
 

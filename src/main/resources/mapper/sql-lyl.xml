@@ -10,7 +10,7 @@
     <select id="selectMemInfo" resultType="com.bitc.springteamproject1209.dto.MemberDto">
         SELECT *
         FROM tblmember
-        LIMIT 1
+                 LIMIT 1
     </select>
 
 
@@ -29,4 +29,5 @@
         WHERE mem_idx = #{mem_idx}
         ]]>
   </update>
+
 </mapper>

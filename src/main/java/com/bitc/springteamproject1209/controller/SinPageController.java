@@ -174,7 +174,7 @@ public class SinPageController {
             System.out.println("데이터 입력 실패");
         }
 
-        headers.setLocation(URI.create("/wdb/main"));
+        headers.setLocation(URI.create("/GwakLogin"));
 
 
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);

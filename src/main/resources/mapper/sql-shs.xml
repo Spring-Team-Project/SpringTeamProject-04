@@ -87,7 +87,7 @@
 
     <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
         INSERT INTO review (re_id, re_md_addr, re_md_name, re_contents, re_create_date)
-        VALUES ("aaa", #{reMdAddr}, #{reMdName}, #{reContents}, NOW())
+        VALUES (#{reId}, #{reMdAddr}, #{reMdName}, #{reContents}, NOW())
     </insert>
 
 

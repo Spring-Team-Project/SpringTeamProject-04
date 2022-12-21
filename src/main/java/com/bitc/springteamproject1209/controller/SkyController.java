@@ -22,16 +22,13 @@ public class SkyController {
         return "main";
     }
 
-    @Autowired
-    private SkyMemberService memberService;
-
-    @RequestMapping("/login.do")
-    public String login() {
-        return "GwakLogin";
-    }
+//    @RequestMapping("/login.do")
+//    public String login() throws Exception {
+//        return "GwakLogin";
+//    }
     @RequestMapping("/signUp.do")
     public String signUp() {
-        return "SignUp";
+        return "wdb/SignUp";
     }
     @RequestMapping("/test")
     public String test(){
@@ -45,6 +42,10 @@ public class SkyController {
     public String detail(){
         return "SkyMyReviewPageDetail";
     }
+
+    @Autowired
+    private SkyMemberService memberService;
+
 //    로그인 처리
 //    @RequestMapping(value = "/loginCheck.do")
 //    public ModelAndView loginCheck(@ModelAttribute MemberDto md, HttpSession session) {

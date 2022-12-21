@@ -22,12 +22,12 @@
         ]]>
     </update>
 
-    <update id="deleteInfo" parameterType="int">
-    <![CDATA[
-        UPDATE tblmember
-        SET mem_deleted_yn = 'Y'
-        WHERE mem_idx = #{mem_idx}
-        ]]>
-  </update>
+<!--    DB 저장된 약국 리스트 전부 가져오기-->
+    <select id="receivePMDBList" resultType="com.bitc.springteamproject1209.dto.LeePMDto">
+        select *
+        from tblpharmacy
+    </select>
+
+
 
 </mapper>

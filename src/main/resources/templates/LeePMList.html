@@ -10,34 +10,47 @@
     <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
-    <script>
+    <script th:inline="javascript">
+        function rowClicked(value) {
+            location.href="http://localhost:8080/wdb/hclist/" +value;
+        }
+
         $(document).ready(function () {
 
 
-                $('#btn_search').on('click',function (){
-                    const searchWord = $('#search_bar').val();
-                    let htmlTelCode = $('#tel_code option:selected').val();
+            $('#btn_search').on('click', function () {
+                let searchWord = $('#search_bar').val();
+                let htmlTelCode = $('#tel_code option:selected').val();
+
+                if (htmlTelCode == "") {
+                    alert("지역을 선택해 주세요")
+                } else if (searchWord == "") {
+                    alert("검색어를 입력하세요")
+                } else {
+
 
                     $.ajax({
-                        type:"get",
+                        type: "get",
                         async: false,
                         url: "http://localhost:8080/wdb/hclist/filter",
-                        data: {userSearchWord : searchWord, telCode: htmlTelCode},
+                        data: {userSearchWord: searchWord, telCode: htmlTelCode},
                         success: function (data) {
                             if (data.length > 0) {
                                 $('#HCTable > tbody').empty();
                                 for (let i = 0; i < data.length; i++) {
-                                    let result = "<tr>";
 
+                                    let idx = data[i]["idx"];
+                                    let result = "<tr style=\"cursor: pointer\">";
 
-                                    result += "<td>" + data[i]["보건기관명"] + "</td>";
-                                    result += "<td>" + data[i]["주소"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalName"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalAddr"] + "</td>";
+
 
                                     result += "</tr>";
 
                                     $("#HCTable").append(result);
                                 }
-                            }else {
+                            } else {
                                 $('#HCTable > tbody').empty();
                             }
 
@@ -47,8 +60,8 @@
                             console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
                         }
                     });
-                });
-
+                }
+            });
 
 
             $('#tel_code').on('change', function () {
@@ -56,40 +69,49 @@
 
                 let htmlTelCode = $('#tel_code option:selected').val();
 
-                $('#search_bar').val(null);
 
-                $.ajax({
-                    type: "get",
-                    async: false,
-                    url: "http://localhost:8080/wdb/hclist/filter",
-                    data: {telCode: htmlTelCode},
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $('#HCTable > tbody').empty();
-                            for (let i = 0; i < data.length; i++) {
-                                let result = "<tr>";
+                if (htmlTelCode == "") {
+                    console.log("지역코드 공백")
+                } else {
+
+                    $.ajax({
+                        type: "get",
+                        async: false,
+                        url: "http://localhost:8080/wdb/hclist/telfilter",
+                        data: {telCode: htmlTelCode},
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $('#HCTable > tbody').empty();
 
 
-                                result += "<td>" + data[i]["보건기관명"] + "</td>";
-                                result += "<td>" + data[i]["주소"] + "</td>";
 
-                                result += "</tr>";
+                                for (let i = 0; i < data.length; i++) {
 
-                                $("#HCTable").append(result);
+                                    let idx = data[i]["idx"];
+                                    let result = "<tr style=\"cursor: pointer\">";
+
+                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalName"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalAddr"] + "</td>";
+
+
+                                    result += "</tr>";
+
+                                    $("#HCTable").append(result);
+                                }
+                            } else {
+                                $('#HCTable > tbody').empty();
                             }
+                        },
+                        error: function (request, status, error) {
+                            alert("검색 실패")
+                            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
                         }
-
-                    },
-                    error: function (request, status, error) {
-                        alert("검색 실패")
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
-                    }
-                });
+                    });
+                }
             });
 
 
         });
-
 
     </script>
 </head>
@@ -101,13 +123,13 @@
 <main class="container my-4">
     <div class="mainContainer container">
         <div class="row">
-            <div class="Search">
+            <div class="search">
                 <form action="#" class="d-flex justify-content-end" method="post">
                     <div>
-                        <select th:field="*{SinTelCode}" class="form-select" id="tel_code">
+                        <select th:field="" class="form-select" id="">
                             <option value="">지역 선택</option>
-                            <option th:each="telCode : ${SinTelCode}" th:value="${telCode.telCode}"
-                                    th:text="${telCode.sidoName}">서울
+                            <option th:each="" th:value=""
+                                    th:text="">서울
                             </option>
                         </select>
                     </div>
@@ -119,10 +141,9 @@
                 <div style="height: 50px">
                     <span>공지사항 자리</span>
                 </div>
-
             </div>
             <div>
-                <table class="table table-hover table-bordered table-light" id="HCTable">
+                <table class="table table-hover table-bordered table-light" id="PMTable">
                     <thead>
                     <tr class="text-primary fw-bold ">
                         <th class="fs-5">보건소 이름</th>
@@ -131,11 +152,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:if="${#lists.size(HCList)} > 0" th:each="item : ${HCList}">
-                        <td th:text="${item.medicalName}" class="fw-lighter">보건소 이름</td>
-                        <td th:text="${item.medicalAddr}" class="fw-light">보건소 주소</td>
+                    <tr th:if="" th:each="" style="cursor: pointer"
+                        th:onclick="'javascript:rowClicked(\'' + ${item.idx} + '\');'">
+                        <td th:text="${item.medicalName}" class="fw-lighter">약국 이름</td>
+                        <td th:text="${item.medicalAddr}" class="fw-light">약국 주소</td>
                     </tr>
-                    <tr th:unless="${#lists.size(HCList)} > 0">
+                    <tr th:unless="${#lists.size(leePMDto)} > 0">
                         <td th:cols="5">조회된 내용이 없습니다</td>
                     </tr>
                     </tbody>
@@ -143,7 +165,6 @@
             </div>
         </div>
     </div>
-
 </main>
 
 <footer th:replace="layout/Footer :: mainFooter"></footer>

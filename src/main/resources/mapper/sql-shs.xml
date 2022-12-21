@@ -25,10 +25,83 @@
         where mem_email = #{userEmail}
     </select>
 
-    <insert id="PharmacyToDB" parameterType="com.bitc.springteamproject1209.dto.SinPharmarcyDto">
-        INSERT INTO tblpharmacy (duty_name, duty_addr, duty_tel1, hp_id, duty_time_s, duty_time_c, wgs84_lat, wgs84_lon,
+    <insert id="PharmacyToDB" parameterType="com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto">
+        INSERT INTO tblpharmacy (duty_name, duty_addr, duty_tel1, hp_id, duty_time1s, duty_time1c, duty_time2s,
+                                 duty_time2c,
+                                 duty_time3s, duty_time3c, duty_time4s, duty_time4c, duty_time5s, duty_time5c,
+                                 duty_time6s, duty_time6c, wgs84_lat, wgs84_lon,
                                  r_num)
-        VALUES (#{dutyName}, #{dutyAddr}, #{dutyTel1}, #{hpid},#{dutyTime1s},#{dutyTime1c},#{wgs84Lat},#{wgs84Lon},#{rnum})
+        VALUES (#{dutyName}, #{dutyAddr}, #{dutyTel1}, #{hpid}, #{dutyTime1s}, #{dutyTime1c}, #{dutyTime2s},
+                #{dutyTime2c},
+                #{dutyTime3s}, #{dutyTime3c}, #{dutyTime4s}, #{dutyTime4c}, #{dutyTime5s}, #{dutyTime5c}, #{dutyTime6s},
+                #{dutyTime6c}, #{wgs84Lat}, #{wgs84Lon}, #{rnum})
     </insert>
+
+    <insert id="HealthCenterToDB" parameterType="com.bitc.springteamproject1209.dto.SinJsonDto">
+        INSERT INTO tblhealthcenter (medical_sido, medical_sigungu, medical_type, medical_name, medical_post_code,
+                                     medical_addr, medical_tel, medical_eupmyeondong)
+        VALUES (#{sido}, #{sigungu}, #{medicalType}, #{medicalName}, #{postCode}, #{medicalAddr}, #{tel},
+                #{eupmyeondong})
+    </insert>
+
+
+    <select id="receiveHCDBList" resultType="com.bitc.springteamproject1209.dto.SinHCDto">
+        select idx, medical_name, medical_addr
+        From tblhealthcenter
+        where medical_type = "보건소"
+    </select>
+
+    <select id="receiveHCDBTelCodeList" parameterType="String"
+            resultType="com.bitc.springteamproject1209.dto.SinHCDto">
+        select idx, medical_name, medical_addr
+        From tblhealthcenter
+        where medical_type = "보건소"
+          AND Locate(#{telCode}, medical_tel)
+    </select>
+
+    <select id="receiveHCDBUserSearchList" parameterType="String"
+            resultType="com.bitc.springteamproject1209.dto.SinHCDto">
+        select idx, medical_name, medical_addr
+        From tblhealthcenter
+        where medical_type = "보건소"
+          AND Locate(#{userSearchWord}, medical_addr)
+    </select>
+
+    <select id="receiveHCDBDoubleList" parameterType="String"
+            resultType="com.bitc.springteamproject1209.dto.SinHCDto">
+        select idx, medical_name, medical_addr
+        From tblhealthcenter
+        where medical_type = "보건소"
+          AND Locate(#{telCode}, medical_tel)
+          AND Locate(#{userSearchWord}, medical_addr)
+    </select>
+
+    <select id="getHCDetailDto" parameterType="int"
+            resultType="com.bitc.springteamproject1209.dto.SinHCDto">
+        select medical_name, medical_addr, medical_tel, medical_type
+        From tblhealthcenter
+        where idx = #{idx}
+
+    </select>
+
+
+    <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+        INSERT INTO review (re_id, re_md_addr, re_md_name, re_contents, re_create_date)
+        VALUES ("aaa", #{reMdAddr}, #{reMdName}, #{reContents}, NOW())
+    </insert>
+
+
+    <select id="getHCReview" parameterType="int"
+            resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT A.*, @rownum := @rownum+1 AS reNum FROM (
+            SELECT re_id, re_contents, re_md_name, re_create_date
+            FROM review as rv
+            LEFT JOIN tblhealthcenter as hc
+            ON rv.re_md_addr = hc.medical_addr
+            JOIN (SELECT @rownum := 0) AS R
+            WHERE hc.idx = #{idx}
+            ORDER BY rv.re_create_date DESC) AS A;
+    </select>
+
 
 </mapper>

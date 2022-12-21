@@ -148,28 +148,28 @@ public class GwakController {
 
 
 //  리뷰 가져오기
-  @PostMapping("/myReviewList")
-  @ResponseBody
-  public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
-
-    HttpSession session = request.getSession();
-
-    List<ReviewDto> reviewList = gwakService.selectMyReviewList(reId);
-
-    if (session.getAttribute("reviews") != null){
-      session.removeAttribute("reviews");
-    }
-    session.setAttribute("reviews", reviewList);
-
-    if (reviewList == null) {
-      return 0;
-    } else {
-      return reviewList;
-    }
-  }
-  @RequestMapping("/GwakMyReviewPage")
-  public String GwakMyReviewPage() {
-
-    return "GwakMyReviewPage";
-  }
+//  @PostMapping("/myReviewList")
+//  @ResponseBody
+//  public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
+//
+//    HttpSession session = request.getSession();
+//
+//    List<ReviewDto> reviewList = gwakService.selectMyReviewList(reId);
+//
+//    if (session.getAttribute("reviews") != null){
+//      session.removeAttribute("reviews");
+//    }
+//    session.setAttribute("reviews", reviewList);
+//
+//    if (reviewList == null) {
+//      return 0;
+//    } else {
+//      return reviewList;
+//    }
+//  }
+//  @RequestMapping("/GwakMyReviewPage")
+//  public String GwakMyReviewPage() {
+//
+//    return "GwakMyReviewPage";
+//  }
 }

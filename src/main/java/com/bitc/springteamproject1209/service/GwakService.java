@@ -25,7 +25,7 @@ public interface GwakService {
 
 //  ReviewDto myReviewList(String reId) throws Exception;
 
-  List<ReviewDto> selectMyReviewList(String reId);
+//  List<ReviewDto> selectMyReviewList(String reId);
 
 
 }

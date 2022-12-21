@@ -21,5 +21,5 @@ public interface GwakMapper {
 
 
   //  List<ReviewDto> selectMyReviewList(String reId) throws Exception;
-  List<ReviewDto> selectMyReviewList(String reId);
+//  List<ReviewDto> selectMyReviewList(String reId);
 }

@@ -65,7 +65,11 @@
 
   </script>
 </head>
+
 <body>
+<header th:replace="layout/Header :: mainHeader">
+
+</header>
 <main class="container mt-5">
   <div class="row">
     <h2 class="text-center mt-5">로그인</h2>
@@ -96,5 +100,9 @@
     </form>
   </div>
 </main>
+<footer th:replace="layout/Footer :: mainFooter">
+
+</footer>
 </body>
+
 </html>

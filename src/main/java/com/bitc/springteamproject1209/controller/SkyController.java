@@ -75,26 +75,30 @@ public class SkyController {
 //        return mav;
 //    }
 
-    //  리뷰 가져오기
-//    @PostMapping("/myReviewList")
-//    @ResponseBody
-//    public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
-//
-//        HttpSession session = request.getSession();
-//
-//        List<ReviewDto> reviewList = memberService.selectMyReviewList(reId);
-//
-//        if (session.getAttribute("reviews") != null){
-//            session.removeAttribute("reviews");
-//        }
-//        session.setAttribute("reviews", reviewList);
-//
-//        if (reviewList == null) {
-//            return 0;
-//        } else {
-//            return reviewList;
-//        }
-//    }
+//      리뷰 가져오기
+    @PostMapping("/SkyMyReviewPage")
+    @ResponseBody
+    public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
 
+        HttpSession session = request.getSession();
+
+        List<ReviewDto> reviewList = memberService.selectMyReviewList(reId);
+
+        if (session.getAttribute("reviews") != null){
+            session.removeAttribute("reviews");
+        }
+        session.setAttribute("reviews", reviewList);
+
+        if (reviewList == null) {
+            return 0;
+        } else {
+            return reviewList;
+        }
+    }
+  @RequestMapping("/SkyMyReviewPage")
+  public String GwakMyReviewPage() {
+
+    return "SkyMyReviewPage";
+  }
 
 }

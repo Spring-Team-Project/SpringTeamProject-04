@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>우리동네 약국 상세페이지</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+    <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+    <!--    구글맵 api-->
+    <script defer src="./LeePharmacyDetail.js"></script>
+    <script defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC880AhXW_aAFlBqKRF3n-IS49vRUpssaA&callback=initMap">
+    </script>
+    <script>
+        var map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: {lat: 37.5642135, lng: 127.0016985}
+            });
+
+
+            var apiUrl = "http://localhost:8080/ermctInsttInfoInqireService";
+            $.ajax({
+                type: "GET",
+                url: apiUrl,
+                contentType: "application/json",
+                error: function () {
+                    console.log('통신실패!!');
+                },
+                success: function (data) {
+                    console.log(data)
+
+                    for (var i = 0; i < data.data.length; i++) {
+                        var parmacy = {
+                            lat: typeof data.data[i].wgs84Lat != "number" ? parseInt(data.data[i].wgs84Lat) : data.data[i].wgs84Lat,
+                            lng: typeof data.data[i].wgs84Lon != "number" ? parseInt(data.data[i].wgs84Lon) : data.data[i].wgs84Lon
+                        }
+                        var marker = new google.maps.Marker({
+                            position: parmacy,
+                            map: map,
+                            title: data.data[i].dutyName
+                        });
+
+
+                    }
+                }
+
+            });
+
+
+        }
+
+    </script>
+</head>
+
+<body>
+
+<header th:replace="layout/Header :: mainHeader">
+</header>
+
+<main>
+    <div class="container mt-5 p-5">
+        <div>
+            <h1 class="text-center">약국 상세 페이지</h1>
+        </div>
+        <div>
+            <h3 class="text-start">약국 이름</h3>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <table class="table table-hover table-striped col-md-8">
+                    <div class="form-floating">
+                        <div class="form-floating my-3">
+                            <tr>
+                                <th>위치</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>보건 기관 유형</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>운영 시간</th>
+                                <td></td>
+                            </tr>
+                        </div>
+                    </div>
+                </table>
+                <div class="form-floating col-md-8">
+                    <div class="form-floating my-3">
+                        <input type="text" class="form-control" id="reContents" name="reContents"
+                               placeholder="한줄평을 입력해주세요">
+                        <label for="reContents">한줄평을 입력해주세요</label>
+                        <button type="submit" class="btn btn-primary" id="btn-ok">리뷰 등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="map" style="height:400px;">
+
+    </div>
+
+</main>
+
+<footer th:replace="layout/Footer :: mainFooter">
+</footer>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

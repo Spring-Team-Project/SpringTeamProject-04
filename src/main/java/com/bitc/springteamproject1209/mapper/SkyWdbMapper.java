@@ -11,4 +11,5 @@ public interface SkyWdbMapper {
     List<ReviewDto> selectMyReviewList(String reId);
 
 
+    void updateBored(int reIdx) throws Exception;
 }

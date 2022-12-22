@@ -112,6 +112,8 @@ public class GwakController {
     } else {
       return memberDto;
     }
+
+
   }
 
   @PostMapping("/test")
@@ -145,14 +147,7 @@ public class GwakController {
 }
 
 
-//  @RequestMapping(value = "/myReviewList/{reId}", method = RequestMethod.GET)
-//  public ModelAndView getmyReviewList(@PathVariable("reId") String reId) throws Exception {
-//    ModelAndView mv = new ModelAndView("GwakMyReviewPage");
-//    List<ReviewDto> myReviewList = gwakService.selectMyReviewList(reId); // 서비스로 간
-//    mv.addObject("myReviewList",myReviewList);
-//
-//    return mv;
-//  }
+
 
 
 //  리뷰 가져오기
@@ -192,5 +187,6 @@ public class GwakController {
 
     return "index3";
   }
+
 
 }

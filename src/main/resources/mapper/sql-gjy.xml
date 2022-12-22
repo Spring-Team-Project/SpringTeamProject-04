@@ -46,14 +46,6 @@
     </update>
 
 
-<!--    <select id="selectMyReviewList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">-->
-<!--        <![CDATA[-->
-<!--        SELECT *-->
-<!--        FROM review-->
-<!--        WHERE re_deleted_yn = 'N'-->
-<!--          and re_Id = #{reId}-->
-<!--        ]]>-->
-<!--    </select>-->
 
     <select id="selectMyReviewList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         SELECT *

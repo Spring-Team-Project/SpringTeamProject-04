@@ -21,8 +21,5 @@ public interface GwakMapper {
   void deleteBoard(int reIdx) throws Exception;
 
 
-  //  List<ReviewDto> selectMyReviewList(String reId) throws Exception;
-  List<ReviewDto> selectMyReviewList(String reId);
 
-  List<LeePharmacyFullDataItemDto> getDataList(String dong);
 }

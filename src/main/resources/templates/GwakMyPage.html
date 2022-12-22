@@ -66,14 +66,14 @@
       console.log(id);
       var btn_review = $("#btn-my-review");
       $.ajax({
-        url:"/myReviewList",
+        url:"/SkyMyReviewPage",
         type: "post",
         data:{reId:id},
         success:function (data) {
           if (data == 0) {
             alert("작성한 리뷰가 없습니다.");
           } else {
-            location.href="/GwakMyReviewPage";
+            location.href="/SkyMyReviewPage";
           }
         }, error: function () {
           alert("통신 실패");

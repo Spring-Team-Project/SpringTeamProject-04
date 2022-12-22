@@ -9,5 +9,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LeeTelCode {
     private String telCode;
-    private String sidoName;
+    private String dutyName;
 }

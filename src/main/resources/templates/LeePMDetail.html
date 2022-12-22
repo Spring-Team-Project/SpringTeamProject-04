@@ -85,7 +85,7 @@
             <tr th:if="${#lists.size(PMReview)} > 0" th:each="item : ${PMReview}">
                 <td th:text="${item.reNum}" class="fw-lighter">번호</td>
                 <td th:text="${item.reId}" class="fw-lighter">작성자 아이디</td>
-                <td th:text="${item.reMdName}" class="fw-lighter">보건소 이름</td>
+                <td th:text="${item.reMdName}" class="fw-lighter">약국 이름</td>
                 <td th:text="${item.reContents}" class="fw-light">한줄 리뷰</td>
                 <td th:text="${item.reCreateDate}" class="fw-light">작성 일자</td>
             </tr>

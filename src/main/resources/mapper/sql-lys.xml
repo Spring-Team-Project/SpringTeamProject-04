@@ -13,8 +13,9 @@
 
     <!--    저장된 리스트 중에서 지역코드로 필터링  -->
     <select id="receivePMDBTelCodeList" resultType="com.bitc.springteamproject1209.dto.LeePMDto" parameterType="String">
-        SELECT * FROM tblpharmacy
-        WHERE duty_tel1 LIKE CONCAT('%', #{telCode}, '%');
+        select idx, duty_name, duty_addr
+        From tblpharmacy
+        where Locate(#{telCode}, duty_tel1)
     </select>
 
     <!--   저장된 리스트 중에서 검색어로 필터링 -->
@@ -42,6 +43,28 @@
         FROM tblpharmacy
         WHERE idx = #{idx}
     </select>
+
+<!--    리뷰-->
+    <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+        INSERT INTO review (re_id, re_md_addr, re_md_name, re_contents, re_create_date)
+        VALUES ("aaa", #{dutyAddr}, #{dutyName}, #{reContents}, NOW())
+    </insert>
+
+<!--    <select id="getPMReview" parameterType="int"-->
+<!--            resultType="com.bitc.springteamproject1209.dto.ReviewDto">-->
+<!--        SELECT A.*, @rownum := @rownum+1 AS reNum FROM (-->
+<!--            SELECT re_id, re_contents, re_md_name, re_create_date-->
+<!--            FROM review as rv-->
+<!--            LEFT JOIN tblhealthcenter as hc-->
+<!--            ON rv.re_md_addr = hc.medical_addr-->
+<!--            JOIN (SELECT @rownum := 0) AS R-->
+<!--            WHERE hc.idx = #{idx}-->
+<!--            ORDER BY rv.re_create_date DESC) AS A;-->
+<!--    </select>-->
+
+<!--https://kimvampa.tistory.com/175-->
+
+
 
 </mapper>
 

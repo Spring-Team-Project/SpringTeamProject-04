@@ -78,11 +78,11 @@
                     $.ajax({
                         type: "get",
                         async: false,
-                        url: "http://localhost:8080/wdb/hclist/telfilter",
+                        url: "http://localhost:8080/pmlist/telfilter",
                         data: {telCode: htmlTelCode},
                         success: function (data) {
                             if (data.length > 0) {
-                                $('#HCTable > tbody').empty();
+                                $('#PMTable > tbody').empty();
 
 
                                 for (let i = 0; i < data.length; i++) {
@@ -90,16 +90,16 @@
                                     let idx = data[i]["idx"];
                                     let result = "<tr style=\"cursor: pointer\">";
 
-                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
-                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalAddr"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["dutyName"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["dutyAddr"] + "</td>";
 
 
                                     result += "</tr>";
 
-                                    $("#HCTable").append(result);
+                                    $("#PMTable").append(result);
                                 }
                             } else {
-                                $('#HCTable > tbody').empty();
+                                $('#PMTable > tbody').empty();
                             }
                         },
                         error: function (request, status, error) {
@@ -129,7 +129,7 @@
                         <select th:field="*{LeeTelCode}" class="form-select" id="tel_code">
                             <option value="">지역 선택</option>
                             <option th:each="telCode : ${LeeTelCode}" th:value="${telCode.telCode}"
-                                    th:text="telCode.sidoName">서울
+                                    th:text="${telCode.dutyName}">서울
                             </option>
                         </select>
                     </div>
@@ -153,11 +153,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:if="${#lists.size(PMDBList)} > 0" th:each="item : ${PMDBList}" style="cursor: pointer">
+                    <tr th:if="${#lists.size(PMDBList)} > 0" th:each="item : ${PMDBList}" style="cursor: pointer"
+                        th:onclick="'javascript:rowClicked(\'' + ${item.idx} + '\');'">
                         <td th:text="${item.dutyName}" class="fw-lighter">약국 이름</td>
                         <td th:text="${item.dutyAddr}" class="fw-light">약국 주소</td>
                     </tr>
-                    <tr th:unless="">
+                    <tr th:unless="${#lists.size(PMDBList)} > 0">
                         <td th:cols="5">조회된 내용이 없습니다</td>
                     </tr>
                     </tbody>

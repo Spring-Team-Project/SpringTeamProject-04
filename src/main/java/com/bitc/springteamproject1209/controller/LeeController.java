@@ -1,12 +1,12 @@
 package com.bitc.springteamproject1209.controller;
 
 import com.bitc.springteamproject1209.dto.*;
+import com.bitc.springteamproject1209.mapper.SinWdbMapper;
 import com.bitc.springteamproject1209.service.LeeMemService;
 import com.bitc.springteamproject1209.service.LeePMService;
 import com.bitc.springteamproject1209.service.LeePharmacyFullDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +30,9 @@ public class LeeController {
 
     @Value("${openApi.serviceKey}")
     private String serviceKey;
+
+    @Autowired
+    private SinWdbMapper sinWdbService;
 
     @RequestMapping(value = "/pharmacyListFile", method = RequestMethod.GET)
     public ModelAndView getFullData() throws Exception {
@@ -92,7 +95,7 @@ public class LeeController {
     public ModelAndView PMListView() throws Exception {
         ModelAndView mv = new ModelAndView("LeePMList");
 
-        List<LeePMDto> PMDBList = leePMService.receivePMDBList();
+        List<LeePMDto> PMDBList = leePMService.PMDBList();
 
         mv.addObject("PMDBList", PMDBList);
 
@@ -100,8 +103,8 @@ public class LeeController {
     }
 
     //    지역번호와 검색 모두
-    @RequestMapping("pmlist/filter")
-    public List<LeePMDto> HCFilterList(@RequestParam(value = "userSearchWord") String userSearchWord, @RequestParam(value = "telCode") String telCode) throws Exception {
+    @GetMapping("pmlist/filter")
+    public List<LeePMDto> PMFilterList(@RequestParam(value = "userSearchWord") String userSearchWord, @RequestParam(value = "telCode") String telCode) throws Exception {
 
         return leePMService.PMFilterList(userSearchWord, telCode);
     }
@@ -130,8 +133,8 @@ public class LeeController {
     }
 
     //  리뷰 작성
-    @PostMapping("/pmreview")
-    public void reviewInsert(ReviewDto reviewDto) throws Exception {
+    @PostMapping("/reviewInsert2")
+    public void reviewInsert2(ReviewDto reviewDto) throws Exception {
 
         try {
             leePMService.insertUserReview(reviewDto);

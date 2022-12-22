@@ -2,15 +2,12 @@ package com.bitc.springteamproject1209.service;
 
 import com.bitc.springteamproject1209.dto.LeePMDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface LeePMService {
 //    리스트 기본 출력
-    List<LeePMDto> receivePMDBList() throws Exception;
+    List<LeePMDto> PMDBList() throws Exception;
 
 //    필터링 관련
     List<LeePMDto> PMFilterList(String userSearchWord, String telCode) throws Exception;

@@ -16,7 +16,7 @@ public class LeePMServiceImpl implements LeePMService {
 
 //    DB에서 가져오는 약국 리스트 (기본)
     @Override
-    public List<LeePMDto> receivePMDBList() throws Exception {
+    public List<LeePMDto> PMDBList() throws Exception {
 
         return leePharmacyMapper.receivePMDBList();
     }
@@ -35,10 +35,11 @@ public class LeePMServiceImpl implements LeePMService {
 //    약국 상세 페이지
     @Override
     public LeePMDto selectPMDetail(int idx) throws Exception {
+
         return leePharmacyMapper.getPMDetailDto(idx);
     }
 
-//    리뷰 메서드임. 작성
+//    상세페이지 안에 들어갈 리뷰 메서드임. 작성
     @Override
     public void insertUserReview(ReviewDto reviewDto) throws Exception {
         leePharmacyMapper.insertUserReview(reviewDto);

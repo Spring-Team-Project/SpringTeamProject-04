@@ -4,6 +4,7 @@ import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.bitc.springteamproject1209.dto.SinHCDto;
 import com.bitc.springteamproject1209.dto.SinJsonDto;
 import com.bitc.springteamproject1209.dto.SinRegistDto;
+import com.github.pagehelper.Page;
 
 import java.util.List;
 
@@ -16,15 +17,16 @@ public interface SinWdbService {
 
     int overlappedEmail(String userEmail) throws Exception;
 
-//    폐기 ///////////////////////////////////////////////////////
+//    폐기 시작//////////////////////////////////////////////////////
 
     List<SinJsonDto> HCList(String userSearchWord, String telCode) throws Exception;
 
     List<SinJsonDto> HCMainList() throws Exception;
 
-//    폐기 ///////////////////////////////////////////////////////
+//    폐기 끝 ///////////////////////////////////////////////////////
 
     List<SinHCDto> HCDBList() throws Exception;
+    List<SinHCDto> HCDBList(int HCpageNum) throws Exception;
 
 
     List<SinHCDto> HCFilterList(String userSearchWord, String telCode) throws Exception;
@@ -36,4 +38,8 @@ public interface SinWdbService {
     void insertUserReview(ReviewDto reviewDto) throws Exception;
 
     List<ReviewDto> selectHCReview(int idx) throws Exception;
+
+
+
+
 }

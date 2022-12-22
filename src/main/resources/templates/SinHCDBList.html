@@ -13,7 +13,7 @@
     <script th:inline="javascript">
 
         function rowClicked(value) {
-            location.href="http://localhost:8080/wdb/hclist/" +value;
+            location.href = "http://localhost:8080/hclist/" + value;
         }
 
         $(document).ready(function () {
@@ -33,7 +33,7 @@
                     $.ajax({
                         type: "get",
                         async: false,
-                        url: "http://localhost:8080/wdb/hclist/filter",
+                        url: "http://localhost:8080/hclist/filter",
                         data: {userSearchWord: searchWord, telCode: htmlTelCode},
                         success: function (data) {
                             if (data.length > 0) {
@@ -43,9 +43,8 @@
                                     let idx = data[i]["idx"];
                                     let result = "<tr style=\"cursor: pointer\">";
 
-                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalName"] + "</td>";
-                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalAddr"] + "</td>";
-
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalAddr"] + "</td>";
 
 
                                     result += "</tr>";
@@ -79,21 +78,19 @@
                     $.ajax({
                         type: "get",
                         async: false,
-                        url: "http://localhost:8080/wdb/hclist/telfilter",
+                        url: "http://localhost:8080/hclist/telfilter",
                         data: {telCode: htmlTelCode},
                         success: function (data) {
                             if (data.length > 0) {
                                 $('#HCTable > tbody').empty();
 
 
-
                                 for (let i = 0; i < data.length; i++) {
 
-                                    let idx = data[i]["idx"];
                                     let result = "<tr style=\"cursor: pointer\">";
 
-                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalName"] + "</td>";
-                                    result += "<td onclick=\"rowClicked('"+idx+"')\">" + data[i]["medicalAddr"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalAddr"] + "</td>";
 
 
                                     result += "</tr>";
@@ -112,6 +109,103 @@
                 }
             });
 
+
+            var curPage = 1;
+
+            $('#prevBtn').on('click', function () {
+
+                // if (curPage < 1 && curPage > -1) {
+                //     curPage = 1;
+                // }else {
+                //     curPage--;
+                // }
+                curPage--;
+                if (curPage < 1) {
+                    curPage = 1;
+                }
+                console.log(curPage);
+
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "http://localhost:8080/hclist/page",
+                    data: {pageNum: curPage},
+                    success: function (data) {
+                        // console.log(data)
+                        if (data.length > 0) {
+                            $('#HCTable > tbody').empty();
+
+
+                            for (let i = 0; i < data.length; i++) {
+
+                                let idx = data[i]["idx"];
+
+                                let result = "<tr style=\"cursor: pointer\">";
+
+                                result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
+                                result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalAddr"] + "</td>";
+
+
+                                result += "</tr>";
+
+                                $("#HCTable").append(result);
+                            }
+                        } else {
+                            $('#HCTable > tbody').empty();
+                        }
+                    },
+                    error: function (request, status, error) {
+                        alert("검색 실패")
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+                    }
+
+                });
+
+            });
+
+            $('#nextBtn').on('click', function () {
+                curPage++;
+                if (curPage > 25) {
+                    curPage = 25;
+                }
+
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "http://localhost:8080/hclist/page",
+                    data: {pageNum: curPage},
+                    success: function (data) {
+                        // console.log(data)
+                        if (data.length > 0) {
+                            $('#HCTable > tbody').empty();
+
+
+                            for (let i = 0; i < data.length; i++) {
+
+                                let idx = data[i]["idx"];
+
+                                let result = "<tr style=\"cursor: pointer\">";
+
+                                result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
+                                result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalAddr"] + "</td>";
+
+
+                                result += "</tr>";
+
+                                $("#HCTable").append(result);
+                            }
+                        } else {
+                            $('#HCTable > tbody').empty();
+                        }
+                    },
+                    error: function (request, status, error) {
+                        alert("검색 실패")
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+                    }
+
+                });
+
+            });
 
         });
 
@@ -166,6 +260,10 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary mx-auto" id="prevBtn">이전</button>
+                <button class="btn btn-primary mx-auto" id="nextBtn">다음</button>
             </div>
         </div>
     </div>

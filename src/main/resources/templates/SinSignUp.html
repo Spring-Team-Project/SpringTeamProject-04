@@ -25,25 +25,25 @@
             $.ajax({
                 type: "get",
                 async: false,
-                url: "http://localhost:8080/wdb/user/emailcheck",
+                url: "http://localhost:8080/signup/emailcheck",
                 data: {checkEmail: email},
                 success: function (data) {
 
                     if (!regexp.test(email)) {
                         $("#email_check").text("이메일을 올바르게 입력해주세요");
-                        $("#email_check").addClass("olmessagef");
-                        $("#email_check").removeClass("olmessaget");
+                        $("#email_check").addClass("text-danger");
+                        $("#email_check").removeClass("text-info");
                     } else {
                         if (data == 1) {
                             $("#email_check").text("이미 사용중인 Email 입니다.");
-                            $("#email_check").addClass("olmessagef");
-                            $("#email_check").removeClass("olmessaget");
+                            $("#email_check").addClass("text-danger");
+                            $("#email_check").removeClass("text-info");
                             emailCheck = false;
                             $('#btn_signup').attr("disabled", true)
                         } else {
                             $("#email_check").text("사용 가능한 Email 입니다.");
-                            $("#email_check").addClass("olmessaget");
-                            $("#email_check").removeClass("olmessagef");
+                            $("#email_check").addClass("text-info");
+                            $("#email_check").removeClass("text-danger");
                             emailCheck = true;
                             if (idCheck == true && passCheck == true && emailCheck == true) {
                                 $('#btn_signup').attr("disabled", false)
@@ -68,25 +68,25 @@
             $.ajax({
                 type: "get",
                 async: false,
-                url: "http://localhost:8080/wdb/user/idcheck",
+                url: "http://localhost:8080/signup/idcheck",
                 data: {checkId: id},
                 success: function (data) {
                     if (!regexp.test(id)) {
                         idCheck = false
-                        $("#id_check").text("사용할수 없는 ID 입니다.");
-                        $("#id_check").addClass("olmessagef");
-                        $("#id_check").removeClass("olmessaget");
+                        $("#id_check").text("사용할수 없는 ID 입니다. 영어 소문자, 숫자 4~15자 이내로 적어주세요");
+                        $("#id_check").addClass("text-danger");
+                        $("#id_check").removeClass("text-info");
                     } else {
                         if (data == 1) {
                             $("#id_check").text("이미 사용중인 ID 입니다.");
-                            $("#id_check").addClass("olmessagef");
-                            $("#id_check").removeClass("olmessaget");
+                            $("#id_check").addClass("text-danger");
+                            $("#id_check").removeClass("text-info");
                             idCheck = false;
                             $('#btn_signup').attr("disabled", true)
                         } else {
                             $("#id_check").text("사용 가능한 ID 입니다.");
-                            $("#id_check").addClass("olmessaget");
-                            $("#id_check").removeClass("olmessagef");
+                            $("#id_check").addClass("text-info");
+                            $("#id_check").removeClass("text-danger");
                             idCheck = true;
                             if (idCheck == true && passCheck == true && emailCheck == true) {
                                 $('#btn_signup').attr("disabled", false)
@@ -110,6 +110,7 @@
             btnSignup.addEventListener('click', function () {
                 let userAddr = document.querySelector('#user_address').value + " " + document.querySelector('#user_detailAddress').value;
                 document.querySelector('#join_addr').value = userAddr;
+                alert("가입이 완료됐습니다.")
 
             });
         });
@@ -128,14 +129,14 @@
 
                 if (!regexp.test(password)) {
                     $("#pass_check").text("비밀번호는 4자리 이상 으로 적어주세요");
-                    $("#pass_check").addClass("olmessaget");
-                    $("#pass_check").removeClass("olmessagef");
+                    $("#pass_check").addClass("text-danger");
+                    $("#pass_check").removeClass("text-info");
                 } else {
                     if (password != '' && password != '') {
                         if (password == passwordcheck) {
                             $("#pass_check").text("비밀번호가 일치합니다");
-                            $("#pass_check").addClass("olmessaget");
-                            $("#pass_check").removeClass("olmessagef");
+                            $("#pass_check").addClass("text-info");
+                            $("#pass_check").removeClass("text-danger");
                             passCheck = true;
                             $('#btn_signup').attr("disabled", true)
                             if (idCheck == true && passCheck == true && emailCheck == true) {
@@ -145,8 +146,8 @@
                             }
                         } else {
                             $("#pass_check").text("비밀번호가 불일치합니다");
-                            $("#pass_check").addClass("olmessagef");
-                            $("#pass_check").removeClass("olmessaget");
+                            $("#pass_check").addClass("text-danger");
+                            $("#pass_check").removeClass("text-info");
                             passCheck = false;
                         }
                     }

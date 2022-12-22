@@ -1,16 +1,9 @@
 package com.bitc.springteamproject1209.controller;
 
-import com.bitc.springteamproject1209.dto.MemberDto;
-import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.bitc.springteamproject1209.service.SkyMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 
 @Controller
@@ -31,7 +24,7 @@ public class SkyController {
     }
     @RequestMapping("/signUp.do")
     public String signUp() {
-        return "SignUp";
+        return "SinSignUp";
     }
     @RequestMapping("/test")
     public String test(){

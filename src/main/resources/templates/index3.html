@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>-->
+  <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+  <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+  <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h2 class="text-center my-3">내 주변 약국 찾기</h2>
+  <div class="text-end">
+    <p id="nowLocation"></p>
+  <button id="btn-start" class="btn btn-outline-info mt-3 fs-6 ">약국 찾기</button>
+  </div>
+  </div>
+  <div class="container mt-3">
+  <div id="map" style="width:auto;height:600px;" class="align-items-center"></div>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9d88b62f2b41600a7805dfefc28f353&libraries=services,clusterer,drawing">
+  </script>
+
+  <script>
+    $(document).ready(function () {
+
+      // 카카오맵 지도 생성
+      // 지도를 표시할 div
+      var mapContainer = document.getElementById('map'),
+        mapOption = {
+          center: new kakao.maps.LatLng(127.20316293878739, 127.81803310329138), // 지도의 중심좌표
+          level: 5 // 지도의 확대 레벨
+        };
+
+      // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+      var map = new kakao.maps.Map(mapContainer, mapOption);
+
+      // 주소를 좌표로 바꾸기 위한 geocoder 생성
+      var geocoder = new kakao.maps.services.Geocoder();
+
+      // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+      if (navigator.geolocation) {
+
+        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+          var lat = position.coords.latitude, // 위도
+            lon = position.coords.longitude; // 경도
+
+
+          var geocoder = new kakao.maps.services.Geocoder();
+          var coord = new kakao.maps.LatLng(lat, lon);
+
+          var callback = function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+              console.log('현재 사용자 주소' + result[0].address.address_name);
+              let messageCode = result[0].address.address_name;
+              var codeString = messageCode.substr(0, 2);
+              userLocation = codeString;
+
+              var message = '<div style="padding:5px;">현재 위치 : ' + messageCode + '</div>'; // 인포윈도우에 표시될 내용입니다
+              displayMarker(locPosition, message);
+            }
+          };
+          geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+          var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        });
+      } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+        var locPosition = new kakao.maps.LatLng(126.450701, 126.570667),
+          message = 'geolocation을 사용할수 없어요..'
+        displayMarker(locPosition, message);
+      }
+
+
+      $('#btn-start').on('click', function(){
+        // 전체 마을 위치 마커를 담을 배열
+        var markers = [];
+        var dong = userLocation;
+        $.ajax({
+          url : '/mapData',
+          type : 'GET',
+          async : false,
+          dataType : 'json',
+          data : {"dong": dong},
+          success : function(data) {
+            console.log("data : " + data);
+            // 마을 전체 리스트를 돌면서 마을 위치마다 마커 찍기
+            for (var i = 0; i < data.length; i++) {
+              // 마커가 표시될 위치입니다
+              var markerPosition = new kakao.maps.LatLng(data[i]["wgs84Lat"], data[i]["wgs84Lon"]);
+
+              // 마커를 생성합니다
+              var marker = new kakao.maps.Marker({
+                content: '테스트1',
+                position: markerPosition
+              });
+
+              //@@@@@@@@@@@@@@@@@@@@@@@@@@
+              // 마커에 표시할 인포윈도우를 생성합니다
+              var infowindow = new kakao.maps.InfoWindow({
+                content: '<div>' + data[i]["dutyName"] + '<br>' + data[i]["dutyAddr"] + '</div>' // 인포윈도우에 표시할 내용
+              });
+              // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+              // 이벤트 리스너로는 클로저를 만들어 등록합니다
+              // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+              kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+              kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+
+              // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+              function makeOverListener(map, marker, infowindow) {
+                return function() {
+                  infowindow.open(map, marker);
+                };
+              }
+
+              // 인포윈도우를 닫는 클로저를 만드는 함수입니다
+              function makeOutListener(infowindow) {
+                return function() {
+                  infowindow.close();
+                };
+              }
+              // 마커가 지도 위에 표시되도록 설정합니다
+              marker.setMap(map);
+
+              // 생성된 마커를 배열에 추가
+              markers.push(marker);
+            }
+            // 지도에 마커 표시
+            for (var i = 0; i < markers.length; i++) {
+              markers[i].setMap(map);
+            }
+          },
+          error : function(jqXHR, status, error) {
+            console.log(jqXHR.status, status);
+          }
+        });
+      });
+
+      // 지도에 마커와 인포윈도우를 표시하는 함수입니다
+      function displayMarker(locPosition, message) {
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+          map: map,
+          position: locPosition
+        });
+
+        var iwContent = message, // 인포윈도우에 표시할 내용
+          iwRemoveable = true;
+
+        // 인포윈도우를 생성합니다
+        var infowindow = new kakao.maps.InfoWindow({
+          content : iwContent,
+          removable : iwRemoveable
+        });
+
+        // 인포윈도우를 마커위에 표시합니다
+        infowindow.open(map, marker);
+
+        // 지도 중심좌표를 접속위치로 변경합니다
+        map.setCenter(locPosition);
+      }
+    });
+
+  </script>
+
+</div>
+
+</body>
+</html>

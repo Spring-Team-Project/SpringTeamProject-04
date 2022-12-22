@@ -187,4 +187,10 @@ public class GwakController {
     return "index2";
   }
 
+  @RequestMapping("/index3")
+  public String index3() {
+
+    return "index3";
+  }
+
 }

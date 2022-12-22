@@ -139,39 +139,5 @@ public class GwakController {
 }
 
 
-//  @RequestMapping(value = "/myReviewList/{reId}", method = RequestMethod.GET)
-//  public ModelAndView getmyReviewList(@PathVariable("reId") String reId) throws Exception {
-//    ModelAndView mv = new ModelAndView("GwakMyReviewPage");
-//    List<ReviewDto> myReviewList = gwakService.selectMyReviewList(reId); // 서비스로 간
-//    mv.addObject("myReviewList",myReviewList);
-//
-//    return mv;
-//  }
 
-
-//  리뷰 가져오기
-//  @PostMapping("/myReviewList")
-//  @ResponseBody
-//  public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
-//
-//    HttpSession session = request.getSession();
-//
-//    List<ReviewDto> reviewList = gwakService.selectMyReviewList(reId);
-//
-//    if (session.getAttribute("reviews") != null){
-//      session.removeAttribute("reviews");
-//    }
-//    session.setAttribute("reviews", reviewList);
-//
-//    if (reviewList == null) {
-//      return 0;
-//    } else {
-//      return reviewList;
-//    }
-//  }
-//  @RequestMapping("/GwakMyReviewPage")
-//  public String GwakMyReviewPage() {
-//
-//    return "GwakMyReviewPage";
-//  }
 }

@@ -7,10 +7,14 @@ import com.bitc.springteamproject1209.service.LeePMService;
 import com.bitc.springteamproject1209.service.LeePharmacyFullDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 @RestController
@@ -75,9 +79,15 @@ public class LeeController {
     }
 
     @RequestMapping("/updateMember")
-    public String updateMember(MemberDto memberDto) throws Exception {
+    public ResponseEntity<?> updateMember(MemberDto memberDto) throws Exception {
         leeMemService.updateInfo(memberDto);
-        return "#";
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setLocation(URI.create("/myPage"));
+
+
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
     @RequestMapping("/publicHealthDetail")

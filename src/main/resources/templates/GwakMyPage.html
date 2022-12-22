@@ -83,6 +83,8 @@
   </script>
 </head>
 <body>
+
+<header th:replace="layout/Header :: mainHeader"></header>
 <main>
   <h2 class="text-center mt-5" id="sessionId" th:text="${session.member.getMemId()} + '님의 마이페이지'"></h2>
   <br><br>
@@ -107,19 +109,12 @@
                     id="btn-all">
               전체 리뷰 보기
             </button>
-            <button type="button" class="list-group-item d-flex justify-content-between align-items-center"
-                    id="btn-back">
-              돌아가기
-            </button>
           </ul>
         </div>
       </div>
     </form>
   </div>
-  <div style="float:right;" th:with="username='aaa'">
-    <a type="button" class="btn btn-primary">취소</a>
-    <button class="btn btn-primary" th:if="${#strings.equals(session.member.getMemId(), username)}">수정</button>
-  </div>
 </main>
+<footer th:replace="layout/Footer :: mainFooter"></footer>
 </body>
 </html>

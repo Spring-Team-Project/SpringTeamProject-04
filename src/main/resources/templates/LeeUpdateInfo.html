@@ -15,6 +15,12 @@
             $('#btn-back').on('click', function () {
                 history.back();
             });
+
+            $('#btn-update').on('click',function (){
+                alert("수정이 완료됐습니다.")
+            });
+
+
         });
     </script>
 </head>
@@ -52,7 +58,7 @@
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="form-floating my-3 btn btn-success" id="btn-update"
-                                th:href="update" style="font-size: medium; font-weight: normal">수정 완료
+                                style="font-size: medium; font-weight: normal">수정 완료
                         </button>
                         <button type="button" class="form-floating btn btn-dark" id="btn-back"
                                 style="background-color: rgb(128,128,128); font-size: medium; font-weight: normal">돌아가기

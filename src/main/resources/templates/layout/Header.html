@@ -20,7 +20,7 @@
 <header class="bg-dark" th:fragment="mainHeader">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="main">우리동네 보건소</a>
+            <a class="navbar-brand" href="http://localhost:8080/main">우리동네 보건소</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggle-icon"></span>
@@ -54,41 +54,41 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#login').click(function () {
-                location.href = "GwakLogin";
+                location.href = "http://localhost:8080/GwakLogin";
             });
 
 
             $('#signUp').click(function () {
-                location.href = "signUp.do";
+                location.href = "http://localhost:8080/signUp.do";
             });
 
             $('#review').click(function () {
 
-                location.href = "GwakReviewBoardPage";
+                location.href = "http://localhost:8080/GwakReviewBoardPage";
             });
 
             $('#mypage').click(function () {
 
-                location.href = "myPage";
+                location.href = "http://localhost:8080/myPage";
             });
 
             $('#hcdb').click(function () {
 
-                location.href = "hclist";
+                location.href = "http://localhost:8080/hclist";
             });
             $('#StorePage').click(function () {
 
-                location.href = "GwakStorePage";
+                location.href = "http://localhost:8080/GwakStorePage";
             });
             $('#pharmacy').click(function () {
 
-                location.href = "pharmacyList";
+                location.href = "http://localhost:8080/pmlist";
             });
 
             $('#logout').click(function () {
                 var logout = confirm("로그아웃 하시겠습니까?");
                 if (logout == true) {
-                    location.href = "logout"; //로그아웃페이지 이동
+                    location.href = "http://localhost:8080/logout"; //로그아웃페이지 이동
                 }
             });
         });

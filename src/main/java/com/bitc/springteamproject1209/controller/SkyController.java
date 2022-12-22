@@ -5,12 +5,16 @@ import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.bitc.springteamproject1209.service.SkyMemberService;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -51,13 +55,19 @@ public class SkyController {
     public class LogOutController {
 
         @GetMapping("/logout")
-        public String logout(HttpServletRequest request){
+        public ResponseEntity<?> logout(HttpServletRequest request){
 
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
             }
-            return "redirect:main";
+
+            HttpHeaders headers = new HttpHeaders();
+
+            headers.setLocation(URI.create("/main"));
+
+
+            return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
         }
     };
 

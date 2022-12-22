@@ -33,7 +33,7 @@
                     <li class="nav-item"><a class="nav-link" href="#" id="StorePage">우리동네 스토어</a></li>
                 </ul>
                 <div class="d-flex">
-<!--                    로그인시 세션값 받아 와서 로그아웃 버튼 활성화  -->
+                    <!--                    로그인시 세션값 받아 와서 로그아웃 버튼 활성화  -->
                     <div th:if="${session.member != null}">
                         <p  th:text="${session.member.getMemId()} + '님 반갑습니다.'" style="text-align: center; font-size: large"> </p>
                         <button class="btn btn-outline-dark" type="button" id="mypage" >마이페이지</button>

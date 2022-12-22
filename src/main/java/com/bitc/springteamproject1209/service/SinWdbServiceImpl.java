@@ -5,6 +5,8 @@ import com.bitc.springteamproject1209.dto.SinHCDto;
 import com.bitc.springteamproject1209.dto.SinJsonDto;
 import com.bitc.springteamproject1209.dto.SinRegistDto;
 import com.bitc.springteamproject1209.mapper.SinWdbMapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,10 +63,74 @@ public class SinWdbServiceImpl implements SinWdbService {
 
 
     //  DB 에서 가져오는 보건소 리스트
+
     @Override
     public List<SinHCDto> HCDBList() throws Exception {
 
-        return sinWdbMapper.receiveHCDBList();
+
+        List<SinHCDto> allData = sinWdbMapper.receiveHCDBList();
+        List<SinHCDto> pagingPerData = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            pagingPerData.add(allData.get(i));
+
+        }
+        return pagingPerData;
+    }
+
+    // 세미 페이징
+    @Override
+    public List<SinHCDto> HCDBList(int HCPageNum) throws Exception {
+
+        int nextData, totalData,endData, startData;
+
+        List<SinHCDto> allData = sinWdbMapper.receiveHCDBList();
+        List<SinHCDto> pagingPerData = new ArrayList<>();
+
+        startData = HCPageNum;
+        endData = (HCPageNum * 10) + 1;
+
+        nextData = (HCPageNum * 10) - 10;
+
+
+        totalData = 241;
+
+
+        if (endData > totalData){
+            endData = totalData;
+
+        } else {
+            endData = (HCPageNum * 10);
+        }
+        if (nextData > totalData){
+            nextData = totalData - 1;
+        }else {
+            nextData = (HCPageNum * 10) - 10;
+        }
+
+        if (HCPageNum == 0){
+            HCPageNum = 1;
+        }
+
+
+
+        if (HCPageNum == 1) {
+
+            for (int i = 0; i < 10; i++) {
+                pagingPerData.add(allData.get(i));
+
+            }
+                return pagingPerData;
+
+        }else if (HCPageNum > 1){
+            for (int i = nextData; i < endData; i++) {
+                pagingPerData.add(allData.get(i));
+
+            }
+                return pagingPerData;
+        }
+
+        return allData;
     }
 
     //    검색 및 필터링
@@ -141,6 +207,8 @@ public class SinWdbServiceImpl implements SinWdbService {
 
         return sendSinJsonDto;
     }
+
+
 
 
 //--------------------------------------------------------------------------------------------------------------

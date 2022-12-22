@@ -25,7 +25,7 @@ public class SkyController {
         return "main";
     }
 
-//    @RequestMapping("/login.do")
+    //    @RequestMapping("/login.do")
 //    public String login() throws Exception {
 //        return "GwakLogin";
 //    }
@@ -46,7 +46,7 @@ public class SkyController {
         return "SkyMyReviewPageDetail";
     }
 
-//    로그아웃 시 세션 종료 컨트롤
+    //    로그아웃 시 세션 종료 컨트롤
     @Controller
     public class LogOutController {
 
@@ -66,7 +66,7 @@ public class SkyController {
     private SkyMemberService memberService;
 
 
-//      리뷰 가져오기
+    //      리뷰 가져오기
     @PostMapping("/SkyMyReviewPage")
     @ResponseBody
     public Object getmyReviewList(@RequestParam("reId") String reId, HttpServletRequest request){
@@ -86,11 +86,11 @@ public class SkyController {
             return reviewList;
         }
     }
-  @RequestMapping("/SkyMyReviewPage")
-  public String GwakMyReviewPage() {
+    @RequestMapping("/SkyMyReviewPage")
+    public String GwakMyReviewPage() {
 
-    return "SkyMyReviewPage";
-  }
+        return "SkyMyReviewPage";
+    }
 
 
 

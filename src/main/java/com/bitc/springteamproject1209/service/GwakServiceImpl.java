@@ -47,11 +47,11 @@ public class GwakServiceImpl implements GwakService {
     return rvQty;
   }
 
-  @Override
-  public List<ReviewDto> selectMyReviewList(String reId){
-    List<ReviewDto> reviewList = gwakMapper.selectMyReviewList(reId);
-    return reviewList;
-  }
+//  @Override
+//  public List<ReviewDto> selectMyReviewList(String reId){
+//    List<ReviewDto> reviewList = gwakMapper.selectMyReviewList(reId);
+//    return reviewList;
+//  }
 
   @Override
   public List<LeePharmacyFullDataItemDto> getMapData(String dong) {

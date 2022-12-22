@@ -2,6 +2,8 @@ package com.bitc.springteamproject1209.controller;
 
 import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.service.SinWdbService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,7 +41,7 @@ public class SinPageController {
     //  보건소 목록 전체 뷰
     @GetMapping("/trash/disuse")
     public ModelAndView HCView() throws Exception {
-        ModelAndView mv = new ModelAndView("wdb/HCList");
+        ModelAndView mv = new ModelAndView("SinHCList");
 
         List<SinJsonDto> HCList = sinWdbService.HCMainList();
 
@@ -77,6 +79,19 @@ public class SinPageController {
 
     }
 
+    //  보건소 페이징
+    @GetMapping("hclist/page")
+    public List<SinHCDto> HCListPage(@RequestParam(value = "pageNum",required = false,defaultValue = "1")int HCpageNum) throws Exception{
+
+
+        List<SinHCDto> HCDBList = sinWdbService.HCDBList(HCpageNum);
+
+        return HCDBList;
+    }
+
+
+
+
     //    지역번호 와 검색 모두
     @GetMapping("/hclist/filter")
     public List<SinHCDto> HCFilterList(@RequestParam(value = "userSearchWord") String userSearchWord, @RequestParam(value = "telCode") String telCode) throws Exception {
@@ -95,14 +110,15 @@ public class SinPageController {
     //    상세 페이지 뷰
 
     @GetMapping("/hclist/{idx}")
-    public ModelAndView openHCDetail(@PathVariable("idx") int idx) throws Exception {
-        ModelAndView mv = new ModelAndView("wdb/HCDetail");
+    public ModelAndView openHCDetail(@PathVariable("idx") int idx, @RequestParam(required = false, defaultValue = "1")int pageNum) throws Exception {
+        ModelAndView mv = new ModelAndView("SinHCDetail");
 
 
         SinHCDto sinHCDto = sinWdbService.selectHCDetail(idx);
         List<ReviewDto> detailReview = sinWdbService.selectHCReview(idx);
 
 
+        mv.addObject("reviewIdx",idx);
         mv.addObject("HCReview", detailReview);
         mv.addObject("HCDetail", sinHCDto);
 
@@ -111,8 +127,9 @@ public class SinPageController {
 
     //  리뷰 작성
     @PostMapping("/reviewInsert")
-    public void reviewInsert(ReviewDto reviewDto) throws Exception {
+    public ResponseEntity<?> reviewInsert(@RequestParam("idx")int idx, ReviewDto reviewDto) throws Exception {
 
+        HttpHeaders headers = new HttpHeaders();
         try {
             sinWdbService.insertUserReview(reviewDto);
             System.out.println("리뷰 작성 성공");
@@ -120,6 +137,12 @@ public class SinPageController {
             e.printStackTrace();
             System.out.println("리뷰 작성 실패");
         }
+
+
+        headers.setLocation(URI.create("/hclist/"+idx));
+
+
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
 
@@ -128,17 +151,17 @@ public class SinPageController {
 
 
     //  회원가입 뷰
-    @GetMapping("/user/signup")
+    @GetMapping("/signup")
     public ModelAndView userSignUp() throws Exception {
 
-        ModelAndView mv = new ModelAndView("wdb/SignUp");
+        ModelAndView mv = new ModelAndView("SinSignUp");
 
         return mv;
     }
 
     //    id 중복 체크
     @ResponseBody
-    @GetMapping("/user/idcheck")
+    @GetMapping("/signup/idcheck")
     public int overlappedID(@RequestParam("checkId") String userId) throws Exception {
 
 
@@ -149,7 +172,7 @@ public class SinPageController {
 
     //    email 중복 체크
     @ResponseBody
-    @GetMapping("/user/emailcheck")
+    @GetMapping("/signup/emailcheck")
     public int overlappedEmail(@RequestParam("checkEmail") String userEmail) throws Exception {
 
 
@@ -158,7 +181,7 @@ public class SinPageController {
         return emailCheck;
     }
 
-    @PostMapping("/user/signup/success")
+    @PostMapping("/signup/success")
     // 예외처리 성공시 회원가입 db 등록
     public ResponseEntity<?> insertUser(SinRegistDto sinRegistDto) throws Exception {
 
@@ -173,7 +196,7 @@ public class SinPageController {
             System.out.println("데이터 입력 실패");
         }
 
-        headers.setLocation(URI.create("/wdb/main"));
+        headers.setLocation(URI.create("/GwakLogin"));
 
 
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
@@ -209,8 +232,8 @@ public class SinPageController {
 
 //--------------------------------------------------------------------------------------------------------------
 
-
-//  테스팅 페이지
+//
+////  테스팅 페이지
 //    @GetMapping("/testpage")
 //    public ModelAndView testView() throws Exception{
 //

@@ -11,19 +11,127 @@
     <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
-    <script>
-        const open = () => {
-            document.querySelector(".modal").classList.remove("hidden");
-        }
 
-        const close = () => {
-            document.querySelector(".modal").classList.add("hidden");
-        }
+<script>
 
-        document.querySelector(".openBtn").addEventListener("click", open);
-        document.querySelector(".closeBtn").addEventListener("click", close);
-        document.querySelector(".bg").addEventListener("click", close);
+    $(document).ready(function (){
 
+        $('#modal_review').on('click',function (){
+
+            console.log($('#modal_review').val());
+
+        });
+
+    });
+    // $(function() {
+    //     var save_bt = $('#modal_review'); // 저장할 버튼을 변수에 선언
+    //     save_bt.click(function() {
+    //         var title = $('#reContents').html(); // 전송할 타이틀이 있는 요소
+    //         var text = $('#text').html(); // 전송할 내용이 있는 요소
+    //         $.ajax({
+    //             url: '/SkyMyReviewPage', // 서버에 전달할 파일명
+    //             dataType: 'text',
+    //             type: 'post',
+    //             data: {
+    //                 'title': $('#reContents'), // 전송할 파라미터 1
+    //                 'text': setTitle // 전송할 파라미터 2
+    //             },
+    //             success: function() {
+    //                 alert('Success'); // 성공시 코드
+    //             }
+    //         });
+    //     })
+    // })
+</script>
+
+    <script type="text/javascript">
+        // $(document).ready(function (){
+        //     $("#modal_review").click(function(){
+        //         $.ajax({
+        //             url : "review/update/{reIdx}",
+        //             type : "get",
+        //             success : function(data){
+        //                 	// alert('success');
+        //                 	alert(data); // json이 아니다
+        //
+        //                 // let json = JSON.parse(data); // String -> json
+        //                 //	alert(json);
+        //
+        //                 // 데이터 가져오기
+        //                 $("#review").text(json.name);
+        //                 // $("#age").html(json.age);
+        //                 // $("#birth").val(json.birth);
+        //             },
+        //             error : function() {
+        //                 alert('error');
+        //             }
+        //         });
+        //     });
+        // });
+        $("#replyList").on("click", "a", function() {
+            event.preventDefault(); // 고유 이벤트 중지
+
+            // 클릭한 대상의 번호를 모달창에 저장.
+            var rno = $(this).attr("href");
+            $("#modalRno").val(rno);
+
+            // replyModify 라면 수정창, replyDelete 라면 삭제창의 형태로 사용
+            if( $(this).hasClass("replyModify") ){ // 수정창
+
+                $(".modal-title").html("댓글수정");
+                $("#modalModBtn").css("display", "inline"); // 수정버튼은 보여지도록 처리
+                $("#modalDelBtn").css("display", "none"); // 삭제버튼은 숨겨지도록 처리
+                $("#modalReply").css("display", "inline"); // 수정창 보여지도록
+
+            } else if ( $(this).hasClass("replyDelete") ) { // 삭제창
+
+                $(".modal-title").html("댓글삭제");
+                $("#modalModBtn").css("display", "none"); // 수정버튼은 숨겨지도록 처리
+                $("#modalDelBtn").css("display", "inline"); // 삭제버튼은 보여지도록 처리
+                $("#modalReply").css("display", "none"); // 수정창 숨겨지도록
+
+            }
+
+            $("#replyModal").modal("show"); // 부트스트랩 모달 함수
+
+        }); // end on
+        $("#modalModBtn").click(function() {
+
+            var rno = $("#modalRno").val();
+            var reply = $("#modalReply").val();
+            var replyPw = $("#modalPw").val();
+
+            if(rno == '' || reply == '' || replyPw == ''){
+                alert("내용, 비밀번호는 필수입니다");
+                return;
+            }
+
+            $.ajax({
+                type : "post",
+                url : "../reply/update",
+                contentType : "application/json; charset=UTF-8",
+                data : JSON.stringify({"rno": rno, "reply": reply, "replyPw": replyPw}),
+                success : function(data) {
+
+                    if(data == 1){ // 업데이트 성공
+                        $("#modalReply").val(""); // 내용비우기
+                        $("#modalPw").val("");
+                        $("#modalRno").val("");
+
+                        $("#replyModal").modal("hide"); // 모달창 내리기
+                        getList(); // 조회메서드 호출
+                    } else {
+                        alert("비밀번호를 확인하세요");
+                        $("#modalPw").val("");
+                    }
+
+                },
+                error : function(status, error) {
+                    alert("수정에 실패했습니다. 관리자에게 문의하세요");
+                }
+            });
+
+        });
     </script>
 
 </head>
@@ -75,8 +183,54 @@
                     <!--
                              <td th:cols="5">조회된 결과가 없습니다.</td>-->
                     <td>
-                        <a href="/review/delete/" th:attrappend="href=${list.reIdx}" th:text="수정"
-                           class="text-decoration-none"></a>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn " data-bs-toggle="modal" id="modal_review" th:attrappend="href=${list.reIdx}" data-bs-target="#staticBackdrop">
+                            수정
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="replyModal" role="dialog">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">닫기</button>
+                                        <h4 class="modal-title">댓글수정</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- 수정폼 id값을 확인하세요-->
+                                        <div class="reply-content">
+                                            <textarea class="form-control" rows="4" id="modalReply" placeholder="내용입력"></textarea>
+                                            <div class="reply-group">
+                                                <div class="reply-input">
+                                                    <input type="hidden" id="modalRno">
+                                                    <input type="password" class="form-control" placeholder="비밀번호" id="modalPw">
+                                                </div>
+                                                <button class="right btn btn-info" id="modalModBtn">수정하기</button>
+                                                <button class="right btn btn-info" id="modalDelBtn">삭제하기</button>
+                                            </div>
+                                        </div>
+                                        <!-- 수정폼끝 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
+<!--                            <div class="modal-dialog">-->
+<!--                                <div class="modal-content">-->
+<!--                                    <div class="modal-header">-->
+<!--                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">한줄 리뷰 </h1>-->
+<!--                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                                    </div>-->
+<!--                                    <textarea th:attrappend="href=${list.reIdx}" >-->
+<!--                                    </textarea>-->
+<!--                                    <div class="modal-footer">-->
+<!--                                        <a href="/review/update/" th:attrappend="href=${list.reIdx}" th:text="저장"-->
+<!--                                           class="text-decoration-none"></a>-->
+<!--                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">저장하기</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </td>
                     <td>
                         <a href="/review/delete/" th:attrappend="href=${list.reIdx}" th:text="삭제"
@@ -93,7 +247,9 @@
 <footer th:replace="layout/Footer :: mainFooter">
 
 </footer>
+<script>
 
+</script>
 
 </body>
 </html>

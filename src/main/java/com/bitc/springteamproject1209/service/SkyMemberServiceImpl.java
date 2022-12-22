@@ -36,4 +36,9 @@ public class SkyMemberServiceImpl implements SkyMemberService {
         return reviewList;
     }
 
+    @Override
+    public void updateBored(int reIdx) throws Exception {
+        skyWdbMapper.updateBored(reIdx);
+    }
+
 }

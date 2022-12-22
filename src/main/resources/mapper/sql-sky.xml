@@ -27,4 +27,7 @@
           and re_Id = #{reId}
     </select>
 
+    <select id="findByBno2" parameterType="Integer" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT * FROM board WHERE bno = #{bno}
+    </select>
 </mapper>

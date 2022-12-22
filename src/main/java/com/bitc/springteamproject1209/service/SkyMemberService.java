@@ -15,4 +15,6 @@ public interface SkyMemberService {
     public void logout(HttpSession session);
 
     List<ReviewDto> selectMyReviewList(String reId);
+
+    void updateBored(int reIdx) throws Exception;
 }

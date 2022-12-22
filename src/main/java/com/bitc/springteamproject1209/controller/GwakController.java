@@ -1,5 +1,6 @@
 package com.bitc.springteamproject1209.controller;
 
+import com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto;
 import com.bitc.springteamproject1209.dto.MemberDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.bitc.springteamproject1209.service.GwakService;
@@ -26,6 +27,13 @@ public class GwakController {
   public String mainPage() throws Exception {
 
     return "main";
+  }
+
+  @RequestMapping(value = "/mapData", method = RequestMethod.GET)
+  @ResponseBody
+  public List<LeePharmacyFullDataItemDto> mapData(@RequestParam("dong") String dong) throws Exception {
+    List<LeePharmacyFullDataItemDto> mapData = gwakService.getMapData(dong);
+    return mapData;
   }
 
   @RequestMapping(value = "/detail")
@@ -172,4 +180,17 @@ public class GwakController {
 
     return "GwakMyReviewPage";
   }
+
+  @RequestMapping("/index2")
+  public String index2() {
+
+    return "index2";
+  }
+
+  @RequestMapping("/index3")
+  public String index3() {
+
+    return "index3";
+  }
+
 }

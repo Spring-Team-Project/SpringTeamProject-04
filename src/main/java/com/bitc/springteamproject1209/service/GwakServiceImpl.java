@@ -1,5 +1,6 @@
 package com.bitc.springteamproject1209.service;
 
+import com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto;
 import com.bitc.springteamproject1209.dto.MemberDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.bitc.springteamproject1209.mapper.GwakMapper;
@@ -50,6 +51,12 @@ public class GwakServiceImpl implements GwakService {
   public List<ReviewDto> selectMyReviewList(String reId){
     List<ReviewDto> reviewList = gwakMapper.selectMyReviewList(reId);
     return reviewList;
+  }
+
+  @Override
+  public List<LeePharmacyFullDataItemDto> getMapData(String dong) {
+
+    return gwakMapper.getDataList(dong);
   }
 
 //  @Override

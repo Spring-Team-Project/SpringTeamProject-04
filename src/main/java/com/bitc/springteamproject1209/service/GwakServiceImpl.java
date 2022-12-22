@@ -20,7 +20,7 @@ public class GwakServiceImpl implements GwakService {
 
   @Override
   public void deleteBoard(int reIdx) throws Exception {
-      gwakMapper.deleteBoard(reIdx);
+    gwakMapper.deleteBoard(reIdx);
   }
 
   @Override
@@ -47,8 +47,22 @@ public class GwakServiceImpl implements GwakService {
     return rvQty;
   }
 
+  @Override
+  public List<ReviewDto> selectMyReviewList(String reId){
+    List<ReviewDto> reviewList = gwakMapper.selectMyReviewList(reId);
+    return reviewList;
   }
 
+  @Override
+  public List<LeePharmacyFullDataItemDto> getMapData(String dong) {
+
+    return gwakMapper.getDataList(dong);
+  }
+
+//  @Override
+//  public List<ReviewDto> selectMyReviewList(String reId) throws Exception {
+//    return gwakMapper.selectMyReviewList(reId);
+//  }
 
 
-
+}

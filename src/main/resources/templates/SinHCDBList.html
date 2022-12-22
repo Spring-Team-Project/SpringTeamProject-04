@@ -16,53 +16,69 @@
             location.href = "http://localhost:8080/hclist/" + value;
         }
 
+
+        function searchKeyword() {
+            let searchWord = $('#search_bar').val();
+            let htmlTelCode = $('#tel_code option:selected').val();
+
+            if (htmlTelCode == "") {
+                alert("지역을 선택해 주세요")
+            } else if (searchWord == "") {
+                alert("검색어를 입력하세요")
+            } else {
+
+
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "http://localhost:8080/hclist/filter",
+                    data: {userSearchWord: searchWord, telCode: htmlTelCode},
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#HCTable > tbody').empty();
+                            for (let i = 0; i < data.length; i++) {
+
+                                let idx = data[i]["idx"];
+                                let result = "<tr style=\"cursor: pointer\">";
+
+                                result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
+                                result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalAddr"] + "</td>";
+
+
+                                result += "</tr>";
+
+                                $("#HCTable").append(result);
+                            }
+                        } else {
+                            $('#HCTable > tbody').empty();
+                        }
+
+                    },
+                    error: function (request, status, error) {
+                        alert("검색 실패")
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+                    }
+                });
+            }
+        }
+
+
+
         $(document).ready(function () {
 
 
-            $('#btn_search').on('click', function () {
-                let searchWord = $('#search_bar').val();
-                let htmlTelCode = $('#tel_code option:selected').val();
-
-                if (htmlTelCode == "") {
-                    alert("지역을 선택해 주세요")
-                } else if (searchWord == "") {
-                    alert("검색어를 입력하세요")
-                } else {
-
-
-                    $.ajax({
-                        type: "get",
-                        async: false,
-                        url: "http://localhost:8080/hclist/filter",
-                        data: {userSearchWord: searchWord, telCode: htmlTelCode},
-                        success: function (data) {
-                            if (data.length > 0) {
-                                $('#HCTable > tbody').empty();
-                                for (let i = 0; i < data.length; i++) {
-
-                                    let idx = data[i]["idx"];
-                                    let result = "<tr style=\"cursor: pointer\">";
-
-                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
-                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalAddr"] + "</td>";
-
-
-                                    result += "</tr>";
-
-                                    $("#HCTable").append(result);
-                                }
-                            } else {
-                                $('#HCTable > tbody').empty();
-                            }
-
-                        },
-                        error: function (request, status, error) {
-                            alert("검색 실패")
-                            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
-                        }
-                    });
+            $('#search_bar').keydown(function (key){
+                if (key.keyCode == 13) {
+                event.preventDefault();
+                    searchKeyword();
                 }
-            });
+            })
+
+            $('#btn_search').on('click',function (){
+                searchKeyword();
+            })
+
+
 
 
             $('#tel_code').on('change', function () {
@@ -87,6 +103,7 @@
 
                                 for (let i = 0; i < data.length; i++) {
 
+                                    let idx = data[i]["idx"];
                                     let result = "<tr style=\"cursor: pointer\">";
 
                                     result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalName"] + "</td>";
@@ -234,9 +251,22 @@
                     <button type="button" class="btn btn-primary" id="btn_search">검색버튼</button>
                 </form>
             </div>
-            <div>
-                <div style="height: 50px">
-                    <span>공지사항 자리</span>
+            <div class="my-4">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item " aria-expanded="true">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                (공지)&nbsp;&nbsp;<strong>보건소 영업시간 안내</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                             data-bs-parent="#accordionExample" style="">
+                            <div class="accordion-body">
+                                <b>보건소 영업시간</b>은 공통적으로&nbsp;&nbsp;<code>09:00 ~ 18:00</code>&nbsp;&nbsp;입니다.
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>

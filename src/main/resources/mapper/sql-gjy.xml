@@ -35,7 +35,7 @@
     <select id="rvQtySQL" parameterType="String" resultType="int">
         select count(*)
         from review
-        where re_id = #{memId};
+        where re_id = #{memId} and re_deleted_yn = 'N'
     </select>
 
     <!--    리뷰모음 게시판 삭제버튼 -->

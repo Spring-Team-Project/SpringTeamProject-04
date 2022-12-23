@@ -86,15 +86,15 @@
 
 
     <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
-        INSERT INTO review (re_id, re_md_addr, re_md_name, re_contents, re_create_date)
-        VALUES (#{reId}, #{reMdAddr}, #{reMdName}, #{reContents}, NOW())
+        INSERT INTO review (re_id, re_md_addr, re_md_name, re_star, re_contents, re_create_date)
+        VALUES (#{reId}, #{reMdAddr}, #{reMdName}, #{reStar}, #{reContents},  NOW())
     </insert>
 
 
     <select id="getHCReview" parameterType="int"
             resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         SELECT A.*, @rownum := @rownum+1 AS reNum FROM (
-            SELECT re_id, re_contents, re_md_name, re_create_date
+            SELECT re_id, re_contents, re_md_name, re_create_date, re_star
             FROM review as rv
             LEFT JOIN tblhealthcenter as hc
             ON rv.re_md_addr = hc.medical_addr

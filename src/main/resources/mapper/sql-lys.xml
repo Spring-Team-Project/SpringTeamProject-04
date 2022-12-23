@@ -39,7 +39,7 @@
     <!--    상세 페이지 -->
     <select id="getPMDetailDto" parameterType="int"
             resultType="com.bitc.springteamproject1209.dto.LeePMDto">
-        SELECT duty_name, duty_addr, duty_tel1
+        SELECT duty_name, duty_addr, duty_time1s, duty_time1c, duty_tel1
         FROM tblpharmacy
         WHERE idx = #{idx}
     </select>
@@ -47,20 +47,21 @@
 <!--    리뷰-->
     <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
         INSERT INTO review (re_id, re_md_addr, re_md_name, re_contents, re_create_date)
-        VALUES ("aaa", #{dutyAddr}, #{dutyName}, #{reContents}, NOW())
+        VALUES (#{reId}, #{reMdAddr}, #{reMdName}, #{reContents}, NOW())
     </insert>
 
-<!--    <select id="getPMReview" parameterType="int"-->
-<!--            resultType="com.bitc.springteamproject1209.dto.ReviewDto">-->
-<!--        SELECT A.*, @rownum := @rownum+1 AS reNum FROM (-->
-<!--            SELECT re_id, re_contents, re_md_name, re_create_date-->
-<!--            FROM review as rv-->
-<!--            LEFT JOIN tblhealthcenter as hc-->
-<!--            ON rv.re_md_addr = hc.medical_addr-->
-<!--            JOIN (SELECT @rownum := 0) AS R-->
-<!--            WHERE hc.idx = #{idx}-->
-<!--            ORDER BY rv.re_create_date DESC) AS A;-->
-<!--    </select>-->
+<!--    이거 우쨰;;;-->
+    <select id="getPMReview" parameterType="int"
+            resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT A.*, @rownum := @rownum+1 AS reNum FROM (
+            SELECT re_id, re_contents, re_md_name, re_create_date
+            FROM review as rv
+            LEFT JOIN tblhealthcenter as hc
+            ON rv.re_md_addr = hc.medical_addr
+            JOIN (SELECT @rownum := 0) AS R
+            WHERE hc.idx = #{idx}
+            ORDER BY rv.re_create_date DESC) AS A
+    </select>
 
 <!--https://kimvampa.tistory.com/175-->
 

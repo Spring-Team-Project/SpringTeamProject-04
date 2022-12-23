@@ -3,72 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+    <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>-->
     <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
     <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
-    <script>
-        $(document).ready(function () {
-
-
-            $('#reviewSend').on('click', function () {
-
-                const frm = $('#reviewForm')[0];
-
-
-                let userReview = $('#reviewWrite').val().trim();
-                if (userReview == "") {
-                    alert("한 줄 평을 입력해주세요")
-                } else {
-
-                    frm.action = 'http://localhost:8080/wdb/reviewInsert';
-                    frm.submit();
-
-
-                    $.ajax({
-
-                        type: "get",
-                        async: false,
-                        url: "http://localhost:8080/wdb/reviewRefresh",
-                        data: {reviewInsert: userReview},
-
-                        success: function (data) {
-
-                        },
-                        error: function (request, status, error) {
-                            alert("검색 실패")
-                            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
-                        }
-
-                    });
-
-
-                }
-
-            });
-
-        });
-    </script>
 </head>
+<script>
+    $(document).ready(function () {
+
+        $('#reviewSend').on('click', function () {
+
+
+            const frm = $('#reviewForm')[0];
+
+
+            let userReview = $('#comments').val().trim();
+            if (userReview == "") {
+                alert("한 줄 평을 입력해주세요")
+
+            } else {
+                frm.submit();
+                alert("작성해 주셔서 감사합니다.")
+            }
+        });
+    });
+</script>
 <body>
+<header th:replace="layout/Header :: mainHeader"></header>
+
+<div class="container row col-sm ms-1 p-5">
+    <table class="border border-2 mb-5">
+        <thead th:height="100px" class="border border-2">
+        <tr class="border border-2">
+            <th colspan="2" class="text-center fs-1" th:text="${PMDetail.dutyName}"></th>
+        </tr>
+        </thead>
+        <tbody class="border border-2">
+        <tr th:height="100px" class="border border-2">
+            <td th:width="1000px" class="fs-5" th:text="|약국 위치 :  ${PMDetail.dutyAddr}|"
+                th:value="${PMDetail.dutyAddr}"></td>
+            <td rowspan="3" class="border border-2">
+                <div id="map" style="width:800px;height:400px;"></div>
+                <script type="text/javascript"
+                        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9d88b62f2b41600a7805dfefc28f353&libraries=services,clusterer,drawing"></script>
+                <script th:inline="javascript">
+
+                    /*<![CDATA[*/
+
+                    var HCLocate = [[${PMDetail.dutyAddr}]];
+                    var HCName = [[${PMDetail.dutyName}]]
+                    /*]]>*/
 
 
-<div>
-    <div>
-        <span th:text="${PMDetail.dutyName}" class="fw-lighter">약국 이름</span>
-        <span th:text="${PMDetail.dutyAddr}" class="fw-light">약국 주소</span>
-    </div>
-    <div>
-        <form action="http://localhost:8080/wdb/reviewInsert" method="post" id="reviewForm">
-            <label for="reviewSend">한줄 리뷰</label>
-            <input type="hidden" th:value="${PMDetail.dutyName}" id="medi_name" name="reMdName">
-            <input type="hidden" th:value="${PMDetail.dutyAddr}" id="medi_addr" name="reMdAddr">
-            <input id="reviewWrite" name="reContents">
-            <button type="button" id="reviewSend">전송</button>
-        </form>
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                            level: 3 // 지도의 확대 레벨
+                        };
+
+                    // 지도를 생성합니다
+                    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                    // 주소-좌표 변환 객체를 생성합니다
+                    var geocoder = new kakao.maps.services.Geocoder();
+
+                    // 주소로 좌표를 검색합니다
+                    geocoder.addressSearch(HCLocate, function (result, status) {
+
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === kakao.maps.services.Status.OK) {
+
+                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                            // 결과값으로 받은 위치를 마커로 표시합니다
+                            var marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
+
+                            // 인포윈도우로 장소에 대한 설명을 표시합니다
+                            var infowindow = new kakao.maps.InfoWindow({
+                                content: '<div style="width:150px;text-align:center;padding:6px 0;">' + HCName + '</div>'
+                            });
+                            infowindow.open(map, marker);
+
+                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                            map.setCenter(coords);
+                        }
+                    });
+                </script>
+            </td>
+        </tr>
+        <tr th:height="100px" class="border border-2">
+            <td class="fs-5" th:text="|보건기관 유형 : 약국|"> :</td>
+        </tr>
+        <tr th:height="100px" class="border border-2">
+<!--            dutyTime1 기준 -->
+            <td class="fs-5" th:text="|운영시간 : ${PMDetail.dutyTime1s} - ${PMDetail.dutyTime1c} |"> :</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div class="container justify-content-end">
+        <div style="width: 100%; height:150px; float: left;">
+
+            <div th:if="${session.member == null}" class="container d-flex justify-content-end">
+                <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">목록으로</button>
+                <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">주변 약국 찾기</button>
+
+            </div>
+            <div th:unless="${session.member == null}">
+                <div style="width: 20%; height:150px;" class="d-flex">
+                    <form action="http://localhost:8080/reviewInsert" method="post" id="reviewForm"
+                          class="d-flex text-center">
+                        <div class="col-sm">
+                            <label for="comments"></label>
+                            <input type="hidden" th:value="${reviewIdx}" id="idx" name="idx">
+                            <input type="hidden" th:value="${session.member.getMemId()}" id="user_id" name="reId">
+                            <input type="hidden" th:value="${PMDetail.dutyName}" id="medi_name" name="reMdName">
+                            <input type="hidden" th:value="${PMDetail.dutyAddr}" id="medi_addr" name="reMdAddr">
+                            <input type="text" id="comments" name="reContents" placeholder="한 줄 리뷰 쓰기 . . ." class=""
+                                   style="width : 800px; height: 60px">
+                        </div>
+                        <div class="col-sm justify-content-end">
+                            <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center"
+                                    style="height: 60px; margin-top: 19.5px;" id="reviewSend">comment
+                            </button>
+                        </div>
+                    </form>
+                    <div class="container d-flex justify-content-end">
+                        <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">목록으로</button>
+                        <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">주변 약국 찾기</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
     <div>
         <table class="table table-hover table-bordered table-light" id="HCTable">
@@ -76,7 +150,7 @@
             <tr class="text-primary fw-bold">
                 <th class="fs-5">번호</th>
                 <th class="fs-5">작성자 아이디</th>
-                <th class="fs-5">보건소 이름</th>
+                <th class="fs-5">약국 이름</th>
                 <th class="fs-5">한줄 리뷰</th>
                 <th class="fs-5">작성 일자</th>
             </tr>
@@ -96,6 +170,10 @@
         </table>
     </div>
 </div>
+
+
+</div>
+<footer th:replace="layout/Footer :: mainFooter"></footer>
 
 </body>
 </html>

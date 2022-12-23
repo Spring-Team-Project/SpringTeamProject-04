@@ -51,7 +51,7 @@
         </div>
     </nav>
     <!-- Header-->
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
             $('#login').click(function () {
                 location.href = "http://localhost:8080/GwakLogin";
@@ -87,15 +87,15 @@
 
             $('#logout').click(function () {
                 var logout = confirm("로그아웃 하시겠습니까?");
-                if (logout == true) {
-                    location.href = "http://localhost:8080/logout"; //로그아웃페이지 이동
+                if (logout === true) {
+                    location.href = "/logout"; //로그아웃페이지 이동
                 }
             });
         });
 
     </script>
-
 </header>
+
 
 
 </body>

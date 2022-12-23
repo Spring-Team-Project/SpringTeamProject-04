@@ -1,9 +1,6 @@
 package com.bitc.springteamproject1209.service;
 
-import com.bitc.springteamproject1209.dto.ReviewDto;
-import com.bitc.springteamproject1209.dto.SinHCDto;
-import com.bitc.springteamproject1209.dto.SinJsonDto;
-import com.bitc.springteamproject1209.dto.SinRegistDto;
+import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.mapper.SinWdbMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -82,7 +79,7 @@ public class SinWdbServiceImpl implements SinWdbService {
     @Override
     public List<SinHCDto> HCDBList(int HCPageNum) throws Exception {
 
-        int nextData, totalData,endData, startData;
+        int nextData, totalData, endData, startData;
 
         List<SinHCDto> allData = sinWdbMapper.receiveHCDBList();
         List<SinHCDto> pagingPerData = new ArrayList<>();
@@ -96,22 +93,21 @@ public class SinWdbServiceImpl implements SinWdbService {
         totalData = 241;
 
 
-        if (endData > totalData){
+        if (endData > totalData) {
             endData = totalData;
 
         } else {
             endData = (HCPageNum * 10);
         }
-        if (nextData > totalData){
+        if (nextData > totalData) {
             nextData = totalData - 1;
-        }else {
+        } else {
             nextData = (HCPageNum * 10) - 10;
         }
 
-        if (HCPageNum == 0){
+        if (HCPageNum == 0) {
             HCPageNum = 1;
         }
-
 
 
         if (HCPageNum == 1) {
@@ -120,14 +116,14 @@ public class SinWdbServiceImpl implements SinWdbService {
                 pagingPerData.add(allData.get(i));
 
             }
-                return pagingPerData;
+            return pagingPerData;
 
-        }else if (HCPageNum > 1){
+        } else if (HCPageNum > 1) {
             for (int i = nextData; i < endData; i++) {
                 pagingPerData.add(allData.get(i));
 
             }
-                return pagingPerData;
+            return pagingPerData;
         }
 
         return allData;
@@ -166,6 +162,20 @@ public class SinWdbServiceImpl implements SinWdbService {
     @Override
     public List<ReviewDto> selectHCReview(int idx) throws Exception {
         return sinWdbMapper.getHCReview(idx);
+    }
+
+    //  상세 페이지 내 근처 약국 찾기
+    @Override
+    public List<LeePharmacyFullDataItemDto> findNearPharmacy(String addr) throws Exception {
+        String mapSido = addr.substring(0, 2);
+
+
+        return sinWdbMapper.nearPhamFind(mapSido);
+    }
+
+    @Override
+    public void insertStarAvg(int idx) throws Exception {
+        sinWdbMapper.insertStarAvg(idx);
     }
 
 
@@ -207,8 +217,6 @@ public class SinWdbServiceImpl implements SinWdbService {
 
         return sendSinJsonDto;
     }
-
-
 
 
 //--------------------------------------------------------------------------------------------------------------

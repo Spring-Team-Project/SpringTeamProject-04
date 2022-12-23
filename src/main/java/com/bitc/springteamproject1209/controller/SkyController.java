@@ -58,6 +58,7 @@ public class SkyController {
         public ResponseEntity<?> logout(HttpServletRequest request){
 
             HttpSession session = request.getSession(false);
+
             if (session != null) {
                 session.invalidate();
             }

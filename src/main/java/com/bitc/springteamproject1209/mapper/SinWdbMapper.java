@@ -34,4 +34,7 @@ public interface SinWdbMapper {
 
     List<ReviewDto> getHCReview(int idx) throws Exception;
 
+    List<LeePharmacyFullDataItemDto> nearPhamFind(String mapSido) throws Exception;
+
+    void insertStarAvg(int idx) throws Exception;
 }

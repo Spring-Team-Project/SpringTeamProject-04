@@ -117,7 +117,12 @@ public class SinPageController {
         SinHCDto sinHCDto = sinWdbService.selectHCDetail(idx);
         List<ReviewDto> detailReview = sinWdbService.selectHCReview(idx);
 
+        String addr = sinHCDto.getMedicalAddr();
 
+
+        List<LeePharmacyFullDataItemDto> nearPharmacyList = sinWdbService.findNearPharmacy(addr);
+
+        mv.addObject("nearPharmacyList",nearPharmacyList);
         mv.addObject("reviewIdx",idx);
         mv.addObject("HCReview", detailReview);
         mv.addObject("HCDetail", sinHCDto);
@@ -132,6 +137,7 @@ public class SinPageController {
         HttpHeaders headers = new HttpHeaders();
         try {
             sinWdbService.insertUserReview(reviewDto);
+            sinWdbService.insertStarAvg(idx);
             System.out.println("리뷰 작성 성공");
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,6 +149,20 @@ public class SinPageController {
 
 
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+    }
+
+
+    // 상세페이지 내 근처 약국 찾기
+    @GetMapping("/findPharmacy")
+    public ModelAndView findPharmacy(@RequestParam("medicalAddr") String addr) throws Exception{
+        ModelAndView mv = new ModelAndView("SinHCPopUp");
+
+        List<LeePharmacyFullDataItemDto> nearPharmacyList = sinWdbService.findNearPharmacy(addr);
+
+        mv.addObject("nearPharmacyList",nearPharmacyList);
+        mv.addObject("medicalLoc",addr);
+
+        return mv;
     }
 
 
@@ -237,7 +257,7 @@ public class SinPageController {
 //    @GetMapping("/testpage")
 //    public ModelAndView testView() throws Exception{
 //
-//        ModelAndView mv = new ModelAndView("/main");
+//        ModelAndView mv = new ModelAndView("/test1");
 //
 //        return mv;
 //    }

@@ -16,4 +16,5 @@ public class SinHCDto {
     private String eupmyeondong;
     private String doseo;
     private String tel;
+    private String avgStar;
 }

@@ -3,6 +3,7 @@ package com.bitc.springteamproject1209.controller;
 import com.bitc.springteamproject1209.dto.MemberDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
 import com.bitc.springteamproject1209.service.SkyMemberService;
+import com.google.gson.Gson;
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -13,15 +14,21 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
 @Controller
 @SessionAttributes("login")
 public class SkyController {
+
+
+    private Logger logger;
 
     @RequestMapping(value = "/main")
     public String main() {
@@ -51,26 +58,18 @@ public class SkyController {
     }
 
     //    로그아웃 시 세션 종료 컨트롤
-    @Controller
-    public class LogOutController {
+    @RequestMapping(value="/logout.do")
+    public String logoutMainGET(HttpServletRequest request) throws Exception{
 
-        @GetMapping("/logout")
-        public ResponseEntity<?> logout(HttpServletRequest request){
+//        logger.info("logoutMainGET메서드 진입");
 
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.invalidate();
-            }
+        HttpSession session = request.getSession();
 
-            HttpHeaders headers = new HttpHeaders();
+        session.invalidate();
 
-            headers.setLocation(URI.create("/main"));
+        return "/main";
 
-
-            return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-        }
-    };
-
+    }
 
     @Autowired
     private SkyMemberService memberService;
@@ -99,10 +98,18 @@ public class SkyController {
     @RequestMapping("/SkyMyReviewPage")
     public String GwakMyReviewPage() {
 
-        return "SkyMyReviewPage";
+        return "/SkyMyReviewPage";
     }
+    @ResponseBody
+    @GetMapping(value = "review/update")
+    public void update(ReviewDto rvdto) throws Exception{
+
+        memberService.updateR(rvdto);
+
+    };
 
 
 
 
 }
+;

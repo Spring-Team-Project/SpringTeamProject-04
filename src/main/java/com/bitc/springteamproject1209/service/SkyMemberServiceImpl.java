@@ -41,4 +41,9 @@ public class SkyMemberServiceImpl implements SkyMemberService {
         skyWdbMapper.updateBored(reIdx);
     }
 
+    @Override
+    public void updateR(ReviewDto rvdto) throws Exception {
+        skyWdbMapper.updateR(rvdto);
+    }
+
 }

@@ -137,11 +137,17 @@ public class SinPageController {
         HttpHeaders headers = new HttpHeaders();
         try {
             sinWdbService.insertUserReview(reviewDto);
-            sinWdbService.insertStarAvg(idx);
             System.out.println("리뷰 작성 성공");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("리뷰 작성 실패");
+        }
+        try {
+            sinWdbService.insertStarAvg(idx);
+            System.out.println("평균 평점 입력 성공");
+        }catch (Exception e){
+            System.out.println("평균 평점 입력 실패");
+            e.printStackTrace();
         }
 
 

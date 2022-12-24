@@ -2,8 +2,6 @@ package com.bitc.springteamproject1209.service;
 
 import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.mapper.SinWdbMapper;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -172,10 +170,17 @@ public class SinWdbServiceImpl implements SinWdbService {
 
         return sinWdbMapper.nearPhamFind(mapSido);
     }
-
+    //  리뷰 평점 삽입
     @Override
     public void insertStarAvg(int idx) throws Exception {
-        sinWdbMapper.insertStarAvg(idx);
+
+        float avg = sinWdbMapper.getStarAvg(idx);
+
+
+        SinHCDto HCStarAvg = new SinHCDto();
+        HCStarAvg.setAvgStar(avg);
+        HCStarAvg.setIdx(idx);
+        sinWdbMapper.insertHCStarAvg(HCStarAvg);
     }
 
 

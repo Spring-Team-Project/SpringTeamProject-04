@@ -1,7 +1,6 @@
 package com.bitc.springteamproject1209.mapper;
 
 import com.bitc.springteamproject1209.dto.*;
-import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -36,5 +35,7 @@ public interface SinWdbMapper {
 
     List<LeePharmacyFullDataItemDto> nearPhamFind(String mapSido) throws Exception;
 
-    void insertStarAvg(int idx) throws Exception;
+    Float getStarAvg(int idx) throws Exception;
+
+    void insertHCStarAvg(SinHCDto avg) throws Exception;
 }

@@ -1,10 +1,13 @@
 package com.bitc.springteamproject1209.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
+@Setter
 public class SinHCDto {
     private int idx;
     private String sido;
@@ -16,5 +19,5 @@ public class SinHCDto {
     private String eupmyeondong;
     private String doseo;
     private String tel;
-    private String avgStar;
+    private Float avgStar;
 }

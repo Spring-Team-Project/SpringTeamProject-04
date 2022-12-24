@@ -46,7 +46,7 @@
 
 
     <select id="receiveHCDBList" resultType="com.bitc.springteamproject1209.dto.SinHCDto">
-        select idx, medical_name, medical_addr
+        select idx, medical_name, medical_addr, medical_star_avg
         From tblhealthcenter
         where medical_type = "보건소"
     </select>
@@ -140,10 +140,18 @@
 
     </select>
 
-    <insert id="insertStarAvg" parameterType="int">
-        INSERT INTO review (re_id, re_md_addr, re_md_name, re_star, re_contents, re_create_date)
-        VALUES (#{reId}, #{reMdAddr}, #{reMdName}, #{reStar}, #{reContents},  NOW())
-    </insert>
+    <select id="getStarAvg" parameterType="int" resultType="Float">
+        select ROUND(avg(re_star),1) as avg
+        from review as rv
+            join tblhealthcenter as hc
+        on rv.re_md_addr = hc.medical_addr
+        WHERE hc.idx = #{idx}
+    </select>
 
+    <update id="insertHCStarAvg" parameterType="com.bitc.springteamproject1209.dto.SinHCDto">
+        update tblhealthcenter
+        set medical_star_avg = #{avgStar}
+        where idx = #{idx}
+    </update>
 
 </mapper>

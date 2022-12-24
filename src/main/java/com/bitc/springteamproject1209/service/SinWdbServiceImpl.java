@@ -174,11 +174,11 @@ public class SinWdbServiceImpl implements SinWdbService {
     @Override
     public void insertStarAvg(int idx) throws Exception {
 
-        float avg = sinWdbMapper.getStarAvg(idx);
+        String avg = sinWdbMapper.getStarAvg(idx);
 
 
         SinHCDto HCStarAvg = new SinHCDto();
-        HCStarAvg.setAvgStar(avg);
+        HCStarAvg.setMedicalStarAvg(avg);
         HCStarAvg.setIdx(idx);
         sinWdbMapper.insertHCStarAvg(HCStarAvg);
     }

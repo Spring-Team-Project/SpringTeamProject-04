@@ -140,7 +140,7 @@
 
     </select>
 
-    <select id="getStarAvg" parameterType="int" resultType="Float">
+    <select id="getStarAvg" parameterType="int" resultType="String">
         select ROUND(avg(re_star),1) as avg
         from review as rv
             join tblhealthcenter as hc
@@ -150,7 +150,7 @@
 
     <update id="insertHCStarAvg" parameterType="com.bitc.springteamproject1209.dto.SinHCDto">
         update tblhealthcenter
-        set medical_star_avg = #{avgStar}
+        set medical_star_avg = #{medicalStarAvg}
         where idx = #{idx}
     </update>
 

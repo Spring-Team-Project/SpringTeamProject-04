@@ -35,7 +35,7 @@ public interface SinWdbMapper {
 
     List<LeePharmacyFullDataItemDto> nearPhamFind(String mapSido) throws Exception;
 
-    Float getStarAvg(int idx) throws Exception;
+    String getStarAvg(int idx) throws Exception;
 
-    void insertHCStarAvg(SinHCDto avg) throws Exception;
+    void insertHCStarAvg(SinHCDto hcDto) throws Exception;
 }

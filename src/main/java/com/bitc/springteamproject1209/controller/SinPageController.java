@@ -4,13 +4,16 @@ import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.service.SinWdbService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +174,11 @@ public class SinPageController {
         return mv;
     }
 
+    @GetMapping(value = "/getmarkerimg", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getImageWithMediaType() throws Exception {
+        InputStream in = getClass().getResourceAsStream("/static/sinImage/pharmacy.png");
+        return IOUtils.toByteArray(in);
+    }
 
     //@@@@@@@@@@@@@ [회 원 가 입] @@@@@@@@@@@@@@
 //--------------------------------------------------------------------------------------------------------------

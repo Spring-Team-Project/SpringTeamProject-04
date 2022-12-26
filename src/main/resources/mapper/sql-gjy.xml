@@ -22,6 +22,7 @@
         SELECT *
         FROM review
         WHERE re_deleted_yn = 'N'
+        order by re_idx desc
         ]]>
     </select>
 
@@ -60,4 +61,14 @@
         where locate(#{dong},duty_addr)
     </select>
 
+
+<!--    검색 기능 -->
+    <select id="selectReviewListPage2" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        <![CDATA[
+        SELECT *
+        FROM review
+        WHERE re_deleted_yn = 'N' and re_md_name regexp #{searchText}
+        order by re_idx desc
+        ]]>
+    </select>
 </mapper>

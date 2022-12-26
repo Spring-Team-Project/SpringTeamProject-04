@@ -26,4 +26,6 @@ public interface GwakService {
 
 
   List<LeePharmacyFullDataItemDto> getMapData(String dong);
+
+  List<ReviewDto> selectReviewList2(int pageNo, String searchText) throws Exception;
 }

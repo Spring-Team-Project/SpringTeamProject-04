@@ -42,6 +42,18 @@ public class GwakController {
     return "GwakDetailPage";
   }
 
+  @RequestMapping(value = "/index4")
+  public String index4() throws Exception {
+
+    return "index4";
+  }
+
+  @RequestMapping(value = "/mainTest")
+  public String mainTest() throws Exception {
+
+    return "mainTest";
+  }
+
   @RequestMapping(value = "/myPage", method = RequestMethod.GET)
   public String myPage() throws Exception {
 
@@ -75,7 +87,7 @@ public class GwakController {
     // html 파일이 있는 위치(resources-templates 는 스프링에서 고정이기 때문에 그 아래의 폴더만 써주면 됨)
     ModelAndView mv = new ModelAndView("GwakReviewBoardPage");
 
-    PageInfo<ReviewDto> reviewBoardList = new PageInfo<>(gwakService.selectReviewList(pageNum), 3);
+    PageInfo<ReviewDto> reviewBoardList = new PageInfo<>(gwakService.selectReviewList(pageNum), 5);
     mv.addObject("reviewBoardList", reviewBoardList);
 
     return mv; // html 파일의 데이터가 들어가면서 그것을 클라이언트에 보낸다 -> 웹 브라우저로 다시 뿌림
@@ -173,5 +185,18 @@ public class GwakController {
 
     return "index3";
   }
+
+//  검색 기능
+@RequestMapping(value = "/search", method = RequestMethod.POST)
+public ModelAndView searchList(@RequestParam(required = false, defaultValue = "1") int pageNum, @RequestParam("searchText") String searchText) throws Exception {
+  // html 파일이 있는 위치(resources-templates 는 스프링에서 고정이기 때문에 그 아래의 폴더만 써주면 됨)
+  ModelAndView mv = new ModelAndView("GwakReviewBoardPage");
+
+  PageInfo<ReviewDto> reviewBoardList = new PageInfo<>(gwakService.selectReviewList2(pageNum, searchText), 5);
+  mv.addObject("reviewBoardList", reviewBoardList);
+
+  return mv; // html 파일의 데이터가 들어가면서 그것을 클라이언트에 보낸다 -> 웹 브라우저로 다시 뿌림
+}
+
 
 }

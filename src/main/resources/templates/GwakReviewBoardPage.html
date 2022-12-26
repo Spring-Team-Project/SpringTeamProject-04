@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>리뷰 모음 & 공지사항 게시판</title>
-
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
-<!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>-->
+  <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
+  <!--  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>-->
   <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
   <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
-<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
+  <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
   <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
   <script th:inline="javascript">
@@ -29,6 +28,14 @@
 <header th:replace="layout/Header :: mainHeader">
 
 </header>
+<!-- 검색 -->
+<div class="text-end row">
+<form action="/search" id="frm" method="post">
+<label for="searchText" th:placeholder="검색"></label>
+<input type="text" id="searchText" name="searchText" th:class="form-control">
+<button class="btn btn-outline-info" id="btn-search" type="submit" th:for="search">검색</button>
+  </div>
+
 <div class="container mt-5">
   <div class="row">
     <h2 class="text-center mb-5">리뷰 모음 & 공지사항 게시판</h2>
@@ -73,19 +80,21 @@
       <!--            <p th:text="${dataList}"></p>-->
       <table class="table table-hover table-striped">
         <colgroup>
-          <col width="10%">
+          <col width="5%">
+          <col width="13%">
           <col width="40%">
           <col width="10%">
           <col width="15%">
-          <col width="10%">
+          <col width="7%">
         </colgroup>
         <thead>
         <tr>
-          <th scope="col">글번호</th>
+          <th scope="col">No</th>
+          <th>업체명</th>
           <th>한 줄 리뷰</th>
           <th>작성자</th>
           <th>등록일</th>
-          <th>수정/삭제</th>
+          <th>삭제</th>
         </tr>
         </thead>
         <tbody>
@@ -99,6 +108,7 @@
           <!--            a 태그 속성에서 빼옴 : href="/openBoardDetail?reIdx=" th:attrappend="href=${list.reIdx}" -->
           <!--            <a style="color: black" class="text-decoration-none" th:text="${list.reId}"></a>-->
           <!--          </td>-->
+          <td th:text="${list.reMdName}"></td>
           <td th:text="${list.reContents}"></td>
           <td th:text="${list.reId}" id="list-reId"></td>
           <td th:text="${list.reCreateDate}"></td>
@@ -149,7 +159,7 @@
 <!--    </div>-->
 <!--  </div>-->
 </div>
-
+</form>
 
 <footer th:replace="layout/Footer :: mainFooter">
 

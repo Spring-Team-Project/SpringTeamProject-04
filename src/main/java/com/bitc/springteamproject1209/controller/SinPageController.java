@@ -73,12 +73,30 @@ public class SinPageController {
     public ModelAndView HCListView() throws Exception {
         ModelAndView mv = new ModelAndView("SinHCDBList");
 
+
+        List<SinNoticeDto> Notice = sinWdbService.getNotice();
         List<SinHCDto> HCDBList = sinWdbService.HCDBList();
 
         mv.addObject("HCDBList", HCDBList);
+        mv.addObject("Notice", Notice);
 
 
         return mv;
+
+    }
+
+
+    // 보건소 목록 공지 수정
+    @PostMapping("/noticeEdit")
+    public void editNotice(@RequestParam("noticeHcHeader") String title, @RequestParam("noticeHcContents") String main) throws Exception{
+
+
+        SinNoticeDto sinNoticeDto = new SinNoticeDto();
+
+        sinNoticeDto.setNoticeHcHeader(title);
+        sinNoticeDto.setNoticeHcContents(main);
+
+        sinWdbService.updateNotice(sinNoticeDto);
 
     }
 

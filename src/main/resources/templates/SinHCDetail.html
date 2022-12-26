@@ -63,8 +63,10 @@
                 const frm = $('#reviewForm')[0];
 
 
+
                 let userReview = $('#comments').val().trim();
-                if (userReview == "") {
+
+                if (userReview === "") {
                     alert("한 줄 평을 입력해주세요")
 
                 } else {
@@ -106,7 +108,7 @@
         </tbody>
     </table>
 
-    <form action="http://localhost:8080/reviewInsert" method="post" id="reviewForm">
+    <form action="/reviewInsert" method="post" id="reviewForm">
         <div class="container-xxl">
             <div th:if="${session.member == null}">
                 <div class="d-flex justify-content-end">
@@ -127,7 +129,7 @@
                                 for="rate3">★</label>
                             <input type="radio" name="reStar" value="2" id="rate2"><label
                                 for="rate2">★</label>
-                            <input type="radio" name="reStar" value="1" id="rate1"><label
+                            <input type="radio" name="reStar" value="1" id="rate1" checked><label
                                 for="rate1">★</label>
                             <span class="text-bold m-1">별점을 선택해주세요</span>
                         </fieldset>

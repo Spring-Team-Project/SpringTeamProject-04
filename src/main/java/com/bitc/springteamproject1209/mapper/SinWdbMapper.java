@@ -38,4 +38,8 @@ public interface SinWdbMapper {
     String getStarAvg(int idx) throws Exception;
 
     void insertHCStarAvg(SinHCDto hcDto) throws Exception;
+
+    List<SinNoticeDto> getNotice() throws Exception;
+
+    void updateNotice(SinNoticeDto sinNoticeDto) throws Exception;
 }

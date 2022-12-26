@@ -40,4 +40,8 @@ public interface SinWdbService {
     List<LeePharmacyFullDataItemDto> findNearPharmacy(String addr) throws Exception;
 
     void insertStarAvg(int idx) throws Exception;
+
+    List<SinNoticeDto> getNotice() throws Exception;
+
+    void updateNotice(SinNoticeDto sinNoticeDto) throws Exception;
 }

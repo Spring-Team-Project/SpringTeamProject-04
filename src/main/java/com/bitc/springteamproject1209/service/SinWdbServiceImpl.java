@@ -73,6 +73,25 @@ public class SinWdbServiceImpl implements SinWdbService {
         return pagingPerData;
     }
 
+    //  페이징 및 블럭
+    /*
+    * total : 총 데이터 수 (735)
+    * perPage : 한 페이지에 보일 데이터 수 (10)
+    * blockPer : 한 페이지에 보일 페이지네이션 수 (15)
+    * totalPage : 총 페이지 수 = total / perPage = 73, %5 = 74page
+    * totalBlock : 총 페이지네이션 수 = 5 totalPage / blockPer = 4.933
+    * nowPage : 현재 페이지 default = 1;
+    * limit(시작번호,perPage)
+    * for(){
+    *   for()
+    * }
+    *
+    * */
+
+
+
+
+
     // 세미 페이징
     @Override
     public List<SinHCDto> HCDBList(int HCPageNum) throws Exception {
@@ -181,6 +200,18 @@ public class SinWdbServiceImpl implements SinWdbService {
         HCStarAvg.setMedicalStarAvg(avg);
         HCStarAvg.setIdx(idx);
         sinWdbMapper.insertHCStarAvg(HCStarAvg);
+    }
+
+    //  공지 가져오기
+    @Override
+    public List<SinNoticeDto> getNotice() throws Exception {
+
+        return sinWdbMapper.getNotice();
+    }
+    //  공지 수정하기
+    @Override
+    public void updateNotice(SinNoticeDto sinNoticeDto) throws Exception {
+        sinWdbMapper.updateNotice(sinNoticeDto);
     }
 
 

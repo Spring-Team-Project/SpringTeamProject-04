@@ -37,19 +37,70 @@
 <!--    </div>-->
 <!--</div>-->
 
+<div id="map"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9d88b62f2b41600a7805dfefc28f353&libraries=services,clusterer,drawing">
+</script>
+<script>
+    $(document).ready(function () {
+        // 카카오맵 지도 생성
+        // 지도를 표시할 div
+        var mapContainer = document.getElementById('map'),
+            mapOption = {
+                center: new kakao.maps.LatLng(127.20316293878739, 127.81803310329138), // 지도의 중심좌표
+                level: 5 // 지도의 확대 레벨
+            };
+
+        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // 주소를 좌표로 바꾸기 위한 geocoder 생성
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+        if (navigator.geolocation) {
+            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude, // 위도
+                    lon = position.coords.longitude; // 경도
+                var geocoder = new kakao.maps.services.Geocoder();
+                var coord = new kakao.maps.LatLng(lat, lon);
+                var callback = function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        console.log('현재 사용자 주소' + result[0].address.address_name);
+                        let messageCode = result[0].address.address_name;
+                        $('#current-location-main').text('현재 위치 : ' + messageCode);
+                    }
+                };
+                geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+                var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            });
+        } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            var locPosition = new kakao.maps.LatLng(126.450701, 126.570667),
+                message = 'geolocation을 사용할수 없어요..'
+            displayMarker(locPosition, message);
+        }
+    });
+</script>
 <div id="img">
     <div class="row row-cols-lg-1 row-cols-lg-4 align-items-center g-4 py-5" style="display: flex; justify-content: center; ">
         <div class="col">
+            <br>
             <a href="https://sooyusil.com/home" target = "_blank" >
                 <img src="/skyimg/img8.png" >
             </a>
         </div>
         <div class="col" >
-            <img src="/skyimg/img6.png">
+            <h4 id="current-location-main" style="text-align: center; color: white; text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;"></h4>
+            <a href="index3">
+                <img src="/skyimg/img11.png">
+            </a>
+
         </div>
         <div class="col">
+            <br>
             <a href="https://www.childcare.go.kr/"  target = "_blank">
                 <img src="/skyimg/img7.jpg">
+
             </a>
 
         </div>

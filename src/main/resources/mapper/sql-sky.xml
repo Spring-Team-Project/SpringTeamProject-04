@@ -12,7 +12,7 @@
     <select id="loginCheck" resultType="String">
 		<![CDATA[
         SELECT count(*)
-        FROM member
+        FROM tblmember
         WHERE user_id = #{userId}
           AND user_pwd = #{passwd}
         ]]>
@@ -27,7 +27,23 @@
           and re_Id = #{reId}
     </select>
 
-    <select id="findByBno2" parameterType="Integer" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
-        SELECT * FROM board WHERE bno = #{bno}
+    <select id="upDateMyReviewList" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT *
+        FROM review
+        WHERE re_deleted_yn = 'N'
+          and re_Contents = #{reContents}
     </select>
+
+
+    <update id="updateR" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+        update review set re_contents = #{reContents}
+        where re_idx = #{reIdx};
+    </update>
+
+    <update id="deleteR"  parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+        update review set re_deleted_yn = 'Y'
+        where re_idx = #{reIdx};
+    </update>
+
+
 </mapper>

@@ -12,4 +12,8 @@ public interface SkyWdbMapper {
 
 
     void updateBored(int reIdx) throws Exception;
+
+    void updateR(ReviewDto rvdto) throws Exception;
+    void deleteR(ReviewDto rvdto1) throws Exception;
+    
 }

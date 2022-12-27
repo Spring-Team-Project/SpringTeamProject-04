@@ -44,6 +44,11 @@
                 }
             });
 
+            $('#btn-join').on('click',function (){
+               location.href="/SinSignUp.html";
+            });
+
+
             $('#btn-back').on('click', function () {
                 history.back();
             });
@@ -78,7 +83,6 @@
                     </button>
                     <!--          병합 후 수정 : href = 회원가입 페이지가 나오는 Controller 경로-->
                     <button type="button" class="form-floating my-3 btn btn-success" id="btn-join"
-                            th:href="@{/SinSignUp.html}"
                             style="font-size: medium; font-weight: normal">회원가입
                     </button>
                     <button type="button" class="form-floating btn btn-dark" id="btn-back"

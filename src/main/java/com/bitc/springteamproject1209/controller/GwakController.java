@@ -135,15 +135,15 @@ public class GwakController {
 
 //  리뷰모음 게시판 - 수정버튼 클릭시
 
-  @GetMapping(value = "/review/delete/{reIdx}") // 삭제는 DELETE
-  public String deleteBoard(@PathVariable("reIdx") int reIdx) throws Exception {
-//        System.out.println("--------------------------------------");
-//        System.out.println("deleteBoard : " + idx);
-    gwakService.deleteBoard(reIdx);
-
-//    return "GwakMyPage";
-    return "redirect:/SkyMyReviewPage";
-  }
+//  @GetMapping(value = "/review/delete/{reIdx}") // 삭제는 DELETE
+//  public String deleteBoard(@PathVariable("reIdx") int reIdx) throws Exception {
+////        System.out.println("--------------------------------------");
+////        System.out.println("deleteBoard : " + idx);
+//    gwakService.deleteBoard(reIdx);
+//
+////    return "GwakMyPage";
+//    return "redirect:/SkyMyReviewPage";
+//  }
 
 
 //  @RequestMapping(value = "/myReviewList/{reId}", method = RequestMethod.GET)

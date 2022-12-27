@@ -12,7 +12,7 @@
     <select id="loginCheck" resultType="String">
 		<![CDATA[
         SELECT count(*)
-        FROM member
+        FROM tblmember
         WHERE user_id = #{userId}
           AND user_pwd = #{passwd}
         ]]>
@@ -39,4 +39,11 @@
         update review set re_contents = #{reContents}
         where re_idx = #{reIdx};
     </update>
+
+    <update id="deleteR"  parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
+        update review set re_deleted_yn = 'Y'
+        where re_idx = #{reIdx};
+    </update>
+
+
 </mapper>

@@ -12,12 +12,18 @@
     <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
 
-    <script>
+    <script th:inline="javascript">
+
+        /*<![CDATA[*/
+        const memberId = [[${session.member.memId}]];
+        /*]]>*/
+
         $(document).ready(function () {
             let reviewIdx;
             let reviewText;
             let text;
             let reIdx1
+
 
             $('.btn-review-update').on('click', function () {
                 reviewIdx = $(this).parent().parent().children('td.review-reIdx').text();
@@ -30,8 +36,6 @@
                 text = $('#modal-review-text').val();
                 reIdx1 = reviewIdx;
                 reviewText.text(text);
-
-
 
                 $.ajax({
                     type: "get",
@@ -48,6 +52,34 @@
                 });
                 //    ajax 사용
                 //    컨트롤러로 접속
+            });
+            $('.btn-review-delete').on('click', function (){
+                reviewIdx = $(this).parent().parent().children('td.review-reIdx').text();
+                reIdx1 = reviewIdx;
+                $.ajax({
+                    type: "get",
+                    async:false,
+                    url: "review/delete",
+                    data: {reIdx: reIdx1},
+                    success: function () {
+                        alert("삭제가 완료되었습니다.")
+
+                        $.ajax({
+                            url:"/SkyMyReviewPage",
+                            type: "post",
+                            data:{reId:memberId},
+                            success:function (data) {
+                                location.href="/SkyMyReviewPage";
+                            }, error: function () {
+                                alert("통신 실패");
+                            }
+                        })
+                    },
+                    error: function () {
+                        alert("삭제를 실패했습니다.")
+                    }
+
+                });
             });
         });
 
@@ -112,8 +144,12 @@
                         </button>
                     </td>
                     <td>
-                        <a href="/review/delete/" th:attrappend="href=${list.reIdx}" th:text="삭제"
-                           class="text-decoration-none"></a>
+<!--                        <a href="/review/delete/" th:attrappend="href=${list.reIdx}" th:text="삭제"-->
+<!--                           class="text-decoration-none"></a>-->
+                        <button type="button" class="btn btn-review-delete"
+                                data-bs-target="#staticBackdrop">
+                            삭제
+                        </button>
                     </td>
                 </tr>
                 </tbody>

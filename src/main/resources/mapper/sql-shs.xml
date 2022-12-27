@@ -46,14 +46,16 @@
 
 
     <select id="receiveHCDBList" resultType="com.bitc.springteamproject1209.dto.SinHCDto">
-        select idx, medical_name, medical_addr
+        select idx, medical_name, medical_addr, medical_star_avg
         From tblhealthcenter
         where medical_type = "보건소"
     </select>
 
+
+
     <select id="receiveHCDBTelCodeList" parameterType="String"
             resultType="com.bitc.springteamproject1209.dto.SinHCDto">
-        select idx, medical_name, medical_addr
+        select idx, medical_name, medical_addr, medical_star_avg
         From tblhealthcenter
         where medical_type = "보건소"
           AND Locate(#{telCode}, medical_tel)
@@ -61,7 +63,7 @@
 
     <select id="receiveHCDBUserSearchList" parameterType="String"
             resultType="com.bitc.springteamproject1209.dto.SinHCDto">
-        select idx, medical_name, medical_addr
+        select idx, medical_name, medical_addr, medical_star_avg
         From tblhealthcenter
         where medical_type = "보건소"
           AND Locate(#{userSearchWord}, medical_addr)
@@ -69,7 +71,7 @@
 
     <select id="receiveHCDBDoubleList" parameterType="String"
             resultType="com.bitc.springteamproject1209.dto.SinHCDto">
-        select idx, medical_name, medical_addr
+        select idx, medical_name, medical_addr, medical_star_avg
         From tblhealthcenter
         where medical_type = "보건소"
           AND Locate(#{telCode}, medical_tel)
@@ -86,15 +88,16 @@
 
 
     <insert id="insertUserReview" parameterType="com.bitc.springteamproject1209.dto.ReviewDto">
-        INSERT INTO review (re_id, re_md_addr, re_md_name, re_contents, re_create_date)
-        VALUES (#{reId}, #{reMdAddr}, #{reMdName}, #{reContents}, NOW())
+        INSERT INTO review (re_id, re_md_addr, re_md_name, re_star, re_contents, re_create_date)
+        VALUES (#{reId}, #{reMdAddr}, #{reMdName}, #{reStar}, #{reContents},  NOW())
     </insert>
+
 
 
     <select id="getHCReview" parameterType="int"
             resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         SELECT A.*, @rownum := @rownum+1 AS reNum FROM (
-            SELECT re_id, re_contents, re_md_name, re_create_date
+            SELECT re_id, re_contents, re_md_name, re_create_date, re_star
             FROM review as rv
             LEFT JOIN tblhealthcenter as hc
             ON rv.re_md_addr = hc.medical_addr
@@ -117,18 +120,36 @@
             ORDER BY rv.re_create_date DESC) AS A
     </select>
 
-<!--    <select id="detailReviewListPage" parameterType="int"-->
-<!--            resultType="com.bitc.springteamproject1209.dto.ReviewDto">-->
+    <select id="nearPhamFind" parameterType="String"
+            resultType="com.bitc.springteamproject1209.dto.LeePharmacyFullDataItemDto">
+        select duty_name, wgs84_lat, wgs84_lon, duty_addr
+        FROM tblpharmacy
+        where locate(#{mapSido},duty_addr)
 
-<!--            SELECT re_id, re_contents, re_md_name, re_create_date, re_md_addr-->
-<!--            FROM review as rv-->
-<!--            LEFT JOIN tblhealthcenter as hc-->
-<!--            ON rv.re_md_addr = hc.medical_addr-->
-<!--            WHERE hc.idx = #{idx}-->
-<!--            AND re_deleted_yn = 'N'-->
+    </select>
 
-<!--    </select>-->
+    <select id="getStarAvg" parameterType="int" resultType="String">
+        select ROUND(avg(re_star),1) as avg
+        from review as rv
+            join tblhealthcenter as hc
+        on rv.re_md_addr = hc.medical_addr
+        WHERE hc.idx = #{idx}
+    </select>
 
+    <update id="insertHCStarAvg" parameterType="com.bitc.springteamproject1209.dto.SinHCDto">
+        update tblhealthcenter
+        set medical_star_avg = #{medicalStarAvg}
+        where idx = #{idx}
+    </update>
 
+    <select id="getNotice" resultType="com.bitc.springteamproject1209.dto.SinNoticeDto">
+        Select * from tblnotice;
+    </select>
+
+    <update id="updateNotice" parameterType="com.bitc.springteamproject1209.dto.SinNoticeDto">
+        update tblnotice
+        set notice_hc_header = #{noticeHcHeader}, notice_hc_contents = #{noticeHcContents}
+        where notice_idx = 1;
+    </update>
 
 </mapper>

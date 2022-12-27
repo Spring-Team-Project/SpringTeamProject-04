@@ -4,13 +4,16 @@ import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.service.SinWdbService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,12 +73,30 @@ public class SinPageController {
     public ModelAndView HCListView() throws Exception {
         ModelAndView mv = new ModelAndView("SinHCDBList");
 
+
+        List<SinNoticeDto> Notice = sinWdbService.getNotice();
         List<SinHCDto> HCDBList = sinWdbService.HCDBList();
 
         mv.addObject("HCDBList", HCDBList);
+        mv.addObject("Notice", Notice);
 
 
         return mv;
+
+    }
+
+
+    // 보건소 목록 공지 수정
+    @PostMapping("/noticeEdit")
+    public void editNotice(@RequestParam("noticeHcHeader") String title, @RequestParam("noticeHcContents") String main) throws Exception{
+
+
+        SinNoticeDto sinNoticeDto = new SinNoticeDto();
+
+        sinNoticeDto.setNoticeHcHeader(title);
+        sinNoticeDto.setNoticeHcContents(main);
+
+        sinWdbService.updateNotice(sinNoticeDto);
 
     }
 
@@ -117,7 +138,12 @@ public class SinPageController {
         SinHCDto sinHCDto = sinWdbService.selectHCDetail(idx);
         List<ReviewDto> detailReview = sinWdbService.selectHCReview(idx);
 
+        String addr = sinHCDto.getMedicalAddr();
 
+
+        List<LeePharmacyFullDataItemDto> nearPharmacyList = sinWdbService.findNearPharmacy(addr);
+
+        mv.addObject("nearPharmacyList",nearPharmacyList);
         mv.addObject("reviewIdx",idx);
         mv.addObject("HCReview", detailReview);
         mv.addObject("HCDetail", sinHCDto);
@@ -137,6 +163,13 @@ public class SinPageController {
             e.printStackTrace();
             System.out.println("리뷰 작성 실패");
         }
+        try {
+            sinWdbService.insertStarAvg(idx);
+            System.out.println("평균 평점 입력 성공");
+        }catch (Exception e){
+            System.out.println("평균 평점 입력 실패");
+            e.printStackTrace();
+        }
 
 
         headers.setLocation(URI.create("/hclist/"+idx));
@@ -145,6 +178,11 @@ public class SinPageController {
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
+    @GetMapping(value = "/getmarkerimg", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getImageWithMediaType() throws Exception {
+        InputStream in = getClass().getResourceAsStream("/static/sinImage/pharmacy.png");
+        return IOUtils.toByteArray(in);
+    }
 
     //@@@@@@@@@@@@@ [회 원 가 입] @@@@@@@@@@@@@@
 //--------------------------------------------------------------------------------------------------------------
@@ -159,8 +197,17 @@ public class SinPageController {
         return mv;
     }
 
+    //  리캡챠
+    @PostMapping("/recaptcha")
+    public SinRecaptchaDto checkBot(@RequestParam("token") String token) throws Exception{
+
+        return sinWdbService.checkBot(token);
+    }
+
+
+
+
     //    id 중복 체크
-    @ResponseBody
     @GetMapping("/signup/idcheck")
     public int overlappedID(@RequestParam("checkId") String userId) throws Exception {
 
@@ -171,7 +218,6 @@ public class SinPageController {
     }
 
     //    email 중복 체크
-    @ResponseBody
     @GetMapping("/signup/emailcheck")
     public int overlappedEmail(@RequestParam("checkEmail") String userEmail) throws Exception {
 
@@ -237,7 +283,7 @@ public class SinPageController {
 //    @GetMapping("/testpage")
 //    public ModelAndView testView() throws Exception{
 //
-//        ModelAndView mv = new ModelAndView("/main");
+//        ModelAndView mv = new ModelAndView("/test1");
 //
 //        return mv;
 //    }

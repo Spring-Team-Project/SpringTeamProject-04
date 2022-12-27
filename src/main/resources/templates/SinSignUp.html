@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
     <script>
 
+
         let idCheck = false;
         let passCheck = false;
         let emailCheck = false;
@@ -22,85 +23,100 @@
             const regexp = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
             let email = $("#join_email").val();
-            $.ajax({
-                type: "get",
-                async: false,
-                url: "http://localhost:8080/signup/emailcheck",
-                data: {checkEmail: email},
-                success: function (data) {
 
-                    if (!regexp.test(email)) {
-                        $("#email_check").text("이메일을 올바르게 입력해주세요");
-                        $("#email_check").addClass("text-danger");
-                        $("#email_check").removeClass("text-info");
-                    } else {
-                        if (data == 1) {
-                            $("#email_check").text("이미 사용중인 Email 입니다.");
+            if (email == "") {
+                alert("이메일 공백입니다")
+            } else {
+
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "http://localhost:8080/signup/emailcheck",
+                    data: {checkEmail: email},
+                    success: function (data) {
+
+                        if (!regexp.test(email)) {
+                            $("#email_check").text("이메일을 올바르게 입력해주세요");
                             $("#email_check").addClass("text-danger");
                             $("#email_check").removeClass("text-info");
-                            emailCheck = false;
-                            $('#btn_signup').attr("disabled", true)
                         } else {
-                            $("#email_check").text("사용 가능한 Email 입니다.");
-                            $("#email_check").addClass("text-info");
-                            $("#email_check").removeClass("text-danger");
-                            emailCheck = true;
-                            if (idCheck == true && passCheck == true && emailCheck == true) {
-                                $('#btn_signup').attr("disabled", false)
-                            } else {
+                            if (data == 1) {
+                                $("#email_check").text("이미 사용중인 Email 입니다.");
+                                $("#email_check").addClass("text-danger");
+                                $("#email_check").removeClass("text-info");
+                                emailCheck = false;
                                 $('#btn_signup').attr("disabled", true)
+                            } else {
+                                $("#email_check").text("사용 가능한 Email 입니다.");
+                                $("#email_check").addClass("text-info");
+                                $("#email_check").removeClass("text-danger");
+                                emailCheck = true;
+                                if (idCheck == true && passCheck == true && emailCheck == true) {
+                                    $('#btn_signup').attr("disabled", false)
+                                } else {
+                                    $('#btn_signup').attr("disabled", true)
+                                }
                             }
                         }
-                    }
-                },
-                error: function (request, error) {
+                    },
+                    error: function (request, error) {
 
-                    console.log(request.status + request.error)
-                }
-            })
+                        console.log(request.status + request.error)
+                    }
+                })
+            }
+
         }
 
         // 아이디 예외 처리
         function checkId() {
+
+
             const regexp = /^[a-z]+[a-z0-9]{3,15}$/;
 
             let id = $("#join_id").val();
-            $.ajax({
-                type: "get",
-                async: false,
-                url: "http://localhost:8080/signup/idcheck",
-                data: {checkId: id},
-                success: function (data) {
-                    if (!regexp.test(id)) {
-                        idCheck = false
-                        $("#id_check").text("사용할수 없는 ID 입니다. 영어 소문자, 숫자 4~15자 이내로 적어주세요");
-                        $("#id_check").addClass("text-danger");
-                        $("#id_check").removeClass("text-info");
-                    } else {
-                        if (data == 1) {
-                            $("#id_check").text("이미 사용중인 ID 입니다.");
+            if (id == "") {
+                alert("아이디 공백입니다")
+            } else {
+
+
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: "http://localhost:8080/signup/idcheck",
+                    data: {checkId: id},
+                    success: function (data) {
+                        if (!regexp.test(id)) {
+                            idCheck = false
+                            $("#id_check").text("사용할수 없는 ID 입니다. 영어 소문자, 숫자 4~15자 이내로 적어주세요");
                             $("#id_check").addClass("text-danger");
                             $("#id_check").removeClass("text-info");
-                            idCheck = false;
-                            $('#btn_signup').attr("disabled", true)
                         } else {
-                            $("#id_check").text("사용 가능한 ID 입니다.");
-                            $("#id_check").addClass("text-info");
-                            $("#id_check").removeClass("text-danger");
-                            idCheck = true;
-                            if (idCheck == true && passCheck == true && emailCheck == true) {
-                                $('#btn_signup').attr("disabled", false)
-                            } else {
+                            if (data == 1) {
+                                $("#id_check").text("이미 사용중인 ID 입니다.");
+                                $("#id_check").addClass("text-danger");
+                                $("#id_check").removeClass("text-info");
+                                idCheck = false;
                                 $('#btn_signup').attr("disabled", true)
+                            } else {
+                                $("#id_check").text("사용 가능한 ID 입니다.");
+                                $("#id_check").addClass("text-info");
+                                $("#id_check").removeClass("text-danger");
+                                idCheck = true;
+                                if (idCheck == true && passCheck == true && emailCheck == true) {
+                                    $('#btn_signup').attr("disabled", false)
+                                } else {
+                                    $('#btn_signup').attr("disabled", true)
+                                }
                             }
                         }
-                    }
-                },
-                error: function (request, error) {
+                    },
+                    error: function (request) {
 
-                    console.log(request.status + request.error)
-                }
-            })
+                        console.log(request.status + request.error)
+                    }
+                })
+            }
         }
 
 
@@ -110,14 +126,12 @@
             btnSignup.addEventListener('click', function () {
                 let userAddr = document.querySelector('#user_address').value + " " + document.querySelector('#user_detailAddress').value;
                 document.querySelector('#join_addr').value = userAddr;
-                alert("가입이 완료됐습니다.")
-
             });
         });
 
+
         // Jquery
         $(document).ready(function () {
-
 
             $('#btn_signup').attr("disabled", true)
 
@@ -155,7 +169,7 @@
 
             });
 
-            $('#btn-back').on('click',function (){
+            $('#btn-back').on('click', function () {
                 history.back();
             });
 
@@ -166,14 +180,11 @@
 <header th:replace="layout/Header :: mainHeader">
 
 </header>
-<script>
-
-
-</script>
 <main class="container mt-5">
     <div class="row">
         <h2 class="text-center mt-5">회원 가입</h2>
-        <form action="signup/success" method="post" id="frm">
+        <script src="https://www.google.com/recaptcha/api.js?render=6LcJIakjAAAAAD7rPfplNFJjDo6sr6eOh1ir2_7J"></script>
+        <form action="/signup/success" method="post" id="frm">
             <div class="col-sm-6 mx-auto">
                 <div class="form-floating my-3">
                     <input type="email" class="form-control" id="join_email" name="joinEmail" onchange="checkEmail()"
@@ -217,7 +228,7 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="form-floating my-3 btn btn-info" id="btn_signup">회원가입</button>
+                    <button type="button" class="form-floating my-3 btn btn-info" id="btn_signup" onclick="checkBot()">회원가입</button>
                     <button type="button" class="form-floating btn btn-dark" id="btn-back"
                             style="background-color: rgb(128,128,128);">돌아가기
                     </button>
@@ -230,6 +241,67 @@
 <footer th:replace="layout/Footer :: mainFooter">
 
 </footer>
+<script>
+   function checkBot(){
+       grecaptcha.ready(function() {
+           grecaptcha.execute('6LcJIakjAAAAAD7rPfplNFJjDo6sr6eOh1ir2_7J', {action: 'signIn'}).then(function(token) {
+               console.log(token)
+               $.ajax({
+                   url: '/recaptcha',
+                   type : 'POST',
+                   dataType: 'json',
+                   data : {token: token},
+                   success : function(result){
+                       if (result["success"] === true){
+                           const frm = $('#frm')[0];
+                           frm.submit();
+                           alert("가입이 완료됐습니다.")
+                           console.log(result);
+                       } else {
+                           alert("가입이 실패하였습니다. (bot 의심)")
+                       }
+                   },
+                   fail: function(e){
+                       console.log("fail")
+                   }
+               });// end ajax
+           });
+       });
+   }
+
+
+   $(document).ready(function (){
+       grecaptcha.ready(function() {
+           grecaptcha.execute('6LcJIakjAAAAAD7rPfplNFJjDo6sr6eOh1ir2_7J', {action: 'signIn'}).then(function(token) {
+               console.log(token)
+               $.ajax({
+                   url: '/recaptcha',
+                   type : 'POST',
+                   dataType: 'json',
+                   data : {token: token},
+                   success : function(result){
+                       if (result["success"] === true){
+                           const frm = $('#frm')[0];
+                           // frm.submit();
+                           // alert("가입이 완료됐습니다.")
+                           console.log(result);
+                       } else {
+                           alert("가입이 실패하였습니다. (bot 의심)")
+                       }
+                   },
+                   fail: function(e){
+                       console.log("fail")
+                   }
+               });// end ajax
+           });
+       });
+
+
+   });
+
+
+</script>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function sample6_execDaumPostcode() {

@@ -1,9 +1,6 @@
 package com.bitc.springteamproject1209.service;
 
-import com.bitc.springteamproject1209.dto.ReviewDto;
-import com.bitc.springteamproject1209.dto.SinHCDto;
-import com.bitc.springteamproject1209.dto.SinJsonDto;
-import com.bitc.springteamproject1209.dto.SinRegistDto;
+import com.bitc.springteamproject1209.dto.*;
 import com.github.pagehelper.Page;
 
 import java.util.List;
@@ -40,6 +37,13 @@ public interface SinWdbService {
     List<ReviewDto> selectHCReview(int idx) throws Exception;
 
 
+    List<LeePharmacyFullDataItemDto> findNearPharmacy(String addr) throws Exception;
 
+    void insertStarAvg(int idx) throws Exception;
 
+    List<SinNoticeDto> getNotice() throws Exception;
+
+    void updateNotice(SinNoticeDto sinNoticeDto) throws Exception;
+
+    SinRecaptchaDto checkBot(String token) throws Exception;
 }

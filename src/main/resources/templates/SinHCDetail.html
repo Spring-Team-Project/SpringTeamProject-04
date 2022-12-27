@@ -10,27 +10,74 @@
     <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
-</head>
-<script>
-    $(document).ready(function () {
 
-        $('#reviewSend').on('click', function () {
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9d88b62f2b41600a7805dfefc28f353&libraries=services,clusterer,drawing"></script>
+
+    <style>
+        #reviewForm fieldset {
+            display: inline-block;
+            direction: rtl;
+            border: 0;
+        }
+
+        #reviewForm fieldset legend {
+            text-align: right;
+        }
+
+        #reviewForm input[type=radio] {
+            display: none;
+        }
+
+        #reviewForm label {
+            font-size: 3em;
+            color: transparent;
+            text-shadow: 0 0 0 #f0f0f0;
+        }
+
+        #reviewForm label:hover {
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+
+        #reviewForm label:hover ~ label {
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+
+        #reviewForm input[type=radio]:checked ~ label {
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+    </style>
+
+    <script th:inline="javascript">
+
+        function backToList() {
+            location.href = "http://localhost:8080/hclist"
+
+        }
+
+        $(document).ready(function () {
+
+            $('#review_send').on('click', function () {
 
 
-            const frm = $('#reviewForm')[0];
+                const frm = $('#reviewForm')[0];
 
 
-            let userReview = $('#comments').val().trim();
-            if (userReview == "") {
-                alert("한 줄 평을 입력해주세요")
+                let userReview = $('#comments').val().trim();
 
-            } else {
-                frm.submit();
-                alert("작성해 주셔서 감사합니다.")
-            }
+                if (userReview === "") {
+                    alert("한 줄 평을 입력해주세요")
+
+                } else {
+                    frm.submit();
+                    alert("작성해 주셔서 감사합니다.")
+                }
+            });
+
+
         });
-    });
-</script>
+    </script>
+</head>
 <body>
 <header th:replace="layout/Header :: mainHeader"></header>
 
@@ -47,54 +94,8 @@
                 th:value="${HCDetail.medicalAddr}"></td>
             <td rowspan="3" class="border border-2">
                 <div id="map" style="width:800px;height:400px;"></div>
-                <script type="text/javascript"
-                        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9d88b62f2b41600a7805dfefc28f353&libraries=services,clusterer,drawing"></script>
-                <script th:inline="javascript">
-
-                    /*<![CDATA[*/
-
-                    var HCLocate = [[${HCDetail.medicalAddr}]];
-                    var HCName = [[${HCDetail.medicalName}]]
-                    /*]]>*/
 
 
-                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                        mapOption = {
-                            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                            level: 3 // 지도의 확대 레벨
-                        };
-
-                    // 지도를 생성합니다
-                    var map = new kakao.maps.Map(mapContainer, mapOption);
-
-                    // 주소-좌표 변환 객체를 생성합니다
-                    var geocoder = new kakao.maps.services.Geocoder();
-
-                    // 주소로 좌표를 검색합니다
-                    geocoder.addressSearch(HCLocate, function (result, status) {
-
-                        // 정상적으로 검색이 완료됐으면
-                        if (status === kakao.maps.services.Status.OK) {
-
-                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-                            // 결과값으로 받은 위치를 마커로 표시합니다
-                            var marker = new kakao.maps.Marker({
-                                map: map,
-                                position: coords
-                            });
-
-                            // 인포윈도우로 장소에 대한 설명을 표시합니다
-                            var infowindow = new kakao.maps.InfoWindow({
-                                content: '<div style="width:150px;text-align:center;padding:6px 0;">' + HCName + '</div>'
-                            });
-                            infowindow.open(map, marker);
-
-                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                            map.setCenter(coords);
-                        }
-                    });
-                </script>
             </td>
         </tr>
         <tr th:height="100px" class="border border-2">
@@ -106,73 +107,194 @@
         </tbody>
     </table>
 
-
-    <div class="container justify-content-end">
-        <div style="width: 100%; height:150px; float: left;">
-
-            <div th:if="${session.member == null}" class="container d-flex justify-content-end">
-                <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">목록으로</button>
-                <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">주변 약국 찾기</button>
-
-            </div>
-            <div th:unless="${session.member == null}">
-                <div style="width: 20%; height:150px;" class="d-flex">
-                    <form action="http://localhost:8080/reviewInsert" method="post" id="reviewForm"
-                          class="d-flex text-center">
-                        <div class="col-sm">
-                            <label for="comments"></label>
-                            <input type="hidden" th:value="${reviewIdx}" id="idx" name="idx">
-                            <input type="hidden" th:value="${session.member.getMemId()}" id="user_id" name="reId">
-                            <input type="hidden" th:value="${HCDetail.medicalName}" id="medi_name" name="reMdName">
-                            <input type="hidden" th:value="${HCDetail.medicalAddr}" id="medi_addr" name="reMdAddr">
-                            <input type="text" id="comments" name="reContents" placeholder="한 줄 리뷰 쓰기 . . ." class=""
-                                   style="width : 800px; height: 60px">
-                        </div>
-                        <div class="col-sm justify-content-end">
-                            <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center"
-                                    style="height: 60px; margin-top: 19.5px;" id="reviewSend">comment
-                            </button>
-                        </div>
-                    </form>
-                    <div class="container d-flex justify-content-end">
-                        <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">목록으로</button>
-                        <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center">주변 약국 찾기</button>
-                    </div>
+    <form action="/reviewInsert" method="post" id="reviewForm">
+        <div class="container-xxl">
+            <div th:if="${session.member == null}">
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="ms-5 btn btn-outline-info fs-6 text-center" onclick="backToList()">목록으로
+                        돌아가기
+                    </button>
                 </div>
             </div>
-
+            <div th:unless="${session.member == null}">
+                <div class="row">
+                    <div>
+                        <fieldset>
+                            <input type="radio" name="reStar" value="5" id="rate5"><label
+                                for="rate5">★</label>
+                            <input type="radio" name="reStar" value="4" id="rate4"><label
+                                for="rate4">★</label>
+                            <input type="radio" name="reStar" value="3" id="rate3"><label
+                                for="rate3">★</label>
+                            <input type="radio" name="reStar" value="2" id="rate2"><label
+                                for="rate2">★</label>
+                            <input type="radio" name="reStar" value="1" id="rate1" checked><label
+                                for="rate1">★</label>
+                            <span class="text-bold m-1">별점을 선택해주세요</span>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <label for="comments"></label>
+                    <input type="hidden" th:value="${reviewIdx}" id="idx" name="idx">
+                    <input type="hidden" th:value="${session.member.getMemId()}" id="user_id" name="reId">
+                    <input type="hidden" th:value="${HCDetail.medicalName}" id="medi_name" name="reMdName">
+                    <input type="hidden" th:value="${HCDetail.medicalAddr}" id="medi_addr" name="reMdAddr">
+                    <input type="text" id="comments" name="reContents" placeholder="한 줄 리뷰 쓰기 . . ." class=""
+                           style="width : 800px; height: 60px">
+                    <button type="button" class="ms-5 btn btn-outline-info fs-6 text-center" id="review_send">리뷰 작성
+                    </button>
+                    <button type="button" class="ms-5 btn btn-outline-info fs-6 text-center" onclick="backToList()">목록으로
+                        돌아가기
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div>
-        <table class="table table-hover table-bordered table-light" id="HCTable">
-            <thead>
-            <tr class="text-primary fw-bold">
-                <th class="fs-5">번호</th>
-                <th class="fs-5">작성자 아이디</th>
-                <th class="fs-5">보건소 이름</th>
-                <th class="fs-5">한줄 리뷰</th>
-                <th class="fs-5">작성 일자</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${#lists.size(HCReview)} > 0" th:each="item : ${HCReview}">
-                <td th:text="${item.reNum}" class="fw-lighter">번호</td>
-                <td th:text="${item.reId}" class="fw-lighter">작성자 아이디</td>
-                <td th:text="${item.reMdName}" class="fw-lighter">보건소 이름</td>
-                <td th:text="${item.reContents}" class="fw-light">한줄 리뷰</td>
-                <td th:text="${item.reCreateDate}" class="fw-light">작성 일자</td>
-            </tr>
-            <tr th:unless="${#lists.size(HCReview)} > 0">
-                <td th:cols="5">조회된 내용이 없습니다</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    </form>
 </div>
 
+
+<div class="container-fluid px-5">
+    <table class="table table-hover table-bordered table-light" id="HCTable">
+        <thead>
+        <tr class="text-primary fw-bold">
+            <th width="7%" class="fs-5">번호</th>
+            <th width="15%" class="fs-5">작성자 아이디</th>
+            <th width="15%" class="fs-5">보건소 이름</th>
+            <th width="33%" class="fs-5">한줄 리뷰</th>
+            <th width="20%" class="fs-5">작성 일자</th>
+            <th width="10%" class="fs-5">별 점</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.size(HCReview)} > 0" th:each="item : ${HCReview}">
+            <td th:text="${item.reNum}" class="fw-lighter">번호</td>
+            <td th:text="${item.reId}" class="fw-lighter">작성자 아이디</td>
+            <td th:text="${item.reMdName}" class="fw-lighter">보건소 이름</td>
+            <td th:text="${item.reContents}" class="fw-light">한줄 리뷰</td>
+            <td th:text="${item.reCreateDate}" class="fw-light">작성 일자</td>
+            <td th:text="|${item.reStar}|" class="fw-light">별점</td>
+        </tr>
+        <tr th:unless="${#lists.size(HCReview)} > 0">
+            <td th:cols="5">조회된 내용이 없습니다</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
 
 </div>
 <footer th:replace="layout/Footer :: mainFooter"></footer>
 
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    var HCLocate = [[${HCDetail.medicalAddr}]];
+    var HCName = [[${HCDetail.medicalName}]]
+    let array = [[${nearPharmacyList}]]
+    let positions = []
+
+    array.forEach(function (item) {
+        let article = {};
+        article.lat = item["wgs84Lat"]
+        article.lon = item["wgs84Lon"]
+        article.dutyName = item["dutyName"]
+        article.dutyAddr = item["dutyAddr"]
+        positions.push(article);
+    });
+
+    /*]]>*/
+
+
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    // 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch(HCLocate, function (result, status) {
+
+        // 정상적으로 검색이 완료됐으면
+        if (status === kakao.maps.services.Status.OK) {
+
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">' + HCName + '</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        }
+    });
+
+
+
+    for (var i = 0; i < positions.length; i++) {
+
+
+        let title = positions[i].dutyName;
+        let addr = positions[i].dutyAddr
+        let lat = positions[i].lat;
+        let lon = positions[i].lon;
+
+        var markerPosition = new kakao.maps.LatLng(lat, lon)
+
+
+        var imageSrc = "/getmarkerimg", // 마커이미지의 주소입니다
+            imageSize = new kakao.maps.Size(38, 42), // 마커이미지의 크기입니다
+            imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+
+        // 마커를 생성합니다
+        let marker = new kakao.maps.Marker({
+            map: map, // 마커를 표시할 지도
+            position: markerPosition, // 마커의 위치
+            image: markerImage,
+            clickable: true
+        });
+
+
+        var iwContent ;
+
+        iwContent = '<div style="padding:5px; height: 80px;">' + title + '<br>' + addr + ' <a href="https://map.kakao.com/?sName=' + HCLocate + '&eName=' + addr + '" style="color:blue" target="_blank">길찾기</a></div>'// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        var iwRemoveable = true;
+        // 마커에 표시할 인포윈도우를 생성합니다
+
+        var infowindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+            positions: markerPosition,
+            removable: iwRemoveable
+        });
+
+
+        (function(marker, infowindow) {
+            // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                infowindow.close();
+                infowindow.open(map, marker);
+            });
+
+        })(marker, infowindow);
+
+    }
+
+</script>
 </body>
 </html>

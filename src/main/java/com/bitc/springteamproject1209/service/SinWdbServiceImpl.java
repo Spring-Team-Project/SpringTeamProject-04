@@ -1,15 +1,16 @@
 package com.bitc.springteamproject1209.service;
 
-import com.bitc.springteamproject1209.dto.ReviewDto;
-import com.bitc.springteamproject1209.dto.SinHCDto;
-import com.bitc.springteamproject1209.dto.SinJsonDto;
-import com.bitc.springteamproject1209.dto.SinRegistDto;
+import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.mapper.SinWdbMapper;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,29 @@ public class SinWdbServiceImpl implements SinWdbService {
         return emailCheck;
     }
 
+    //  봇 체크
+    @Override
+    public SinRecaptchaDto checkBot(String token) throws Exception {
+        String SECRET_KEY = "6LcJIakjAAAAACi68kGAzttus6RCyJOtrMjqLj-c";
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+        map.add("secret", SECRET_KEY);
+        map.add("response", token);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+
+        SinRecaptchaDto response = restTemplate.postForObject( url, request, SinRecaptchaDto.class );
+
+        return response;
+    }
+
+
 //--------------------------------------------------------------------------------------------------------------
 
     //    회원테이블 신규 회원 데이터 입력
@@ -78,11 +102,30 @@ public class SinWdbServiceImpl implements SinWdbService {
         return pagingPerData;
     }
 
+    //  페이징 및 블럭
+    /*
+    * total : 총 데이터 수 (735)
+    * perPage : 한 페이지에 보일 데이터 수 (10)
+    * blockPer : 한 페이지에 보일 페이지네이션 수 (15)
+    * totalPage : 총 페이지 수 = total / perPage = 73, %5 = 74page
+    * totalBlock : 총 페이지네이션 수 = 5 totalPage / blockPer = 4.933
+    * nowPage : 현재 페이지 default = 1;
+    * limit(시작번호,perPage)
+    * for(){
+    *   for()
+    * }
+    *
+    * */
+
+
+
+
+
     // 세미 페이징
     @Override
     public List<SinHCDto> HCDBList(int HCPageNum) throws Exception {
 
-        int nextData, totalData,endData, startData;
+        int nextData, totalData, endData, startData;
 
         List<SinHCDto> allData = sinWdbMapper.receiveHCDBList();
         List<SinHCDto> pagingPerData = new ArrayList<>();
@@ -96,22 +139,21 @@ public class SinWdbServiceImpl implements SinWdbService {
         totalData = 241;
 
 
-        if (endData > totalData){
+        if (endData > totalData) {
             endData = totalData;
 
         } else {
             endData = (HCPageNum * 10);
         }
-        if (nextData > totalData){
+        if (nextData > totalData) {
             nextData = totalData - 1;
-        }else {
+        } else {
             nextData = (HCPageNum * 10) - 10;
         }
 
-        if (HCPageNum == 0){
+        if (HCPageNum == 0) {
             HCPageNum = 1;
         }
-
 
 
         if (HCPageNum == 1) {
@@ -120,14 +162,14 @@ public class SinWdbServiceImpl implements SinWdbService {
                 pagingPerData.add(allData.get(i));
 
             }
-                return pagingPerData;
+            return pagingPerData;
 
-        }else if (HCPageNum > 1){
+        } else if (HCPageNum > 1) {
             for (int i = nextData; i < endData; i++) {
                 pagingPerData.add(allData.get(i));
 
             }
-                return pagingPerData;
+            return pagingPerData;
         }
 
         return allData;
@@ -168,6 +210,40 @@ public class SinWdbServiceImpl implements SinWdbService {
         return sinWdbMapper.getHCReview(idx);
     }
 
+    //  상세 페이지 내 근처 약국 찾기
+    @Override
+    public List<LeePharmacyFullDataItemDto> findNearPharmacy(String addr) throws Exception {
+        String mapSido = addr.substring(0, 2);
+
+
+        return sinWdbMapper.nearPhamFind(mapSido);
+    }
+    //  리뷰 평점 삽입
+    @Override
+    public void insertStarAvg(int idx) throws Exception {
+
+        String avg = sinWdbMapper.getStarAvg(idx);
+
+
+        SinHCDto HCStarAvg = new SinHCDto();
+        HCStarAvg.setMedicalStarAvg(avg);
+        HCStarAvg.setIdx(idx);
+        sinWdbMapper.insertHCStarAvg(HCStarAvg);
+    }
+
+    //  공지 가져오기
+    @Override
+    public List<SinNoticeDto> getNotice() throws Exception {
+
+        return sinWdbMapper.getNotice();
+    }
+    //  공지 수정하기
+    @Override
+    public void updateNotice(SinNoticeDto sinNoticeDto) throws Exception {
+        sinWdbMapper.updateNotice(sinNoticeDto);
+    }
+
+
 
 //--------------------------------------------------------------------------------------------------------------
 
@@ -207,8 +283,6 @@ public class SinWdbServiceImpl implements SinWdbService {
 
         return sendSinJsonDto;
     }
-
-
 
 
 //--------------------------------------------------------------------------------------------------------------

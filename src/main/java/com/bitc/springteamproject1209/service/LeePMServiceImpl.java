@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +21,15 @@ public class LeePMServiceImpl implements LeePMService {
     @Override
     public List<LeePMDto> PMDBList() throws Exception {
 
-        return leePharmacyMapper.receivePMDBList();
+
+        List<LeePMDto> allData = leePharmacyMapper.receivePMDBList();
+        List<LeePMDto> pagingPerData = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            pagingPerData.add(allData.get(i));
+        }
+
+        return pagingPerData;
     }
 
 //    검색 및 필터링

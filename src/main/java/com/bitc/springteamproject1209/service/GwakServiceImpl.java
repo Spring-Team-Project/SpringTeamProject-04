@@ -60,9 +60,14 @@ public class GwakServiceImpl implements GwakService {
   }
 
   @Override
-  public Page<ReviewDto> selectReviewList2(int pageNo, String searchText) throws Exception {
+  public Page<ReviewDto> selectReviewList2(int pageNo, ReviewDto reviewDto) throws Exception {
     PageHelper.startPage(pageNo, 5);
-    return gwakMapper.selectReviewListPage2(searchText);
+    if (reviewDto.getCondition().equals("condition1")) {
+      return gwakMapper.selectReviewListPage2(reviewDto);
+    } else if (reviewDto.getCondition().equals("condition2")) {
+      return gwakMapper.selectReviewListPage3(reviewDto);
+    } else {
+      return gwakMapper.selectReviewListPage4(reviewDto);
+    }
   }
-
 }

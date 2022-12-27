@@ -11,38 +11,46 @@
   <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
   <script th:inline="javascript">
+    // /*<![CDATA[*/
+    // const memberId = [[${session.member.memId}]];
+    // /*]]>*/
+    $(document).ready(function () {
 
-
+    });
   </script>
-
-  <script>
-
-    // if(listReId.equals('aaa')) {
-    //   letsReIdYn = "Y";
-    // }
-  </script>
-
-
 </head>
 <body>
 <header th:replace="layout/Header :: mainHeader">
 
 </header>
-<!-- 검색 -->
-<div class="text-end row">
-<form action="/search" id="frm" method="post">
-<label for="searchText" th:placeholder="검색"></label>
-<input type="text" id="searchText" name="searchText" th:class="form-control">
-<button class="btn btn-outline-info" id="btn-search" type="submit" th:for="search">검색</button>
+<div class="container">
+  <div class="float-end">
+<form class="form-inline" action="/search" id="frm" method="post">
+  <div class="form-group">
+    <div class="input-group">
+      <label for="condition"></label>
+      <select name="condition" id="condition" class="fs-6 me-2 btn-sm">
+        <option value="condition1">업체명</option>
+        <option value="condition2">작성자명</option>
+        <option value="condition3">리뷰내용</option>
+      </select>
+    </div>
+    <div class="input-group">
+      <label for="searchText" th:placeholder="검색"></label>
+      <input type="text" class="form-control" id="searchText" name="searchText" placeholder="검색어를 입력하세요">
+    </div>
   </div>
-
+  <button type="submit" class="btn btn-primary" id="btn-search">검색</button>
+</form>
+  </div>
+</div>
 <div class="container mt-5">
-  <div class="row">
-    <h2 class="text-center mb-5">리뷰 모음 & 공지사항 게시판</h2>
-<!--    <h2 th:text="${session.member.getMemId()}"></h2>-->
+  <div class="row mt-5">
+    <h2 class="text-center mb-5 mt-4">리뷰 모음 & 공지사항 게시판</h2>
+    <!--    <h2 th:text="${session.member.getMemId()}"></h2>-->
     <h2></h2>
     <div class="col-sm">
-<!--      아코디언 시작 -->
+      <!--      아코디언 시작 -->
       <div class="accordion" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
@@ -73,7 +81,7 @@
           </div>
         </div>
       </div>
-<!--      아코디언 끝 -->
+      <!--      아코디언 끝 -->
 
 
       <!--            dataList 값 확인 가능 -->
@@ -98,8 +106,8 @@
         </tr>
         </thead>
         <tbody>
-<!--        </div>-->
-<!--        th:if="${session.member.getMemId() == ${memberId}}"-->
+        <!--        </div>-->
+        <!--        th:if="${session.member.getMemId() == ${memberId}}"-->
         <!--                dataList : 변수명(Controller 에서 ModelAndView 객체에 저장한 변수병과 데이터)        -->
         <!--                each : ${dataList}에서 데이터를 끄집어내서 list 에 넣는작업 반복실행 (for:in) 문.    -->
         <tr th:if="${#lists.size(reviewBoardList.getList()) > 0}" th:each="list : ${reviewBoardList.getList()}">
@@ -113,15 +121,15 @@
           <td th:text="${list.reId}" id="list-reId"></td>
           <td th:text="${list.reCreateDate}"></td>
           <td>
-<!--            <a href="/review/edit/" th:attrappend="href=${list.reIdx}" th:text="수정" class="text-decoration-none"></a>-->
+            <!--            <a href="/review/edit/" th:attrappend="href=${list.reIdx}" th:text="수정" class="text-decoration-none"></a>-->
             <a href="/review/delete/" th:attrappend="href=${list.reIdx}" th:text="삭제" class="text-decoration-none"></a>
           </td>
-<!--          <td>-->
-<!--            <div class="btn-group" role="group" aria-label="Basic example">-->
-<!--              <button type="button" class="btn btn-outline-warning btn-sm">EDIT</button>-->
-<!--              <button type="button" class="btn btn-outline-danger btn-sm">DELETE</button>-->
-<!--            </div>-->
-<!--          </td>-->
+          <!--          <td>-->
+          <!--            <div class="btn-group" role="group" aria-label="Basic example">-->
+          <!--              <button type="button" class="btn btn-outline-warning btn-sm">EDIT</button>-->
+          <!--              <button type="button" class="btn btn-outline-danger btn-sm">DELETE</button>-->
+          <!--            </div>-->
+          <!--          </td>-->
         </tr>
         <!--                unless: if의 반대(else를 의미). if의 조건과 동일하게 써줘야 함 : false일 때 실행되는 부분 -->
         <tr th:unless="${#lists.size(reviewBoardList.getList())} > 0">
@@ -153,11 +161,11 @@
       </nav>
     </div>
   </div>
-<!--  <div class="row">-->
-<!--    <div class="col-sm d-flex justify-content-end">-->
-<!--      <a href="/myPage" class="btn btn-outline-primary">돌아가기</a>-->
-<!--    </div>-->
-<!--  </div>-->
+  <!--  <div class="row">-->
+  <!--    <div class="col-sm d-flex justify-content-end">-->
+  <!--      <a href="/myPage" class="btn btn-outline-primary">돌아가기</a>-->
+  <!--    </div>-->
+  <!--  </div>-->
 </div>
 </form>
 

@@ -26,5 +26,9 @@ public interface GwakMapper {
 
   List<LeePharmacyFullDataItemDto> getDataList(String dong);
 
-  Page<ReviewDto> selectReviewListPage2(String searchText) throws Exception;
+  Page<ReviewDto> selectReviewListPage2(ReviewDto reviewDto) throws Exception;
+
+  Page<ReviewDto> selectReviewListPage3(ReviewDto reviewDto) throws Exception;
+
+  Page<ReviewDto> selectReviewListPage4(ReviewDto reviewDto) throws Exception;
 }

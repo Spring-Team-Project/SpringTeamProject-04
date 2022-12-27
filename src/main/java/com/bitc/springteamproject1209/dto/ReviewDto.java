@@ -14,4 +14,7 @@ public class ReviewDto {
     private String reUpdateDate;
     private String reMdAddr;
     private int reNum;
+
+    private String condition;
+    private String searchText;
 }

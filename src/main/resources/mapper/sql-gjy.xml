@@ -63,12 +63,29 @@
 
 
 <!--    검색 기능 -->
-    <select id="selectReviewListPage2" parameterType="String" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
-        <![CDATA[
-        SELECT *
+    <select id="selectReviewListPage2" parameterType="com.bitc.springteamproject1209.dto.ReviewDto" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT re_idx, re_id, re_md_name, re_contents, re_create_date, re_deleted_yn
         FROM review
         WHERE re_deleted_yn = 'N' and re_md_name regexp #{searchText}
         order by re_idx desc
-        ]]>
     </select>
+
+    <select id="selectReviewListPage3" parameterType="com.bitc.springteamproject1209.dto.ReviewDto" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT re_idx, re_id, re_md_name, re_contents, re_create_date, re_deleted_yn
+        FROM review
+        WHERE re_deleted_yn = 'N' and re_id regexp #{searchText}
+        order by re_idx desc
+    </select>
+
+    <select id="selectReviewListPage4" parameterType="com.bitc.springteamproject1209.dto.ReviewDto" resultType="com.bitc.springteamproject1209.dto.ReviewDto">
+        SELECT re_idx, re_id, re_md_name, re_contents, re_create_date, re_deleted_yn
+        FROM review
+        WHERE re_deleted_yn = 'N' and re_contents regexp #{searchText}
+        order by re_idx desc
+    </select>
+
+
+
+
+
 </mapper>

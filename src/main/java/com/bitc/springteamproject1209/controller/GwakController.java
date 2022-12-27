@@ -149,11 +149,10 @@ public class GwakController {
 
   @GetMapping(value = "review/delete/{reIdx}") // 삭제는 DELETE
   public String deleteBoard(@PathVariable("reIdx") int reIdx) throws Exception {
-//        System.out.println("--------------------------------------");
-//        System.out.println("deleteBoard : " + idx);
+
     gwakService.deleteBoard(reIdx);
 
-    return "GwakMyPage";
+    return "redirect:/GwakReviewBoardPage";
   }
 
 

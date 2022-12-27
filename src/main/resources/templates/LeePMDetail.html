@@ -10,11 +10,48 @@
     <!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
-</head>
+    <style>
+        #reviewForm fieldset {
+            display: inline-block;
+            direction: rtl;
+            border: 0;
+        }
+
+        #reviewForm fieldset legend {
+            text-align: right;
+        }
+
+        #reviewForm input[type=radio] {
+            display: none;
+        }
+
+        #reviewForm label {
+            font-size: 3em;
+            color: transparent;
+            text-shadow: 0 0 0 #f0f0f0;
+        }
+
+        #reviewForm label:hover {
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+
+        #reviewForm label:hover ~ label {
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+
+        #reviewForm input[type=radio]:checked ~ label {
+            text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+        }
+    </style>
 <script>
+
+    function backToList() {
+        location.href = "/pmlist"
+
+    }
     $(document).ready(function () {
 
-        $('#reviewSend').on('click', function () {
+        $('#review_send').on('click', function () {
 
 
             const frm = $('#reviewForm')[0];
@@ -31,6 +68,7 @@
         });
     });
 </script>
+</head>
 <body>
 <header th:replace="layout/Header :: mainHeader"></header>
 
@@ -118,33 +156,51 @@
         </tr>
         </tbody>
     </table>
-
-
-    <div class="container justify-content-end">
-        <div style="width: 100%; height:150px; float: left;">
-            <div th:unless="${session.member == null}">
-                <div style="width: 20%; height:150px;" class="d-flex">
-                    <form action="http://localhost:8080/reviewInsert" method="post" id="reviewForm"
-                          class="d-flex text-center">
-                        <div class="col-sm">
-                            <label for="comments"></label>
-                            <input type="hidden" th:value="${reviewIdx}" id="idx" name="idx">
-                            <input type="hidden" th:value="${session.member.getMemId()}" id="user_id" name="reId">
-                            <input type="hidden" th:value="${PMDetail.dutyName}" id="medi_name" name="reMdName">
-                            <input type="hidden" th:value="${PMDetail.dutyAddr}" id="medi_addr" name="reMdAddr">
-                            <input type="text" id="comments" name="reContents" placeholder="한 줄 리뷰 쓰기 . . ." class=""
-                                   style="width : 800px; height: 60px">
-                        </div>
-                        <div class="col-sm justify-content-end">
-                            <button type="button" class="ms-5 btn btn-outline-warning fs-6 text-center"
-                                    style="height: 60px; margin-top: 19.5px;" id="reviewSend">comment
-                            </button>
-                        </div>
-                    </form>
+    <form action="/pmreviewInsert" method="post" id="reviewForm">
+        <div class="container-xxl">
+            <div th:if="${session.member == null}">
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="ms-5 btn btn-outline-info fs-6 text-center" onclick="backToList()">목록으로
+                        돌아가기
+                    </button>
                 </div>
             </div>
-
+            <div th:unless="${session.member == null}">
+                <div class="row">
+                    <div>
+                        <fieldset>
+                            <input type="radio" name="reStar" value="5" id="rate5"><label
+                                for="rate5">★</label>
+                            <input type="radio" name="reStar" value="4" id="rate4"><label
+                                for="rate4">★</label>
+                            <input type="radio" name="reStar" value="3" id="rate3"><label
+                                for="rate3">★</label>
+                            <input type="radio" name="reStar" value="2" id="rate2"><label
+                                for="rate2">★</label>
+                            <input type="radio" name="reStar" value="1" id="rate1" checked><label
+                                for="rate1">★</label>
+                            <span class="text-bold m-1">별점을 선택해주세요</span>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <label for="comments"></label>
+                    <input type="hidden" th:value="${reviewIdx}" id="idx" name="idx">
+                    <input type="hidden" th:value="${session.member.getMemId()}" id="user_id" name="reId">
+                    <input type="hidden" th:value="${PMDetail.dutyName}" id="medi_name" name="reMdName">
+                    <input type="hidden" th:value="${PMDetail.dutyAddr}" id="medi_addr" name="reMdAddr">
+                    <input type="text" id="comments" name="reContents" placeholder="한 줄 리뷰 쓰기 . . ." class=""
+                           style="width : 800px; height: 60px">
+                    <button type="button" class="ms-5 btn btn-outline-info fs-6 text-center" id="review_send">리뷰 작성
+                    </button>
+                    <button type="button" class="ms-5 btn btn-outline-info fs-6 text-center" onclick="backToList()">목록으로
+                        돌아가기
+                    </button>
+                </div>
+            </div>
         </div>
+    </form>
+
     </div>
     <div>
         <table class="table table-hover table-bordered table-light" id="HCTable">

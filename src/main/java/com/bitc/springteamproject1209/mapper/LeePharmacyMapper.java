@@ -25,4 +25,9 @@ public interface LeePharmacyMapper {
     List<ReviewDto> getPMReview(int idx) throws Exception;
 
 
+    String getStarAvg(int idx) throws Exception;
+
+    void insertPMStarAvg(LeePMDto pmStarAvg) throws Exception;
+
+    void updateNotice(SinNoticeDto sinNoticeDto) throws Exception;
 }

@@ -2,6 +2,8 @@ package com.bitc.springteamproject1209.service;
 
 import com.bitc.springteamproject1209.dto.LeePMDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
+import com.bitc.springteamproject1209.dto.SinHCDto;
+import com.bitc.springteamproject1209.dto.SinNoticeDto;
 import com.bitc.springteamproject1209.mapper.LeePharmacyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,27 @@ public class LeePMServiceImpl implements LeePMService {
 //    불러오기
     @Override
     public List<ReviewDto> selectPMReview(int idx) throws Exception {
+
         return leePharmacyMapper.getPMReview(idx);
+    }
+
+
+    @Override
+    public void insertStarAvg(int idx) throws Exception {
+
+        String avg = leePharmacyMapper.getStarAvg(idx);
+
+
+        LeePMDto PMStarAvg = new LeePMDto();
+        PMStarAvg.setMedicalStarAvg(avg);
+        PMStarAvg.setIdx(idx);
+        leePharmacyMapper.insertPMStarAvg(PMStarAvg);
+    }
+
+    //  공지 수정하기
+    @Override
+    public void updateNotice(SinNoticeDto sinNoticeDto) throws Exception {
+        leePharmacyMapper.updateNotice(sinNoticeDto);
     }
 
 }

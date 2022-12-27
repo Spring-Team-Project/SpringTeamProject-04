@@ -163,6 +163,7 @@ public class SinPageController {
             e.printStackTrace();
             System.out.println("리뷰 작성 실패");
         }
+
         try {
             sinWdbService.insertStarAvg(idx);
             System.out.println("평균 평점 입력 성공");

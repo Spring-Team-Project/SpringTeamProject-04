@@ -106,10 +106,26 @@ public class LeeController {
         ModelAndView mv = new ModelAndView("LeePMList");
 
         List<LeePMDto> PMDBList = leePMService.PMDBList();
+        List<SinNoticeDto> Notice = sinWdbService.getNotice();
 
         mv.addObject("PMDBList", PMDBList);
+        mv.addObject("Notice", Notice);
 
         return mv;
+    }
+
+    // 약국 목록 공지 수정
+    @PostMapping("/noticeEdit1")
+    public void editNotice(@RequestParam("noticePmHeader") String title, @RequestParam("noticePmContents") String main) throws Exception{
+
+
+        SinNoticeDto sinNoticeDto = new SinNoticeDto();
+
+        sinNoticeDto.setNoticePmHeader(title);
+        sinNoticeDto.setNoticePmContents(main);
+
+        leePMService.updateNotice(sinNoticeDto);
+
     }
 
     //    지역번호와 검색 모두
@@ -136,6 +152,7 @@ public class LeeController {
         List<ReviewDto> detailReview = leePMService.selectPMReview(idx);
 
 
+        mv.addObject("reviewIdx",idx);
         mv.addObject("PMReview", detailReview);
         mv.addObject("PMDetail", leePMDto);
 
@@ -143,8 +160,10 @@ public class LeeController {
     }
 
     //  리뷰 작성
-    @PostMapping("/reviewInsert2")
-    public void reviewInsert2(ReviewDto reviewDto) throws Exception {
+    @PostMapping("/pmreviewInsert")
+    public ResponseEntity<?> reviewInsert(@RequestParam("idx")int idx, ReviewDto reviewDto) throws Exception {
+
+        HttpHeaders headers = new HttpHeaders();
 
         try {
             leePMService.insertUserReview(reviewDto);
@@ -153,6 +172,19 @@ public class LeeController {
             e.printStackTrace();
             System.out.println("리뷰 작성 실패");
         }
+        try {
+            leePMService.insertStarAvg(idx);
+            System.out.println("평균 평점 입력 성공");
+        }catch (Exception e){
+            System.out.println("평균 평점 입력 실패");
+            e.printStackTrace();
+        }
+
+
+        headers.setLocation(URI.create("/pmlist/"+idx));
+
+
+        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
 //    ------------------------------------------------------------------------

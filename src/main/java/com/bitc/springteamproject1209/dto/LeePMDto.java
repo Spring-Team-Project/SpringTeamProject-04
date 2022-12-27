@@ -30,4 +30,6 @@ public class LeePMDto {
     private String rnum;
     private String wgs84Lat;
     private String wgs84Lon;
+
+    private String medicalStarAvg;
 }

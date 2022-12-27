@@ -45,6 +45,7 @@
 
                                     result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["dutyName"] + "</td>";
                                     result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["dutyAddr"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalStarAvg"] + "</td>";
 
 
                                     result += "</tr>";
@@ -92,6 +93,8 @@
 
                                     result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["dutyName"] + "</td>";
                                     result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["dutyAddr"] + "</td>";
+                                    result += "<td onclick=\"rowClicked('" + idx + "')\">" + data[i]["medicalStarAvg"] + "</td>";
+
 
 
                                     result += "</tr>";
@@ -137,11 +140,77 @@
                     <button type="button" class="btn btn-primary" id="btn_search">검색버튼</button>
                 </form>
             </div>
-            <div>
-                <div style="height: 50px">
-                    <span>공지사항 자리</span>
+            <div th:if="${session.member == null} or ${session.member.memId != 'admin'}">
+                <div class="my-4">
+                    <div class="accordion" id="accordion_null">
+                        <div class="accordion-item " aria-expanded="true">
+                            <h2 class="accordion-header" id="headingOne_null">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne_null" aria-expanded="false" aria-controls="collapseOne_null">
+                                    (공지)&nbsp;&nbsp;<strong th:text="${Notice[0].noticePmHeader}"></strong>
+                                </button>
+                            </h2>
+                            <div id="collapseOne_null" class="accordion-collapse collapse" aria-labelledby="headingOne_null"
+                                 data-bs-parent="#accordionExample" style="">
+                                <div class="accordion-body d-flex justify-content-between">
+                                    <code th:text="${Notice[0].noticePmContents}"></code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
+            </div>
+            <div th:unless="${session.member == null} or ${session.member.memId != 'admin'}">
+                <div class="my-4">
+                    <div class="accordion" id="accordion_admin">
+                        <div class="accordion-item " aria-expanded="true">
+                            <h2 class="accordion-header" id="headingOne_admin">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne_admin" aria-expanded="false" aria-controls="collapseOne_admin">
+                                    (공지)&nbsp;&nbsp;<strong th:text="${Notice[0].noticePmHeader}"></strong>
+                                </button>
+                            </h2>
+                            <div id="collapseOne_admin" class="accordion-collapse collapse" aria-labelledby="headingOne_admin"
+                                 data-bs-parent="#accordionExample" style="">
+                                <div class="accordion-body d-flex justify-content-between">
+                                    <code th:text="${Notice[0].noticePmContents}"></code>
+                                    <!-- 버튼을 생성한다 해당하는 버튼은 데이터 토글은 모달, 데이터 타겟은 exampleModal의 아이디를 가지는 div 입니다.  -->
+                                    <!-- 참고로, class data-target, data-toggle과 같은것은 애트리뷰트 라고 합니다. -->
+                                    <button type="button" onclick="javascript:openPopup('modal');"
+                                            class="modal1 btn-sm btn-outline-primary" id="notice_edit">
+                                        공지 수정
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--모달-->
+            <div class="shadow"></div>
+            <div class="popup modal" id="modal_notice">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><input type="text" class="border-0"
+                                                           th:value="${Notice[0].noticePmHeader}" size="30" maxlength="20"
+                                                           id="noticePmHeader" name="noticePmHeader"></h5>
+                            <button type="button" class="btn-close" onclick="closePopup()">
+                                <span aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="border-0" maxlength="50" th:value="${Notice[0].noticePmContents}"
+                                   size=60 id="noticePmContents" name="noticePmContents">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn  mx-2 close" onclick="closePopup()" id="notice_save">공지
+                                수정
+                            </button>
+                            <button type="button" class="btn mx-2 close" onclick="closePopup()">닫기</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div>
                 <table class="table table-hover table-bordered table-light" id="PMTable">
@@ -149,7 +218,7 @@
                     <tr class="text-primary fw-bold ">
                         <th class="fs-5">약국 이름</th>
                         <th class="fs-5">약국 주소</th>
-                        <th class="fs-5">별점</th>
+                        <th class="fs-5">평점</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -157,6 +226,8 @@
                         th:onclick="'javascript:rowClicked(\'' + ${item.idx} + '\');'">
                         <td th:text="${item.dutyName}" class="fw-lighter">약국 이름</td>
                         <td th:text="${item.dutyAddr}" class="fw-light">약국 주소</td>
+                        <td th:text="${item.medicalStarAvg}" class="fw-light">평점</td>
+
                     </tr>
                     <tr th:unless="${#lists.size(PMDBList)} > 0">
                         <td th:cols="5">조회된 내용이 없습니다</td>
@@ -171,6 +242,62 @@
 
 <footer th:replace="layout/Footer :: mainFooter"></footer>
 
+<script>
+    function openPopup(modalname) {
+        document.get
+        $('.' + modalname).show();
+        $(".shadow").show(); // 배경 어둡게
 
+        //스크롤 막기
+        $('.wrap').on('scroll touchmove mousewheel', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        });
+    }
+
+    // 팝업 닫기
+    function closePopup(flag) {
+        $('.popup').hide(); //팝업을 닫기다.
+        $('.shadow').hide(); // 배경 어둡게 삭제
+        //스크롤 막기 해제
+        $('.wrap').off('scroll touchmove mousewheel');
+    };
+
+
+    $(document).ready(function () {
+
+
+
+        $('#notice_save').on('click', function () {
+
+
+
+
+            let title = $('#noticePmHeader').val();
+            let contents = $('#noticePmContents').val();
+
+
+
+            $.ajax({
+                url: "/noticeEdit1",
+                type: "post",
+                data:{noticePmHeader:title,noticePmContents:contents},
+                success: function (){
+                    alert("공지가 수정됐습니다.")
+                    location.reload();
+                },
+                error: function (e){
+                    console.log(e);
+                    alert("오류가 발생됐습니다.")
+                }
+
+            });
+
+
+        });
+
+    });
+</script>
 </body>
 </html>

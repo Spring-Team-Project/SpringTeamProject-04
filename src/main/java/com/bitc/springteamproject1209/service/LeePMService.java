@@ -2,6 +2,7 @@ package com.bitc.springteamproject1209.service;
 
 import com.bitc.springteamproject1209.dto.LeePMDto;
 import com.bitc.springteamproject1209.dto.ReviewDto;
+import com.bitc.springteamproject1209.dto.SinNoticeDto;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface LeePMService {
     void insertUserReview(ReviewDto reviewDto) throws Exception;
     List<ReviewDto> selectPMReview(int idx) throws Exception;
 
+    void insertStarAvg(int idx) throws Exception;
+
+    void updateNotice(SinNoticeDto sinNoticeDto) throws Exception;
 }
 
 

@@ -346,7 +346,7 @@
                 <tr class="text-primary fw-bold ">
                     <th class="fs-5">보건소 이름</th>
                     <th class="fs-5">보건소 주소</th>
-                    <th class="fs-5">별점</th>
+                    <th class="fs-5">평점</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -354,7 +354,7 @@
                     th:onclick="'javascript:rowClicked(\'' + ${item.idx} + '\');'">
                     <td th:text="${item.medicalName}" class="fw-lighter">보건소 이름</td>
                     <td th:text="${item.medicalAddr}" class="fw-light">보건소 주소</td>
-                    <td th:text="${item.medicalStarAvg}" class="fw-light">별점</td>
+                    <td th:text="${item.medicalStarAvg}" class="fw-light">평점</td>
                 </tr>
                 <tr th:unless="${#lists.size(HCDBList)} > 0">
                     <td th:cols="5">조회된 내용이 없습니다</td>

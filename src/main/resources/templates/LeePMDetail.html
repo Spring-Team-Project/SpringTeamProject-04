@@ -206,11 +206,13 @@
         <table class="table table-hover table-bordered table-light" id="HCTable">
             <thead>
             <tr class="text-primary fw-bold">
-                <th class="fs-5">번호</th>
-                <th class="fs-5">작성자 아이디</th>
-                <th class="fs-5">약국 이름</th>
-                <th class="fs-5">한줄 리뷰</th>
-                <th class="fs-5">작성 일자</th>
+                <th width="7%" class="fs-5">번호</th>
+                <th width="15%" class="fs-5">작성자 아이디</th>
+                <th width="15%" class="fs-5">약국 이름</th>
+                <th width="33%" class="fs-5">한줄 리뷰</th>
+                <th width="20%" class="fs-5">작성 일자</th>
+                <th width="10%" class="fs-5">평 점</th>
+
             </tr>
             </thead>
             <tbody>
@@ -220,6 +222,7 @@
                 <td th:text="${item.reMdName}" class="fw-lighter">약국 이름</td>
                 <td th:text="${item.reContents}" class="fw-light">한줄 리뷰</td>
                 <td th:text="${item.reCreateDate}" class="fw-light">작성 일자</td>
+                <td th:text="|${item.reStar}|" class="fw-light">별점</td>
             </tr>
             <tr th:unless="${#lists.size(PMReview)} > 0">
                 <td th:cols="5">조회된 내용이 없습니다</td>

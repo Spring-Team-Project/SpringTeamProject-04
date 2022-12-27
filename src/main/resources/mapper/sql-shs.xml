@@ -103,6 +103,7 @@
             ON rv.re_md_addr = hc.medical_addr
             JOIN (SELECT @rownum := 0) AS R
             WHERE hc.idx = #{idx}
+            AND re_deleted_yn = 'N'
             ORDER BY rv.re_create_date DESC) AS A
     </select>
 

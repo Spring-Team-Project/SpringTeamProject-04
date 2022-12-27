@@ -54,13 +54,14 @@
     <select id="getPMReview" parameterType="int"
             resultType="com.bitc.springteamproject1209.dto.ReviewDto">
         SELECT A.*, @rownum := @rownum+1 AS reNum FROM (
-            SELECT re_id, re_contents, re_md_name, re_create_date
+            SELECT re_id, re_contents, re_md_name, re_create_date, re_star
             FROM review as rv
             LEFT JOIN tblpharmacy as pm
             ON rv.re_md_addr = pm.duty_addr
             JOIN (SELECT @rownum := 0) AS R
             WHERE pm.idx = #{idx}
-            ORDER BY rv.re_create_date DESC) AS A;
+            AND re_deleted_yn = 'N'
+            ORDER BY rv.re_create_date DESC) AS A
     </select>
 
 

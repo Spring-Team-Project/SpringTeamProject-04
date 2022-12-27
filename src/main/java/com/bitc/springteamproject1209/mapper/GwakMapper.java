@@ -22,7 +22,13 @@ public interface GwakMapper {
 
 
   //  List<ReviewDto> selectMyReviewList(String reId) throws Exception;
-  List<ReviewDto> selectMyReviewList(String reId);
+//  List<ReviewDto> selectMyReviewList(String reId);
 
   List<LeePharmacyFullDataItemDto> getDataList(String dong);
+
+  Page<ReviewDto> selectReviewListPage2(ReviewDto reviewDto) throws Exception;
+
+  Page<ReviewDto> selectReviewListPage3(ReviewDto reviewDto) throws Exception;
+
+  Page<ReviewDto> selectReviewListPage4(ReviewDto reviewDto) throws Exception;
 }

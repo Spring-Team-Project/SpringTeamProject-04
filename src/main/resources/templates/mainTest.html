@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>우리동네 보건소</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.1.js" th:src="@{/js/jquery-3.6.1.js}"></script>
+    <script src="/js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+
+    <style>
+        #img{
+            margin-top: 50px;
+            background-image: url('/skyimg/Family.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+    </style>
+
+</head>
+<body>
+<header th:replace="layout/HeaderTest :: mainHeader"></header>
+<img src="" alt="">
+<h1 id="current-location-main"></h1>
+<div id="map"></div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b9d88b62f2b41600a7805dfefc28f353&libraries=services,clusterer,drawing">
+</script>
+<script>
+    $(document).ready(function () {
+        // 카카오맵 지도 생성
+        // 지도를 표시할 div
+        var mapContainer = document.getElementById('map'),
+            mapOption = {
+                center: new kakao.maps.LatLng(127.20316293878739, 127.81803310329138), // 지도의 중심좌표
+                level: 5 // 지도의 확대 레벨
+            };
+
+        // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // 주소를 좌표로 바꾸기 위한 geocoder 생성
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+        if (navigator.geolocation) {
+            // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude, // 위도
+                    lon = position.coords.longitude; // 경도
+                var geocoder = new kakao.maps.services.Geocoder();
+                var coord = new kakao.maps.LatLng(lat, lon);
+                var callback = function(result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        console.log('현재 사용자 주소' + result[0].address.address_name);
+                        let messageCode = result[0].address.address_name;
+                        $('#current-location-main').text('현재 위치 : ' + messageCode);
+                    }
+                };
+                geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+                var locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+            });
+        } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+            var locPosition = new kakao.maps.LatLng(126.450701, 126.570667),
+                message = 'geolocation을 사용할수 없어요..'
+            displayMarker(locPosition, message);
+        }
+    });
+</script>
+<div id="img">
+    <div class="row row-cols-lg-1 row-cols-lg-4 align-items-center g-4 py-5" style="display: flex; justify-content: center; ">
+        <div class="col">
+            <a href="https://sooyusil.com/home" target = "_blank" >
+                <img src="/skyimg/img8.png" >
+            </a>
+        </div>
+        <div class="col" >
+            <img src="/skyimg/img6.png">
+        </div>
+        <div class="col">
+            <a href="https://www.childcare.go.kr/"  target = "_blank">
+                <img src="/skyimg/img7.jpg">
+            </a>
+
+        </div>
+    </div>
+</div>
+
+    <div style="width: 100%; height: 100%; padding-top: 20px; padding-left: 340px;">
+        <a href="https://nosmk.khealth.or.kr/nsk/ntcc/index.do"  target = "_blank">
+            <img src="/skyimg/smoking.png">
+        </a>
+    </div>
+
+<div id="main">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true" style="width: 70%; height: 70%; margin: auto; padding-top: 20px" >
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/skyimg/img1.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="/skyimg/img2.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="/skyimg/img3.jpg" class="d-block w-100" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<footer th:replace="layout/Footer :: mainFooter">
+
+</footer>
+
+</body>
+</html>

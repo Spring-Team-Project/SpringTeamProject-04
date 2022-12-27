@@ -178,22 +178,8 @@ public class SinPageController {
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
     }
 
-
-    // 상세페이지 내 근처 약국 찾기
-    @GetMapping("/findPharmacy")
-    public ModelAndView findPharmacy(@RequestParam("medicalAddr") String addr) throws Exception{
-        ModelAndView mv = new ModelAndView("SinHCPopUp");
-
-        List<LeePharmacyFullDataItemDto> nearPharmacyList = sinWdbService.findNearPharmacy(addr);
-
-        mv.addObject("nearPharmacyList",nearPharmacyList);
-        mv.addObject("medicalLoc",addr);
-
-        return mv;
-    }
-
     @GetMapping(value = "/getmarkerimg", produces = MediaType.IMAGE_JPEG_VALUE)
-    public @ResponseBody byte[] getImageWithMediaType() throws Exception {
+    public byte[] getImageWithMediaType() throws Exception {
         InputStream in = getClass().getResourceAsStream("/static/sinImage/pharmacy.png");
         return IOUtils.toByteArray(in);
     }
@@ -211,8 +197,17 @@ public class SinPageController {
         return mv;
     }
 
+    //  리캡챠
+    @PostMapping("/recaptcha")
+    public SinRecaptchaDto checkBot(@RequestParam("token") String token) throws Exception{
+
+        return sinWdbService.checkBot(token);
+    }
+
+
+
+
     //    id 중복 체크
-    @ResponseBody
     @GetMapping("/signup/idcheck")
     public int overlappedID(@RequestParam("checkId") String userId) throws Exception {
 
@@ -223,7 +218,6 @@ public class SinPageController {
     }
 
     //    email 중복 체크
-    @ResponseBody
     @GetMapping("/signup/emailcheck")
     public int overlappedEmail(@RequestParam("checkEmail") String userEmail) throws Exception {
 

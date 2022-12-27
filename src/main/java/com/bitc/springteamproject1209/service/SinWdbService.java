@@ -44,4 +44,6 @@ public interface SinWdbService {
     List<SinNoticeDto> getNotice() throws Exception;
 
     void updateNotice(SinNoticeDto sinNoticeDto) throws Exception;
+
+    SinRecaptchaDto checkBot(String token) throws Exception;
 }

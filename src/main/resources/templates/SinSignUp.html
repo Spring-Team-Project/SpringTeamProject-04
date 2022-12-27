@@ -126,8 +126,6 @@
             btnSignup.addEventListener('click', function () {
                 let userAddr = document.querySelector('#user_address').value + " " + document.querySelector('#user_detailAddress').value;
                 document.querySelector('#join_addr').value = userAddr;
-                alert("가입이 완료됐습니다.")
-
             });
         });
 
@@ -182,14 +180,11 @@
 <header th:replace="layout/Header :: mainHeader">
 
 </header>
-<script>
-
-
-</script>
 <main class="container mt-5">
     <div class="row">
         <h2 class="text-center mt-5">회원 가입</h2>
-        <form action="signup/success" method="post" id="frm">
+        <script src="https://www.google.com/recaptcha/api.js?render=6LcJIakjAAAAAD7rPfplNFJjDo6sr6eOh1ir2_7J"></script>
+        <form action="/signup/success" method="post" id="frm">
             <div class="col-sm-6 mx-auto">
                 <div class="form-floating my-3">
                     <input type="email" class="form-control" id="join_email" name="joinEmail" onchange="checkEmail()"
@@ -233,7 +228,7 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="form-floating my-3 btn btn-info" id="btn_signup">회원가입</button>
+                    <button type="button" class="form-floating my-3 btn btn-info" id="btn_signup" onclick="checkBot()">회원가입</button>
                     <button type="button" class="form-floating btn btn-dark" id="btn-back"
                             style="background-color: rgb(128,128,128);">돌아가기
                     </button>
@@ -246,6 +241,67 @@
 <footer th:replace="layout/Footer :: mainFooter">
 
 </footer>
+<script>
+   function checkBot(){
+       grecaptcha.ready(function() {
+           grecaptcha.execute('6LcJIakjAAAAAD7rPfplNFJjDo6sr6eOh1ir2_7J', {action: 'signIn'}).then(function(token) {
+               console.log(token)
+               $.ajax({
+                   url: '/recaptcha',
+                   type : 'POST',
+                   dataType: 'json',
+                   data : {token: token},
+                   success : function(result){
+                       if (result["success"] === true){
+                           const frm = $('#frm')[0];
+                           frm.submit();
+                           alert("가입이 완료됐습니다.")
+                           console.log(result);
+                       } else {
+                           alert("가입이 실패하였습니다. (bot 의심)")
+                       }
+                   },
+                   fail: function(e){
+                       console.log("fail")
+                   }
+               });// end ajax
+           });
+       });
+   }
+
+
+   $(document).ready(function (){
+       grecaptcha.ready(function() {
+           grecaptcha.execute('6LcJIakjAAAAAD7rPfplNFJjDo6sr6eOh1ir2_7J', {action: 'signIn'}).then(function(token) {
+               console.log(token)
+               $.ajax({
+                   url: '/recaptcha',
+                   type : 'POST',
+                   dataType: 'json',
+                   data : {token: token},
+                   success : function(result){
+                       if (result["success"] === true){
+                           const frm = $('#frm')[0];
+                           // frm.submit();
+                           // alert("가입이 완료됐습니다.")
+                           console.log(result);
+                       } else {
+                           alert("가입이 실패하였습니다. (bot 의심)")
+                       }
+                   },
+                   fail: function(e){
+                       console.log("fail")
+                   }
+               });// end ajax
+           });
+       });
+
+
+   });
+
+
+</script>
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function sample6_execDaumPostcode() {

@@ -4,7 +4,13 @@ import com.bitc.springteamproject1209.dto.*;
 import com.bitc.springteamproject1209.mapper.SinWdbMapper;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +49,29 @@ public class SinWdbServiceImpl implements SinWdbService {
         int emailCheck = sinWdbMapper.emailCheck(userEmail);
         return emailCheck;
     }
+
+    //  봇 체크
+    @Override
+    public SinRecaptchaDto checkBot(String token) throws Exception {
+        String SECRET_KEY = "6LcJIakjAAAAACi68kGAzttus6RCyJOtrMjqLj-c";
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<String, String>();
+        map.add("secret", SECRET_KEY);
+        map.add("response", token);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+
+        SinRecaptchaDto response = restTemplate.postForObject( url, request, SinRecaptchaDto.class );
+
+        return response;
+    }
+
 
 //--------------------------------------------------------------------------------------------------------------
 
@@ -213,6 +242,7 @@ public class SinWdbServiceImpl implements SinWdbService {
     public void updateNotice(SinNoticeDto sinNoticeDto) throws Exception {
         sinWdbMapper.updateNotice(sinNoticeDto);
     }
+
 
 
 //--------------------------------------------------------------------------------------------------------------

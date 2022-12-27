@@ -63,7 +63,6 @@
                 const frm = $('#reviewForm')[0];
 
 
-
                 let userReview = $('#comments').val().trim();
 
                 if (userReview === "") {
@@ -193,7 +192,6 @@
 
     var HCLocate = [[${HCDetail.medicalAddr}]];
     var HCName = [[${HCDetail.medicalName}]]
-    let HCSido = [[${HCDetail.medicalSido]]
     let array = [[${nearPharmacyList}]]
     let positions = []
 
@@ -249,9 +247,14 @@
 
 
     for (var i = 0; i < positions.length; i++) {
-        // for (var i = 0; i < 10; i++) {
-        var markerPosition = new kakao.maps.LatLng(positions[i].lat, positions[i].lon)
 
+
+        let title = positions[i].dutyName;
+        let addr = positions[i].dutyAddr
+        let lat = positions[i].lat;
+        let lon = positions[i].lon;
+
+        var markerPosition = new kakao.maps.LatLng(lat, lon)
 
 
         var imageSrc = "/getmarkerimg", // 마커이미지의 주소입니다
@@ -263,44 +266,33 @@
         let marker = new kakao.maps.Marker({
             map: map, // 마커를 표시할 지도
             position: markerPosition, // 마커의 위치
-            image : markerImage,
+            image: markerImage,
             clickable: true
         });
 
-        let title = positions[i].dutyName;
-        let lat = positions[i].lat;
-        let lon = positions[i].lon;
 
-        var iwContent = '<div style="padding:5px; height: 80px;">' +title+ '<br>'+ positions[i].dutyAddr+ ' <a href="https://map.kakao.com/?sName=' +HCName+ '&eName='+title+'" style="color:blue" target="_blank">길찾기</a></div>'// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        var iwContent ;
+
+        iwContent = '<div style="padding:5px; height: 80px;">' + title + '<br>' + addr + ' <a href="https://map.kakao.com/?sName=' + HCLocate + '&eName=' + addr + '" style="color:blue" target="_blank">길찾기</a></div>'// 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
         var iwRemoveable = true;
         // 마커에 표시할 인포윈도우를 생성합니다
+
         var infowindow = new kakao.maps.InfoWindow({
-            // content: '<div style="height: 70px;">' + positions[i].dutyName + '<br>' + positions[i].dutyAddr + '</div>' // 인포윈도우에 표시할 내용
             content: iwContent,
             positions: markerPosition,
-            removable : iwRemoveable
+            removable: iwRemoveable
         });
 
-        kakao.maps.event.addListener(marker, 'click', function() {
-            // 마커 위에 인포윈도우를 표시합니다
-            infowindow.open(map, marker);
-        });
 
-        // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
-        // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-        // (function (marker, infowindow) {
-        //     // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다
-        //     kakao.maps.event.addListener(marker, 'mouseover', function () {
-        //         infowindow.open(map, marker);
-        //     });
-        //
-        //     // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
-        //     kakao.maps.event.addListener(marker, 'mouseout', function () {
-        //         infowindow.close();
-        //     });
-        // })
+        (function(marker, infowindow) {
+            // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                infowindow.close();
+                infowindow.open(map, marker);
+            });
 
-        (marker, infowindow);
+        })(marker, infowindow);
+
     }
 
 </script>

@@ -33,7 +33,7 @@ public class SkyController {
 
     private Logger logger;
 
-    @RequestMapping(value = "/main")
+    @RequestMapping(value = {"/main", "/"})
     public String main() {
 
         return "main";
@@ -68,10 +68,10 @@ public class SkyController {
     public String logoutMainGET(HttpServletRequest request) throws Exception {
 
 
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.invalidate();
-            }
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
 
 
         return "/main";

@@ -13,7 +13,7 @@
 
     <!--    저장된 리스트 중에서 지역코드로 필터링  -->
     <select id="receivePMDBTelCodeList" resultType="com.bitc.springteamproject1209.dto.LeePMDto" parameterType="String">
-        select idx, duty_name, duty_addr
+        select idx, duty_name, duty_addr, medical_star_avg
         From tblpharmacy
         where Locate(#{telCode}, duty_tel1)
     </select>
@@ -21,7 +21,7 @@
     <!--   저장된 리스트 중에서 검색어로 필터링 -->
     <select id="receivePMDBUserSearchList" parameterType="String"
             resultType="com.bitc.springteamproject1209.dto.LeePMDto">
-        SELECT idx, duty_name, duty_addr
+        SELECT idx, duty_name, duty_addr, medical_star_avg
         FROM tblpharmacy
         WHERE Locate(#{userSearchWord}, duty_addr)
     </select>
@@ -29,7 +29,7 @@
     <!--   지역코드, 검색어 동시 필터링 -->
     <select id="receivePMDBDoubleList" parameterType="String"
             resultType="com.bitc.springteamproject1209.dto.LeePMDto">
-        SELECT idx, duty_name, duty_addr
+        SELECT idx, duty_name, duty_addr, medical_star_avg
         FROM tblpharmacy
         WHERE duty_tel1 LIKE CONCAT('%', #{telCode}, '%')
         AND Locate(#{userSearchWord}, duty_addr);
